@@ -1,0 +1,35 @@
+package mainpackage;
+
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
+
+public class Game implements ApplicationListener {
+		
+		private SpriteBatch batch;
+		private Texture tex;
+		
+        public void create () {
+        	batch = new SpriteBatch();
+        	tex = new Texture(Gdx.files.internal("Assets/ninja.png")); 
+        }
+
+        public void render () {
+        	batch.begin();
+        	batch.draw(tex, 0, 0, 480, 320);
+        	batch.end();
+        }
+
+        public void resize (int width, int height) {
+        }
+
+        public void pause () {
+        }
+
+        public void resume () {
+        }
+
+        public void dispose () {
+        }
+}
