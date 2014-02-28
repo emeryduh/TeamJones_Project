@@ -1,0 +1,12 @@
+package mainpackage;
+
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+
+public class DesktopGame {
+        public static void main (String[] args) {
+        	
+        	int width = 800;
+        	int height = 600;
+                new LwjglApplication(new Game(), "Game", 480, 320, false);
+        }
+}

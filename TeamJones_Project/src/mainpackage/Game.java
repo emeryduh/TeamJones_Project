@@ -1,9 +1,7 @@
 package mainpackage;
 
 import com.badlogic.gdx.ApplicationListener;
-/*import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;*/
+
 
 public class Game implements ApplicationListener {
 		
@@ -18,7 +16,7 @@ public class Game implements ApplicationListener {
         }
 
         public void resize (int width, int height) {
-        	
+            
         }
 
         public void pause () {

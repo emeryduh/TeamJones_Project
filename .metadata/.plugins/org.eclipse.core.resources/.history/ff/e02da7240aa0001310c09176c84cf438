@@ -1,0 +1,13 @@
+package mainpackage;
+
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+
+public class DesktopGame {
+        public static void main (String[] args) {
+            new LwjglApplication(new Game(), "Amazing Street Fighter", 800, 600, false);
+            LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+            
+                
+        }
+}
