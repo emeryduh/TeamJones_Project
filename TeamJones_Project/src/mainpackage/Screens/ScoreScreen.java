@@ -32,7 +32,7 @@ public class ScoreScreen implements Screen {
 	private TextButton btnNewMatch;
 	private TextButton btnMenu;
 	private Texture splashTexture;
-	private Battle battle = new Battle();
+	private Battle battle = new Battle(game);
 	int winner = battle.gameOutcome();
 
 	// constructor to keep a reference to the main Game class
