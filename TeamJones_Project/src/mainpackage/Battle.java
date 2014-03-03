@@ -1,6 +1,6 @@
 package mainpackage;
 
-import mainpackage.Screens.*;
+import mainpackage.Screens.ScoreScreen;
 
 public class Battle 
 {
@@ -10,6 +10,19 @@ public class Battle
 	int player2Wins = 0;
 	int Winner = 2;
 	int timer = 0;
+	private Game game;
+	
+	public Battle (Game game)
+	{
+		this.game = game;
+	}
+	
+	public void startMatch() 
+	{
+		player1Health = 100;
+		player2Health = 100;
+	}
+	
 	public void matchOutcome() 
 	{
 		
@@ -36,27 +49,27 @@ public class Battle
 				{
 					player1Wins++;
 				}
-				else 
-				{
-				}
 			}
+			//startMatch();
 		}
-		//startNextMatch(player1Wins, player2Wins);
+		else 
+		{
+			gameOutcome();
+			game.setScreen(new ScoreScreen(game));
+		}
 	}
 		
 		
 	public int gameOutcome()
 	{
-		if ((player1Wins == 2) || (player2Wins == 2))
+		
+		if (player1Wins == 2) 
 		{
-			if (player1Wins == 2) 
-			{
-				Winner = 1;
-			}
-			if (player2Wins == 2) 
-			{
-				Winner = 2;
-			}
+			Winner = 1;
+		}
+		if (player2Wins == 2) 
+		{
+			Winner = 2;
 		}
 		return Winner;
 	}
