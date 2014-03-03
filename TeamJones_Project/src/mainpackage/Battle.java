@@ -1,16 +1,18 @@
 package mainpackage;
 
+import mainpackage.Screens.*;
+
 public class Battle 
 {
-	
+	int player1Health = 0;
+	int player2Health = 0;
+	int player1Wins = 0;
+	int player2Wins = 0;
+	int Winner = 2;
+	int timer = 0;
 	public void matchOutcome() 
 	{
-		int player1Health = 0;
-		int player2Health = 0;
-		int player1Wins = 0;
-		int player2Wins = 0;
-		int Winner = 0;
-		int timer = 0;
+		
 		if ((player1Wins < 2) && (player2Wins  < 2))
 		{
 			if (timer > 0)
@@ -37,10 +39,14 @@ public class Battle
 				else 
 				{
 				}
-			}	
-		startNextMatch(player1Wins, player2Wins);
+			}
 		}
-			
+		//startNextMatch(player1Wins, player2Wins);
+	}
+		
+		
+	public int gameOutcome()
+	{
 		if ((player1Wins == 2) || (player2Wins == 2))
 		{
 			if (player1Wins == 2) 
@@ -51,8 +57,7 @@ public class Battle
 			{
 				Winner = 2;
 			}
-			scoreScreen(Winner);
-		
 		}
+		return Winner;
 	}
 }
