@@ -7,16 +7,15 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 
 public class DesktopGame {
-        public static void main (String[] args) {
-            
+	public DesktopGame() {
+	}
+        public static void main (String[] args) {            
             LwjglApplicationConfiguration windowConfig = new LwjglApplicationConfiguration();
             windowConfig.width = 800;
             windowConfig.height = 600;
-            windowConfig.title = "Amazing Street Fighter";
+            windowConfig.title = "Amazing Street Fighter" + Game.VERSION;
             windowConfig.resizable = false;
-            windowConfig.addIcon("Assets/WindowIcon.png/", Files.FileType.Internal);
-            
-            
+            windowConfig.addIcon("assets/gui/windowicon.png/", Files.FileType.Internal); 
             new LwjglApplication(new Game(), windowConfig);
                 
         }
