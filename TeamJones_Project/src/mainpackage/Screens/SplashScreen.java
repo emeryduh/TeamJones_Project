@@ -12,54 +12,61 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class SplashScreen implements Screen {
 
-	Texture splashTexture;
-	Sprite splashSprite;
-	SpriteBatch batch;
-	Game game;
-
+	// variables
+	private Texture splashTexture;
+	private Sprite splashSprite;
+	private SpriteBatch batch;
+	private Game game;
+	
+	// constructor to keep a reference to the main Game class
 	public SplashScreen(Game game) {
 		this.game = game;
 	}
 
+	// called when the screen should render itself.
 	public void render(float delta) {
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);		
 		batch.begin();
 		splashSprite.draw(batch);
 		batch.end();
 	}
 
-	@Override
+	// called when the screen resized
 	public void resize(int width, int height) {
 
 	}
 
-	@Override
+	// called when this screen becomes the current screen for a Game.
 	public void show() {
 		splashTexture = new Texture(Gdx.files.internal("assets/gui/bg.png"));
 		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		splashSprite = new Sprite(splashTexture);
-		splashSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		splashSprite = new Sprite(splashTexture);		
+		splashSprite.setX(Gdx.graphics.getWidth() / 2
+				- (splashSprite.getWidth() / 2));
+		splashSprite.setY(Gdx.graphics.getHeight() / 2
+				- (splashSprite.getHeight() / 2));
 		batch = new SpriteBatch();
 	}
 
-	@Override
+	// called when current screen changes from this to a different screen
 	public void hide() {
 		dispose();
 	}
 
-	@Override
+	// called when game paused.
 	public void pause() {
 
 	}
 
-	@Override
+	// called when game resume
 	public void resume() {
 
 	}
 
-	@Override
+	// called when this screen should release all resources.
 	public void dispose() {
-
+		splashTexture.dispose();
+		batch.dispose();
 	}
 
 }
