@@ -90,7 +90,7 @@ public class MenuScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// this is where functionality for next screen should be called
-				//game.setScreen(new SplashScreen(game));
+				game.setScreen(new CharacterSelectScreen(game));
 			}
 		});
 
