@@ -1,10 +1,10 @@
 package mainpackage.Screens;
 
 import mainpackage.Game;
+import mainpackage.Battle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -20,7 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
-public class MenuScreen implements Screen {
+public class OptionScreen implements Screen {
 
 	// variables
 	private Game game;
@@ -29,15 +29,15 @@ public class MenuScreen implements Screen {
 	private TextureAtlas atlas;
 	private Skin skin;
 	private SpriteBatch batch;
-	private TextButton btnStartGame;
-	private TextButton btnOptions;
-	private Texture splashTexture;	
-	private Music openingMusic;
+	private TextButton btnBack;
+	private Texture splashTexture;
 
 	// constructor to keep a reference to the main Game class
-	public MenuScreen(Game game) {
+	public OptionScreen(Game game) {
 		this.game = game;
+		
 	}
+	
 
 	// called when the screen should render itself.
 	public void render(float delta) {
@@ -48,7 +48,10 @@ public class MenuScreen implements Screen {
 		batch.begin();
 		stage.draw();
 		batch.end();
-		
+		batch.begin();
+		blackFont.setColor(0,0,0,1);
+		blackFont.draw(batch, "Options" , 350, 600);
+		batch.end();
 	}
 	
 	// called when the screen resized
@@ -69,19 +72,19 @@ public class MenuScreen implements Screen {
 		// adds an actor to the root of the stage.
 		stage.addActor(img);
 
-		// creates start game button
-		TextButtonStyle txtStartgameStyle = new TextButtonStyle();
-		txtStartgameStyle.up = skin.getDrawable("button");
-		txtStartgameStyle.down = skin.getDrawable("buttonpressed");
-		txtStartgameStyle.font = blackFont;
-		btnStartGame = new TextButton("Start Game", txtStartgameStyle);
-		btnStartGame.setWidth(140f);
-		btnStartGame.setHeight(40f);
-		btnStartGame.setX(600);
-		btnStartGame.setY(130);
+		// creates back button
+		TextButtonStyle txtBackStyle = new TextButtonStyle();
+		txtBackStyle.up = skin.getDrawable("button");
+		txtBackStyle.down = skin.getDrawable("buttonpressed");
+		txtBackStyle.font = blackFont;
+		btnBack = new TextButton("Back", txtBackStyle);
+		btnBack.setWidth(140f);
+		btnBack.setHeight(40f);
+		btnBack.setX(600);
+		btnBack.setY(60);
 
-		// start game events
-		btnStartGame.addListener(new InputListener() {
+		// back button events
+		btnBack.addListener(new InputListener() {
 
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
@@ -93,41 +96,12 @@ public class MenuScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// this is where functionality for next screen should be called
-				game.setScreen(new CharacterSelectScreen(game));
+				game.setScreen(new MenuScreen(game));
 			}
 		});
 
-		// creates the option button
-		TextButtonStyle txtOptionStyle = new TextButtonStyle();
-		txtOptionStyle.up = skin.getDrawable("button");
-		txtOptionStyle.down = skin.getDrawable("buttonpressed");
-		txtOptionStyle.font = blackFont;
-		btnOptions = new TextButton("Options", txtOptionStyle);
-		btnOptions.setWidth(140f);
-		btnOptions.setHeight(40f);
-		btnOptions.setX(600);
-		btnOptions.setY(60);
-
-		// option button events
-		btnOptions.addListener(new InputListener() {
-			
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-
-			
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				// this is where functionality for next screen should be called
-				game.setScreen(new OptionScreen(game));
-				openingMusic.stop();
-			}
-		});
-
-		// adds an start game and option actors to the root of the stage.
-		stage.addActor(btnStartGame);
-		stage.addActor(btnOptions);
+		// adds back button actor to the root of the stage.
+		stage.addActor(btnBack);
 	}
 	
 	// called when this screen becomes the current screen for a Game.
@@ -140,14 +114,10 @@ public class MenuScreen implements Screen {
 				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
 		blackFont = new BitmapFont(
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
-		openingMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audioFiles/opening.mp3"));
-		openingMusic.play();
-		openingMusic.setLooping(true);
 	}
 
 	// called when current screen changes from this to a different screen
 	public void hide() {		
-		
 
 	}
 
@@ -167,6 +137,5 @@ public class MenuScreen implements Screen {
 		skin.dispose();
 		atlas.dispose();
 		stage.dispose();
-		openingMusic.dispose();
 	}
 }

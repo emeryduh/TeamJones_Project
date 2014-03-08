@@ -1,6 +1,7 @@
 package mainpackage;
 
 import mainpackage.Screens.MenuScreen;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -14,6 +15,8 @@ public class Game implements ApplicationListener {
 	public static final String VERSION = " 0.0.0 - PreAlpha";
 	// log string for tracking 
 	public static final String LOG = "Street Fighter";
+	
+	 
 
 	// called when the Application is first created.
 	public void create() {
@@ -22,6 +25,8 @@ public class Game implements ApplicationListener {
 		
 		setScreen(new MenuScreen(this));
 		//Gdx.app.log(LOG, "Create");
+		
+		
 	}	
 
 	// called when the Application should render itself.
