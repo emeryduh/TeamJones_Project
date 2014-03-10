@@ -3,183 +3,143 @@ package mainpackage.Screens;
 import mainpackage.Game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class CharacterSelectScreen implements Screen {
+	SpriteBatch batch;
+	private Sprite char_bya;
+	private Sprite char_ich;
 
-	// variables
-	private Texture splashTexture;
-	private Sprite splashSprite;
-	private SpriteBatch batch;
+	private String select; // which character is selected {l, r}
 	private Game game;
-	private SpriteBatch batch1;
-	private Sprite splashSprite1;
-	private Texture splashTexture1;
-	private SpriteBatch batch2;
-	private Sprite splashSprite2;
-	private Texture splashTexture2;
-	private TextButton btnStartGame;
-	private TextButton btnOptions;
-	private BitmapFont whiteFont, blackFont;
-	private TextureAtlas atlas;
-	private Skin skin;
-	private Stage stage;
-	private SpriteBatch Stagebatch;
+	private BitmapFont font;
 
-	
-	
-	
-	
-
-
-	
-	// constructor to keep a reference to the main Game class
-	public CharacterSelectScreen(Game game) {
+	public CharacterSelectScreen (Game game) {
 		this.game = game;
 	}
 
-	// called when the screen should render itself.
+	@Override
 	public void render(float delta) {
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);		
+		// TODO Auto-generated method stub
+		// System.out.println("render menu");
+		ShapeRenderer s = new ShapeRenderer();
+		s.begin(ShapeType.Filled);
+		// System.out.println("1");
+		// background
+		s.setColor(Color.WHITE);
+		s.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		// System.out.println("2");
+		// used to move the selection outline
+
+		// draw the selection outline
+		s.setColor(Color.BLACK);
+		int width = 10;
+		Sprite selectedSprite = char_bya;
+		if (select == "bya") {
+			selectedSprite = char_bya;
+		} else if (select == "ich") {
+			selectedSprite = char_ich;
+		}
+		s.rect(selectedSprite.getX() - width, selectedSprite.getY() - width,
+				selectedSprite.getWidth() + width * 2,
+				selectedSprite.getHeight() + width * 2);
+
+		// System.out.println("3");
+		s.end();
+		// System.out.println("3.1");
+
 		batch.begin();
-		splashSprite.draw(batch);
+		// System.out.println("3.2");
+		char_bya.draw(batch);
+		// System.out.println("3.3");
+		char_ich.draw(batch);
+		// System.out.println("3.4");
+
+		font.setColor(Color.BLACK);
+		font.draw(batch, "Menu Screen", Gdx.graphics.getWidth() / 2 - 50,
+				Gdx.graphics.getHeight() - 50);
+		font.draw(batch, "Press left/right to choose",
+				Gdx.graphics.getWidth() / 2 - 50, 50);
+		font.draw(batch, "Press Space to start game",
+				Gdx.graphics.getWidth() / 2 - 50, 30);
+
 		batch.end();
-		//Character 1
-		batch1.begin();
-		splashSprite1.draw(batch1);
-		batch1.end();
-		// Character 2
-		batch2.begin();
-		splashSprite2.draw(batch2);
-		batch2.end();
-		//Stage
-		stage.act(delta);
-		// draw objects into the screen
-		Stagebatch.begin();
-		stage.draw();
-		Stagebatch.end();
-		
+		// System.out.println("4");
 	}
 
-	// called when the screen resized
+	@Override
 	public void resize(int width, int height) {
-		if (stage == null) {
-			stage = new Stage(width, height, true);
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		// System.out.println("");
+		// System.out.println("Load sprites");
+		char_bya = new Sprite(Art.texture_bya);
+		char_bya.setSize(100, 100);
+		char_bya.setPosition(150, 150);
+		// System.out.println("sprite 1 loaded");
+
+		char_ich = new Sprite(Art.texture_ich);
+		char_ich.setSize(100, 100);
+		char_ich.setPosition(Gdx.graphics.getWidth() - 250, 150);
+		// System.out.println("sprite 2 loaded");
+
+		batch = new SpriteBatch();
+		// System.out.println("batch created");
+
+		font = new BitmapFont();
+
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void keyDown(int keycode) {
+		if (keycode == Keys.RIGHT) {
+			select = "ich";
+			return;
+		}
+		if (keycode == Keys.LEFT) {
+			select = "bya";
+			return;
+		}
+		if (keycode == Keys.SPACE) {
+			game.setScreen(new GameScreen(game, select));
+			return;
 		}
 
-		stage.clear();
-		Gdx.input.setInputProcessor(stage);
-
-		// creates start game button
-		TextButtonStyle txtStartgameStyle = new TextButtonStyle();
-		txtStartgameStyle.up = skin.getDrawable("button");
-		txtStartgameStyle.down = skin.getDrawable("buttonpressed");
-		txtStartgameStyle.font = whiteFont;
-		btnStartGame = new TextButton("Start Game", txtStartgameStyle);
-		btnStartGame.setWidth(140f);
-		btnStartGame.setHeight(40f);
-		btnStartGame.setX(300);
-		btnStartGame.setY(80);
-
-		// start game events
-		btnStartGame.addListener(new InputListener() {
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				// this is where functionality for next screen should be called
-				game.setScreen(new CharacterSelectScreen(game));
-			}
-		});
-
-				
-		// adds an start game and option actors to the root of the stage.
-		stage.addActor(btnStartGame);
-			}
-
-	// called when this screen becomes the current screen for a Game.
-	public void show() {
-		splashTexture = new Texture(Gdx.files.internal("assets/gui/cbg.jpg"));
-		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		splashSprite = new Sprite(splashTexture);		
-		splashSprite.setX(Gdx.graphics.getWidth() / 2
-				- (splashSprite.getWidth() / 2));
-		splashSprite.setY(Gdx.graphics.getHeight() / 2
-				- (splashSprite.getHeight() / 2));
-		batch = new SpriteBatch();
-		splashTexture1 = new Texture(Gdx.files.internal("assets/gui/Character1.PNG"));
-		splashTexture1.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		splashSprite1 = new Sprite(splashTexture1);		
-		splashSprite1.setX(100);
-		splashSprite1.setY(180);
-		
-		
-		
-		batch1 = new SpriteBatch();
-		splashTexture2 = new Texture(Gdx.files.internal("assets/gui/Character2.PNG"));
-		splashTexture2.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		splashSprite2 = new Sprite(splashTexture2);		
-		splashSprite2.setX(450);
-		splashSprite2.setY(180);
-		
-		
-		batch2 = new SpriteBatch();
-		
-		// Button Assets
-		Stagebatch = new SpriteBatch();
-		atlas = new TextureAtlas("assets/gui/button.pack");
-		skin = new Skin();
-		skin.addRegions(atlas);
-		whiteFont = new BitmapFont(
-				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
-		blackFont = new BitmapFont(
-				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
-
-		
 	}
 
-	// called when current screen changes from this to a different screen
-	public void hide() {
-		dispose();
-	}
-
-	// called when game paused.
-	public void pause() {
-
-	}
-
-	// called when game resume
-	public void resume() {
-
-	}
-
-	// called when this screen should release all resources.
-	public void dispose() {
-		splashTexture.dispose();
-		batch.dispose();
-		splashTexture1.dispose();
-		batch1.dispose();
-		
-}}
+}
