@@ -4,8 +4,8 @@ import mainpackage.Screens.ScoreScreen;
 
 public class Battle 
 {
-	int player1Health = 0;
-	int player2Health = 0;
+	public int player1Health = 0;
+	public int player2Health = 0;
 	int player1Wins = 0;
 	int player2Wins = 0;
 	int Winner = 2;
