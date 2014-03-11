@@ -42,6 +42,10 @@ public class PlayerInput implements KeyListener
 				break;
 			case KeyEvent.VK_RIGHT:
 				break;
+			case KeyEvent.VK_UP:
+				break;
+			case KeyEvent.VK_DOWN:
+				break;
 			case KeyEvent.VK_M:
 				break;
 			case KeyEvent.VK_N:
