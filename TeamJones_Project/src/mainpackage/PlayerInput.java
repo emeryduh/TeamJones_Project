@@ -1,30 +1,40 @@
 package mainpackage;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class PlayerInput {
+public class PlayerInput implements KeyListener{
 	
 	
 	public PlayerInput()
 	{
 	}
-	
-	public boolean wasDownPressed()
-	{
-		boolean isDownPressed = Gdx.input.isKeyPressed(Keys.DOWN);
-		return isDownPressed;
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int keyPressed = e.getKeyCode();
+		
+		switch(keyPressed)
+		{
+		case KeyEvent.VK_LEFT:
+			break;
+		case KeyEvent.VK_RIGHT:
+			break;
+		case KeyEvent.VK_ENTER:
+			break;
+		}
 	}
 
-	public boolean wasUpPressed()
-	{
-		boolean isUpPressed = Gdx.input.isKeyPressed(Keys.UP);
-		return isUpPressed;
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
-	public boolean wasEnterPressed()
-	{
-		boolean isEnterPressed = Gdx.input.isKeyPressed(Keys.ENTER);
-		return isEnterPressed;
-	}
 }
