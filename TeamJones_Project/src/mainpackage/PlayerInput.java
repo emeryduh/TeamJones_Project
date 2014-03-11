@@ -3,38 +3,65 @@ package mainpackage;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class PlayerInput implements KeyListener{
-	
-	
-	public PlayerInput()
+public class PlayerInput implements KeyListener 
+{
+
+	private int gameScreen;
+
+	public PlayerInput() 
 	{
 	}
 
+	public void menuOrGame(int gameScreen) 
+	{
+		this.gameScreen = gameScreen;
+	}
+
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent e) 
+	{
 		int keyPressed = e.getKeyCode();
-		
-		switch(keyPressed)
+
+		if (gameScreen == 0) 
 		{
-		case KeyEvent.VK_LEFT:
-			break;
-		case KeyEvent.VK_RIGHT:
-			break;
-		case KeyEvent.VK_ENTER:
-			break;
+			switch (keyPressed) 
+			{
+			case KeyEvent.VK_LEFT:
+				break;
+			case KeyEvent.VK_RIGHT:
+				break;
+			case KeyEvent.VK_ENTER:
+				break;
+			}
+		}
+		else
+		{
+			switch (keyPressed) 
+			{
+			case KeyEvent.VK_LEFT:
+				break;
+			case KeyEvent.VK_RIGHT:
+				break;
+			case KeyEvent.VK_M:
+				break;
+			case KeyEvent.VK_N:
+				break;
+			case KeyEvent.VK_B:
+				break;
+			case KeyEvent.VK_SPACE:
+				break;
+			}
 		}
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void keyReleased(KeyEvent e) 
+	{
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void keyTyped(KeyEvent e) 
+	{
 	}
-	
+
 }
