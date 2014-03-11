@@ -8,7 +8,7 @@ public class Battle
 	public int player2Health = 0;
 	int player1Wins = 0;
 	int player2Wins = 0;
-	int Winner = 2;
+	int winner = 2;
 	int timer = 0;
 	private Game game;
 	
@@ -65,12 +65,12 @@ public class Battle
 		
 		if (player1Wins == 2) 
 		{
-			Winner = 1;
+			winner = 1;
 		}
 		if (player2Wins == 2) 
 		{
-			Winner = 2;
+			winner = 2;
 		}
-		return Winner;
+		return winner;
 	}
 }

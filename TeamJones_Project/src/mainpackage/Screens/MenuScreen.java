@@ -1,6 +1,7 @@
 package mainpackage.Screens;
 
 import mainpackage.Game;
+import mainpackage.SoundFiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -33,6 +34,7 @@ public class MenuScreen implements Screen {
 	private TextButton btnOptions;
 	private Texture splashTexture;	
 	private Music openingMusic;
+	private SoundFiles soundFiles;
 
 	// constructor to keep a reference to the main Game class
 	public MenuScreen(Game game) {
@@ -61,7 +63,7 @@ public class MenuScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		// set the background image to the menu screen
-		splashTexture = new Texture(Gdx.files.internal("assets/gui/bg.png"));
+		splashTexture = new Texture(Gdx.files.internal("assets/gui/mainMenuBG.png"));
 		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image img = new Image(new TextureRegion(splashTexture));
 		// fit the full image to the screen
@@ -93,6 +95,10 @@ public class MenuScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// this is where functionality for next screen should be called
+				//play menu select sound
+				soundFiles = new SoundFiles();
+				soundFiles.playSound("menuSelect");
+				//goto Char Select Screen
 				game.setScreen(new CharacterSelectScreen(game));
 			}
 		});
@@ -120,6 +126,8 @@ public class MenuScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// this is where functionality for next screen should be called
+				soundFiles = new SoundFiles();
+				soundFiles.playSound("menuSelect");
 				game.setScreen(new OptionScreen(game));
 				openingMusic.stop();
 			}
@@ -140,9 +148,10 @@ public class MenuScreen implements Screen {
 				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
 		blackFont = new BitmapFont(
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
-		openingMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audioFiles/opening.mp3"));
+		openingMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
 		openingMusic.play();
 		openingMusic.setLooping(true);
+		
 	}
 
 	// called when current screen changes from this to a different screen

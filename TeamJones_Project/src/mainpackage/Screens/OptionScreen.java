@@ -2,6 +2,7 @@ package mainpackage.Screens;
 
 import mainpackage.Game;
 import mainpackage.Battle;
+import mainpackage.SoundFiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -31,6 +32,7 @@ public class OptionScreen implements Screen {
 	private SpriteBatch batch;
 	private TextButton btnBack;
 	private Texture splashTexture;
+	private SoundFiles soundFiles;
 
 	// constructor to keep a reference to the main Game class
 	public OptionScreen(Game game) {
@@ -64,7 +66,7 @@ public class OptionScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		// set the background image to the menu screen
-		splashTexture = new Texture(Gdx.files.internal("assets/gui/bg.png"));
+		splashTexture = new Texture(Gdx.files.internal("assets/gui/optionsMenuBG.png"));
 		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image img = new Image(new TextureRegion(splashTexture));
 		// fit the full image to the screen
@@ -96,6 +98,10 @@ public class OptionScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// this is where functionality for next screen should be called
+				//play menu select sound
+				soundFiles = new SoundFiles();
+				soundFiles.playSound("menuSelect");
+				//go to menu screen
 				game.setScreen(new MenuScreen(game));
 			}
 		});
