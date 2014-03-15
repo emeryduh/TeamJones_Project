@@ -58,6 +58,8 @@ public class CharacterSelectScreen implements Screen {
 	private Image imgP2;
 	private Image chP1;
 	private Image chP2;
+	private Image chP1Ready;
+	private Image chP2Ready;
 	private int ch1 = 0;
 	private int ch2 = 0;
 	private int ch1Index = 0;
@@ -134,6 +136,7 @@ public class CharacterSelectScreen implements Screen {
 		btnPlayGame.setX(325);
 		btnPlayGame.setY(235);
 		btnPlayGame.toFront();
+		btnPlayGame.setDisabled(true);
 		stage.addActor(btnPlayGame);
 
 		// texture for player1
@@ -252,6 +255,26 @@ public class CharacterSelectScreen implements Screen {
 		// adds an actor to the root of the stage.
 		chP2.setBounds(680, 0, 100, 50);
 		stage.addActor(chP2);
+
+		// player 1 ready texture
+		Texture texP1Ready = new Texture(
+				Gdx.files.internal("assets/sprites/backgrounds/ready.png"));
+		texP1Ready.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		chP1Ready = new Image(new TextureRegion(texP1Ready));
+		// adds an actor to the root of the stage.
+		chP1Ready.setBounds(10, 50, 300, 550);
+		chP1Ready.setVisible(false);
+		stage.addActor(chP1Ready);
+
+		// player 2 ready texture
+		Texture texP2Ready = new Texture(
+				Gdx.files.internal("assets/sprites/backgrounds/ready.png"));
+		texP2Ready.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		chP2Ready = new Image(new TextureRegion(texP2Ready));
+		// adds an actor to the root of the stage.
+		chP2Ready.setBounds(480, 50, 300, 550);
+		chP2Ready.setVisible(false);
+		stage.addActor(chP2Ready);
 	}
 
 	// method to draw highlighted rectangle
@@ -305,10 +328,10 @@ public class CharacterSelectScreen implements Screen {
 
 	// method to return the key selection
 	public void keyDown(int keycode) {
-		//soundFiles = new SoundFiles();
+		// soundFiles = new SoundFiles();
 		if (keycode == Keys.A) {
 			// return if prior than character 1
-			if (ch1 <= 0)
+			if (ch1 <= 0 || chP1Ready.isVisible())
 				return;
 			// change index based on character selection
 			ch1Index--;
@@ -319,12 +342,12 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
 			// play menu select sound
-			//soundFiles.playSound("charSelectMusic");
+			// soundFiles.playSound("charSelectMusic");
 			return;
 		}
 		if (keycode == Keys.D) {
 			// return if further than last character
-			if (ch1 >= 680)
+			if (ch1 >= 680 || chP1Ready.isVisible())
 				return;
 			// change index based on character selection
 			ch1Index++;
@@ -335,11 +358,11 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
 			// play menu select sound
-			//soundFiles.playSound("charSelectMusic");
+			// soundFiles.playSound("charSelectMusic");
 			return;
 		}
 		if (keycode == Keys.RIGHT) {
-			if (ch2 >= 680)
+			if (ch2 >= 680 || chP2Ready.isVisible())
 				return;
 			ch2Index++;
 			// value that change the texture position
@@ -349,11 +372,11 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP2.setDrawable(new SpriteDrawable(changeCharacter(ch2Index)));
 			// play menu select sound
-			//soundFiles.playSound("charSelectMusic");
+			// soundFiles.playSound("charSelectMusic");
 			return;
 		}
-		if (keycode == Keys.LEFT) {
-			if (ch2 <= 0)
+		if (keycode == Keys.LEFT ) {
+			if (ch2 <= 0 || chP2Ready.isVisible())
 				return;
 			// change index based on character selection
 			ch2Index--;
@@ -364,12 +387,37 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP2.setDrawable(new SpriteDrawable(changeCharacter(ch2Index)));
 			// play menu select sound
-			//soundFiles.playSound("charSelectMusic");
+			// soundFiles.playSound("charSelectMusic");
+			return;
+		}
+		
+		if (keycode == Keys.SPACE) {
+			if(chP1Ready.isVisible() && chP2Ready.isVisible())
+				btnPlayGame.setDisabled(false);
+			else
+				btnPlayGame.setText("Ready");
+			chP1Ready.setVisible(true);
+			
+			return;
+		}
+		
+		if (keycode == Keys.NUMPAD_0) {
+			if(chP1Ready.isVisible() && chP2Ready.isVisible())
+				btnPlayGame.setDisabled(false);
+			else
+				btnPlayGame.setText("Ready");
+			chP2Ready.setVisible(true);
 			return;
 		}
 
 		if (keycode == Keys.ENTER) {
 			// game.setScreen(new GameScreen(game, ch1Index, ch2Index));
+			return;
+		}
+		
+		if (keycode == Keys.ESCAPE) {								
+			chP1Ready.setVisible(false);
+			chP2Ready.setVisible(false);
 			return;
 		}
 	}
