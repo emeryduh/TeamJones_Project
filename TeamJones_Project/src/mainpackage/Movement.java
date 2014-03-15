@@ -7,7 +7,7 @@ public class Movement {
 	private Game game;
 	private Battle battle;
 	private Player player;
-	
+	private Player player2;
 	public Movement()
 	{
 		

@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Player {
 	Sprite sprite;
-	
+	public boolean defend;
 	
 	public Player(String select) {
 		int width, height;
