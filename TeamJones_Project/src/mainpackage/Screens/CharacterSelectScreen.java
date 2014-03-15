@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import mainpackage.Game;
 import mainpackage.GameInputProcessor;
+import mainpackage.SoundFiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -33,22 +34,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 public class CharacterSelectScreen implements Screen {
-    // variables
+	// variables
 	private Game game;
-	
+
 	// sprite
 	private SpriteBatch batch;
-	private BitmapFont font;	
+	private BitmapFont font;
 	private Stage stage;
 	private Texture splashTexture;
 	private BitmapFont whiteFont, blackFont;
 	private TextureAtlas atlas;
 	private Skin skin;
 	private TextButton btnPlayGame;
-	
+
 	// music
 	private Music openingMusic;
-	
+	private SoundFiles soundFiles;
+
 	// character selection
 	private Texture p1Texture;
 	private Texture p2Texture;
@@ -60,8 +62,8 @@ public class CharacterSelectScreen implements Screen {
 	private int ch2 = 0;
 	private int ch1Index = 0;
 	private int ch2Index = 0;
-	
-	//highlight the character
+
+	// highlight the character
 	private ShapeRenderer sRenderer;
 
 	// constructor to keep a reference to the main Game class
@@ -79,12 +81,12 @@ public class CharacterSelectScreen implements Screen {
 		batch.begin();
 		stage.draw();
 		batch.end();
-		
+
 		// this will enable the continuous key press
 		Keyboard.enableRepeatEvents(true);
-		
+
 		// this method is to highlight the character
-		// need to modified to use   
+		// need to modified to use
 		// drawRect(20, 20);
 	}
 
@@ -95,11 +97,13 @@ public class CharacterSelectScreen implements Screen {
 			stage = new Stage(width, height, true);
 		}
 
-		 // this will enable the both keyboard and mouse events
-		 /* InputMultiplexer multiplexer = new InputMultiplexer();
+		// this will enable the both keyboard and mouse events
+		/*
+		 * InputMultiplexer multiplexer = new InputMultiplexer();
 		 * multiplexer.addProcessor(new MyUiInputProcessor());
 		 * multiplexer.addProcessor(new GameInputProcessor());
-		 * Gdx.input.setInputProcessor(multiplexer);*/		 
+		 * Gdx.input.setInputProcessor(multiplexer);
+		 */
 
 		stage.clear();
 		// to enable the keyboard events
@@ -152,7 +156,7 @@ public class CharacterSelectScreen implements Screen {
 		imgP2.setBounds(480, 50, 300, 550);
 		stage.addActor(imgP2);
 
-		// ichigo texture 
+		// ichigo texture
 		Texture texIchigo = new Texture(
 				Gdx.files.internal("assets/sprites/backgrounds/chIchigo.png"));
 		texIchigo.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -161,7 +165,7 @@ public class CharacterSelectScreen implements Screen {
 		imgIchigo.setBounds(20, 50, 70, 120);
 		stage.addActor(imgIchigo);
 
-		// byakuya texture 
+		// byakuya texture
 		Texture texByakuya = new Texture(
 				Gdx.files.internal("assets/sprites/backgrounds/chByakuya.png"));
 		texByakuya.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -170,7 +174,7 @@ public class CharacterSelectScreen implements Screen {
 		imgByakuya.setBounds(105, 50, 70, 120);
 		stage.addActor(imgByakuya);
 
-		// ikkaku texture 
+		// ikkaku texture
 		Texture texIkkaku = new Texture(
 				Gdx.files.internal("assets/sprites/backgrounds/chIkkaku.png"));
 		texIkkaku.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -179,7 +183,7 @@ public class CharacterSelectScreen implements Screen {
 		imgIkkaku.setBounds(190, 50, 70, 120);
 		stage.addActor(imgIkkaku);
 
-		// ishida texture 
+		// ishida texture
 		Texture texIshida = new Texture(
 				Gdx.files.internal("assets/sprites/backgrounds/chIshida.png"));
 		texIshida.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -188,7 +192,7 @@ public class CharacterSelectScreen implements Screen {
 		imgIshida.setBounds(275, 50, 70, 120);
 		stage.addActor(imgIshida);
 
-		// kenpachi texture 
+		// kenpachi texture
 		Texture texKenpachi = new Texture(
 				Gdx.files.internal("assets/sprites/backgrounds/chKenpachi.png"));
 		texKenpachi.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -197,7 +201,7 @@ public class CharacterSelectScreen implements Screen {
 		imgKenpachi.setBounds(360, 50, 70, 120);
 		stage.addActor(imgKenpachi);
 
-		// urahara texture 
+		// urahara texture
 		Texture texUrahara = new Texture(
 				Gdx.files.internal("assets/sprites/backgrounds/chUrahara.png"));
 		texUrahara.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -206,7 +210,7 @@ public class CharacterSelectScreen implements Screen {
 		imgUrahara.setBounds(445, 50, 70, 120);
 		stage.addActor(imgUrahara);
 
-		// komamura texture 
+		// komamura texture
 		Texture texkomamura = new Texture(
 				Gdx.files.internal("assets/sprites/backgrounds/chKomamura.png"));
 		texkomamura.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -215,7 +219,7 @@ public class CharacterSelectScreen implements Screen {
 		imgKomamura.setBounds(530, 50, 70, 120);
 		stage.addActor(imgKomamura);
 
-		// mayuri texture 
+		// mayuri texture
 		Texture texMayuri = new Texture(
 				Gdx.files.internal("assets/sprites/backgrounds/chMayuri.png"));
 		texMayuri.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -224,7 +228,7 @@ public class CharacterSelectScreen implements Screen {
 		imgMayuri.setBounds(615, 50, 70, 120);
 		stage.addActor(imgMayuri);
 
-		// renji texture 
+		// renji texture
 		Texture texRenji = new Texture(
 				Gdx.files.internal("assets/sprites/backgrounds/chRenji.png"));
 		texRenji.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -233,7 +237,7 @@ public class CharacterSelectScreen implements Screen {
 		imgRenji.setBounds(700, 50, 70, 120);
 		stage.addActor(imgRenji);
 
-		// player 1 selection texture 
+		// player 1 selection texture
 		Texture texP1 = new Texture(Gdx.files.internal("assets/gui/P1.png"));
 		texP1.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		chP1 = new Image(new TextureRegion(texP1));
@@ -241,7 +245,7 @@ public class CharacterSelectScreen implements Screen {
 		chP1.setBounds(0, 170, 100, 50);
 		stage.addActor(chP1);
 
-		// player 2 selection texture 
+		// player 2 selection texture
 		Texture texP2 = new Texture(Gdx.files.internal("assets/gui/P2.png"));
 		texP2.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		chP2 = new Image(new TextureRegion(texP2));
@@ -270,26 +274,24 @@ public class CharacterSelectScreen implements Screen {
 		blackFont = new BitmapFont(
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
 		openingMusic = Gdx.audio.newMusic(Gdx.files
-				.internal("assets/audioFiles/opening.mp3"));
-		// to play music
+				.internal("assets/audioFiles/menuSounds/charSelectMusic.mp3"));
 		openingMusic.play();
-		// set looping for continuous music play
 		openingMusic.setLooping(true);
 	}
 
 	// called when current screen changes from this to a different screen
 	public void hide() {
-		
+
 	}
 
 	// called when game paused
 	public void pause() {
-		
+
 	}
-	
+
 	// called when game resume
 	public void resume() {
-		
+
 	}
 
 	// called when this screen should release all resources
@@ -301,46 +303,53 @@ public class CharacterSelectScreen implements Screen {
 		openingMusic.dispose();
 	}
 
-	// method to return the key selection 
+	// method to return the key selection
 	public void keyDown(int keycode) {
+		//soundFiles = new SoundFiles();
 		if (keycode == Keys.A) {
 			// return if prior than character 1
 			if (ch1 <= 0)
 				return;
 			// change index based on character selection
 			ch1Index--;
-			// value that change the texture position 
+			// value that change the texture position
 			ch1 -= 85;
 			// set new texture position
 			chP1.setPosition(ch1, 170);
 			// change the image texture
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
+			// play menu select sound
+			//soundFiles.playSound("charSelectMusic");
 			return;
 		}
 		if (keycode == Keys.D) {
-			// return if further than last character 
+			// return if further than last character
 			if (ch1 >= 680)
 				return;
 			// change index based on character selection
 			ch1Index++;
-			// value that change the texture position 
+			// value that change the texture position
 			ch1 += 85;
 			// set new texture position
 			chP1.setPosition(ch1, 170);
 			// change the image texture
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
+			// play menu select sound
+			//soundFiles.playSound("charSelectMusic");
 			return;
 		}
 		if (keycode == Keys.RIGHT) {
 			if (ch2 >= 680)
 				return;
 			ch2Index++;
-			// value that change the texture position 
+			// value that change the texture position
 			ch2 += 85;
 			// set new texture position
 			chP2.setPosition(ch2, 0);
 			// change the image texture
 			imgP2.setDrawable(new SpriteDrawable(changeCharacter(ch2Index)));
+			// play menu select sound
+			//soundFiles.playSound("charSelectMusic");
 			return;
 		}
 		if (keycode == Keys.LEFT) {
@@ -348,17 +357,19 @@ public class CharacterSelectScreen implements Screen {
 				return;
 			// change index based on character selection
 			ch2Index--;
-			// value that change the texture position 
+			// value that change the texture position
 			ch2 -= 85;
 			// set new texture position
 			chP2.setPosition(ch2, 0);
 			// change the image texture
 			imgP2.setDrawable(new SpriteDrawable(changeCharacter(ch2Index)));
+			// play menu select sound
+			//soundFiles.playSound("charSelectMusic");
 			return;
 		}
 
 		if (keycode == Keys.ENTER) {
-			game.setScreen(new GameScreen(game, ch1Index, ch2Index));			
+			// game.setScreen(new GameScreen(game, ch1Index, ch2Index));
 			return;
 		}
 	}
@@ -424,5 +435,5 @@ public class CharacterSelectScreen implements Screen {
 		}
 		}
 		return chTexture;
-	}	
+	}
 }

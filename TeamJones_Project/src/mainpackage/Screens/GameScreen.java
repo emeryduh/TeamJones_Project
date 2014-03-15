@@ -28,10 +28,10 @@ public class GameScreen implements Screen {
 	// called when the screen should render itself
 	public void render(float delta) {
 		batch.begin();
-		font.setColor(Color.WHITE);
+		/*font.setColor(Color.WHITE);
 		font.draw(batch, "Game Screen", Gdx.graphics.getWidth() / 2 - 50,
 				Gdx.graphics.getHeight() - 50);
-		player.render(batch);
+		player.render(batch);*/
 		batch.end();
 
 	}

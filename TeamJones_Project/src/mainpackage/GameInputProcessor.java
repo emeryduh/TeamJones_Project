@@ -1,5 +1,6 @@
 package mainpackage;
 
+import mainpackage.Screens.CharacterSelectScreen;
 import mainpackage.Screens.MenuScreen;
 import mainpackage.Screens.SplashScreen;
 
@@ -24,7 +25,12 @@ public class GameInputProcessor implements InputProcessor {
 		if(screen instanceof MenuScreen){
 			((MenuScreen)screen).keyDown(keycode);
 			return true;
-		}		
+		}	
+		
+		if(screen instanceof CharacterSelectScreen){
+			((CharacterSelectScreen)screen).keyDown(keycode);
+			return true;
+		}
 		return false;
 	}
 
