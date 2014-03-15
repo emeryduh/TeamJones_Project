@@ -60,4 +60,9 @@ public class Game implements ApplicationListener {
 		screen.show();
 		screen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
+	
+	// returns the current screen
+	public Screen getScreen() {
+		return screen;
+	}
 }

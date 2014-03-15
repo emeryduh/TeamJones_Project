@@ -4,6 +4,7 @@ import mainpackage.Game;
 import mainpackage.SoundFiles;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
@@ -32,7 +33,7 @@ public class MenuScreen implements Screen {
 	private SpriteBatch batch;
 	private TextButton btnStartGame;
 	private TextButton btnOptions;
-	private Texture splashTexture;	
+	private Texture splashTexture;
 	private Music openingMusic;
 	private SoundFiles soundFiles;
 
@@ -50,9 +51,9 @@ public class MenuScreen implements Screen {
 		batch.begin();
 		stage.draw();
 		batch.end();
-		
+
 	}
-	
+
 	// called when the screen resized
 	public void resize(int width, int height) {
 		if (stage == null) {
@@ -63,7 +64,8 @@ public class MenuScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		// set the background image to the menu screen
-		splashTexture = new Texture(Gdx.files.internal("assets/gui/mainMenuBG.png"));
+		splashTexture = new Texture(
+				Gdx.files.internal("assets/gui/mainMenuBG.png"));
 		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image img = new Image(new TextureRegion(splashTexture));
 		// fit the full image to the screen
@@ -95,10 +97,10 @@ public class MenuScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// this is where functionality for next screen should be called
-				//play menu select sound
+				// play menu select sound
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
-				//goto Char Select Screen
+				// goto Char Select Screen
 				game.setScreen(new CharacterSelectScreen(game));
 			}
 		});
@@ -116,13 +118,12 @@ public class MenuScreen implements Screen {
 
 		// option button events
 		btnOptions.addListener(new InputListener() {
-			
+
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				return true;
 			}
 
-			
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// this is where functionality for next screen should be called
@@ -137,7 +138,7 @@ public class MenuScreen implements Screen {
 		stage.addActor(btnStartGame);
 		stage.addActor(btnOptions);
 	}
-	
+
 	// called when this screen becomes the current screen for a Game.
 	public void show() {
 		batch = new SpriteBatch();
@@ -148,28 +149,28 @@ public class MenuScreen implements Screen {
 				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
 		blackFont = new BitmapFont(
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
-		openingMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
+		openingMusic = Gdx.audio.newMusic(Gdx.files
+				.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
 		openingMusic.play();
 		openingMusic.setLooping(true);
-		
+
 	}
 
 	// called when current screen changes from this to a different screen
-	public void hide() {		
-		
+	public void hide() {
 
 	}
 
 	// called when game paused.
-	public void pause() {		
+	public void pause() {
 
 	}
 
 	// called when game resume
-	public void resume() {		
+	public void resume() {
 
 	}
-	
+
 	// called when this screen should release all resources.
 	public void dispose() {
 		batch.dispose();
@@ -177,5 +178,21 @@ public class MenuScreen implements Screen {
 		atlas.dispose();
 		stage.dispose();
 		openingMusic.dispose();
+	}
+
+	// method to return the key selection
+	public void keyDown(int keycode) {
+		if (keycode == Keys.UP) {
+
+			return;
+		}
+		if (keycode == Keys.DOWN) {
+
+			return;
+		}
+		if (keycode == Keys.ENTER) {
+			game.setScreen(new CharacterSelectScreen(game));
+			return;
+		}
 	}
 }

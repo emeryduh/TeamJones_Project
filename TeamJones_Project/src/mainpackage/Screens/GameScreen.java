@@ -12,80 +12,57 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class GameScreen implements Screen {
-
+	// variables
 	private Game game;
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private Player player;
 
-	public GameScreen(Game game, String select) {
+	// constructor to keep a reference to the main Game class
+	public GameScreen(Game game, int chP1, int chP2) {
 		super();
 		this.game = game;
-		player = new Player(select);
-		
+		// player = new Player(select);
 	}
 
-
-	@Override
+	// called when the screen should render itself
 	public void render(float delta) {
-		ShapeRenderer s = new ShapeRenderer();
-		s.begin(ShapeType.Filled);
-
-		// background
-		s.setColor(Color.BLACK);
-		s.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-		s.end();
-
 		batch.begin();
-
 		font.setColor(Color.WHITE);
 		font.draw(batch, "Game Screen", Gdx.graphics.getWidth() / 2 - 50,
 				Gdx.graphics.getHeight() - 50);
-		
 		player.render(batch);
-
 		batch.end();
 
 	}
 
-	@Override
+	// called when the screen resized
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
 	}
 
-	@Override
+	// called when this screen becomes the current screen for a Game
 	public void show() {
 		batch = new SpriteBatch();
-		// System.out.println("batch created");
-
 		font = new BitmapFont();
 
 	}
 
-	@Override
+	// called when current screen changes from this to a different screen
 	public void hide() {
-		// TODO Auto-generated method stub
-
 	}
 
-	@Override
+	// called when game paused
 	public void pause() {
-		// TODO Auto-generated method stub
-
 	}
 
-	@Override
+	// called when game resume
 	public void resume() {
-		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	// called when this screen should release all resources
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		batch.dispose();
 	}
 
 }
