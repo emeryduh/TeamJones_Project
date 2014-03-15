@@ -393,9 +393,10 @@ public class CharacterSelectScreen implements Screen {
 		
 		if (keycode == Keys.SPACE) {
 			if(chP1Ready.isVisible() && chP2Ready.isVisible())
-				btnPlayGame.setDisabled(false);
-			else
+			{
 				btnPlayGame.setText("Ready");
+				btnPlayGame.setDisabled(false);
+			}
 			chP1Ready.setVisible(true);
 			
 			return;
@@ -403,9 +404,10 @@ public class CharacterSelectScreen implements Screen {
 		
 		if (keycode == Keys.NUMPAD_0) {
 			if(chP1Ready.isVisible() && chP2Ready.isVisible())
-				btnPlayGame.setDisabled(false);
-			else
+			{
 				btnPlayGame.setText("Ready");
+				btnPlayGame.setDisabled(false);
+			}
 			chP2Ready.setVisible(true);
 			return;
 		}
