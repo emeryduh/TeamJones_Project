@@ -48,7 +48,7 @@ public class CharacterSelectScreen implements Screen {
 	private TextButton btnPlayGame;
 
 	// music
-	private Music openingMusic;
+	private Music charSelectionMusic;
 	private SoundFiles soundFiles;
 
 	// character selection
@@ -138,6 +138,8 @@ public class CharacterSelectScreen implements Screen {
 		btnPlayGame.toFront();
 		btnPlayGame.setDisabled(true);
 		stage.addActor(btnPlayGame);
+		
+		
 
 		// texture for player1
 		// default character is ichigo
@@ -275,6 +277,26 @@ public class CharacterSelectScreen implements Screen {
 		chP2Ready.setBounds(480, 50, 300, 550);
 		chP2Ready.setVisible(false);
 		stage.addActor(chP2Ready);
+		
+		btnPlayGame.addListener(new InputListener() {
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// this is where functionality for next screen should be called
+				// play menu select sound
+				soundFiles = new SoundFiles();
+				soundFiles.playSound("menuSelect");
+				// goto Char Select Screen
+				game.setScreen(new GameScreen(game));
+			}
+		});
 	}
 
 	// method to draw highlighted rectangle
@@ -296,10 +318,11 @@ public class CharacterSelectScreen implements Screen {
 				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
 		blackFont = new BitmapFont(
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
-		openingMusic = Gdx.audio.newMusic(Gdx.files
+		charSelectionMusic = Gdx.audio.newMusic(Gdx.files
 				.internal("assets/audioFiles/menuSounds/charSelectMusic.mp3"));
-		openingMusic.play();
-		openingMusic.setLooping(true);
+		charSelectionMusic.play();
+		charSelectionMusic.setLooping(true);
+		charSelectionMusic.setVolume(this.game.masterVolume);
 	}
 
 	// called when current screen changes from this to a different screen
@@ -323,7 +346,7 @@ public class CharacterSelectScreen implements Screen {
 		skin.dispose();
 		atlas.dispose();
 		stage.dispose();
-		openingMusic.dispose();
+		charSelectionMusic.dispose();
 	}
 
 	// method to return the key selection

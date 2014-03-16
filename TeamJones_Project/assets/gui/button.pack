@@ -19,3 +19,17 @@ buttonpressed
   orig: 16, 16
   offset: 0, 0
   index: -1 
+slider
+  rotate: false
+  xy: 40, 3
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1  
+sliderbackground
+  rotate: false
+  xy: 58, 2
+  size: 4, 4
+  orig: 4, 6
+  offset: 0, 0
+  index: -1  

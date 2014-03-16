@@ -4,8 +4,11 @@ import mainpackage.Game;
 import mainpackage.Battle;
 import mainpackage.SoundFiles;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -13,13 +16,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class OptionScreen implements Screen {
 
@@ -33,6 +42,11 @@ public class OptionScreen implements Screen {
 	private TextButton btnBack;
 	private Texture splashTexture;
 	private SoundFiles soundFiles;
+	private Slider masterSlider, bgmSlider, sfxSlider;
+	public float volume;
+	private MenuScreen menuScreen;
+
+	
 
 	// constructor to keep a reference to the main Game class
 	public OptionScreen(Game game) {
@@ -52,7 +66,10 @@ public class OptionScreen implements Screen {
 		batch.end();
 		batch.begin();
 		blackFont.setColor(0,0,0,1);
-		blackFont.draw(batch, "Options" , 350, 600);
+		whiteFont.draw(batch, "Options" , 75, 550);
+		whiteFont.draw(batch, "Master Volume:", 75, 415);
+		whiteFont.draw(batch, "SFX Volume:", 75, 315);
+		whiteFont.draw(batch, "BGM Volume:", 75, 215);
 		batch.end();
 	}
 	
@@ -101,6 +118,7 @@ public class OptionScreen implements Screen {
 				//play menu select sound
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
+				
 				//go to menu screen
 				game.setScreen(new MenuScreen(game));
 			}
@@ -108,6 +126,61 @@ public class OptionScreen implements Screen {
 
 		// adds back button actor to the root of the stage.
 		stage.addActor(btnBack);
+		
+		
+		//Add the Slider
+		
+		//Slider Styling
+		SliderStyle sliderStyle = new SliderStyle();
+		sliderStyle.knob = skin.getDrawable("slider");
+		sliderStyle.background = skin.getDrawable("sliderbackground");
+		
+		
+		//Add the master volume slider
+		masterSlider = new Slider(0f,1f,0.1f, false,sliderStyle);
+		masterSlider.setValue(game.masterVolume);
+		masterSlider.setWidth(200f);
+		masterSlider.setHeight(40f);
+		masterSlider.setX(75);
+		masterSlider.setY(350);
+		
+		//Add the Background Music volume slider
+		bgmSlider = new Slider(0f,1f,0.1f, false, sliderStyle);
+		bgmSlider.setValue(game.bgmVolume);
+		bgmSlider.setWidth(200f);
+		bgmSlider.setHeight(40f);
+		bgmSlider.setX(75);
+		bgmSlider.setY(250);
+		
+		//Add the Sound Effect volume slider
+		sfxSlider = new Slider(0f,1f,0.1f, false, sliderStyle);
+		sfxSlider.setValue(game.sfxVolume);
+		sfxSlider.setWidth(200f);
+		sfxSlider.setHeight(40f);
+		sfxSlider.setX(75);
+		sfxSlider.setY(150);
+		
+		
+		stage.addActor(masterSlider);
+		stage.addActor(bgmSlider);
+		stage.addActor(sfxSlider);
+		
+		masterSlider.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				game.masterVolume = masterSlider.getValue();
+			}
+		});
+		
+		sfxSlider.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				game.sfxVolume = sfxSlider.getValue();
+			}
+		});
+		
+		
+		
+		
+		
 	}
 	
 	// called when this screen becomes the current screen for a Game.
@@ -120,6 +193,7 @@ public class OptionScreen implements Screen {
 				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
 		blackFont = new BitmapFont(
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
+		
 	}
 
 	// called when current screen changes from this to a different screen

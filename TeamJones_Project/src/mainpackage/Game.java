@@ -16,6 +16,9 @@ public class Game implements ApplicationListener {
 	// log string for tracking 
 	public static final String LOG = "Street Fighter";
 	
+	public float masterVolume = 0.8f;
+	public float sfxVolume = 0.8f;
+	public float bgmVolume = 0.8f;
 	 
 
 	// called when the Application is first created.

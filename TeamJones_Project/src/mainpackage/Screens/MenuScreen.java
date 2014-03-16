@@ -34,7 +34,7 @@ public class MenuScreen implements Screen {
 	private TextButton btnStartGame;
 	private TextButton btnOptions;
 	private Texture splashTexture;
-	private Music openingMusic;
+	public Music openingMusic;
 	private SoundFiles soundFiles;
 
 	// constructor to keep a reference to the main Game class
@@ -153,6 +153,10 @@ public class MenuScreen implements Screen {
 				.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
 		openingMusic.play();
 		openingMusic.setLooping(true);
+		openingMusic.setVolume(this.game.masterVolume);
+		
+		
+		
 
 	}
 

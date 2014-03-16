@@ -19,7 +19,7 @@ public class GameScreen implements Screen {
 	private Player player;
 
 	// constructor to keep a reference to the main Game class
-	public GameScreen(Game game, int chP1, int chP2) {
+	public GameScreen(Game game) {
 		super();
 		this.game = game;
 		// player = new Player(select);

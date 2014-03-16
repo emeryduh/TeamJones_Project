@@ -1,12 +1,17 @@
 package mainpackage;
 
+import mainpackage.Screens.OptionScreen;
+
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 
 public class SoundFiles {
 
 	private Sound sound;
-
+	
+	
+	
 	// play in game fight sounds
 	public void playSound(Entity e, String soundName) {
 		switch (soundName) {
@@ -44,6 +49,8 @@ public class SoundFiles {
 
 	// play menu sounds
 	public void playSound(String soundName) {
+		
+		
 		switch (soundName) {
 		// hitting back on a menu sound
 		case "menuBack":
@@ -51,6 +58,8 @@ public class SoundFiles {
 					.internal("assets/audioFiles/menuSounds/" + soundName
 							+ ".wav"));
 			sound.play();
+			
+			//sound.setVolume(0, this.game.);
 			break;
 		// selecting an item sound
 		case "menuSelect":
@@ -64,13 +73,6 @@ public class SoundFiles {
 			sound = Gdx.audio.newSound(Gdx.files
 					.internal("assets/audioFiles/menuSounds/" + soundName
 							+ ".wav"));
-			sound.play();
-			break;
-		// selecting the character sound
-		case "charSelectMusic":
-			sound = Gdx.audio.newSound(Gdx.files
-					.internal("assets/audioFiles/menuSounds/" + soundName
-							+ ".mp3"));
 			sound.play();
 			break;
 		}
