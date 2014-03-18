@@ -100,6 +100,8 @@ public class MenuScreen implements Screen {
 				// play menu select sound
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
+				//hides/disables current screen
+				hide();
 				// goto Char Select Screen
 				game.setScreen(new CharacterSelectScreen(game));
 			}
@@ -162,7 +164,7 @@ public class MenuScreen implements Screen {
 
 	// called when current screen changes from this to a different screen
 	public void hide() {
-
+		openingMusic.stop();
 	}
 
 	// called when game paused.
