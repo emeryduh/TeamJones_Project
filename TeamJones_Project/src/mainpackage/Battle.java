@@ -9,7 +9,7 @@ public class Battle
 	int player1Wins = 0;
 	int player2Wins = 0;
 	int winner = 2;
-	int timer = 0;
+	int timer = 60;
 	private Game game;
 	
 	public Battle (Game game)

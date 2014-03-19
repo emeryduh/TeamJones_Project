@@ -132,7 +132,6 @@ public class MenuScreen implements Screen {
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
 				game.setScreen(new OptionScreen(game));
-				openingMusic.stop();
 			}
 		});
 
@@ -153,7 +152,10 @@ public class MenuScreen implements Screen {
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
 		openingMusic = Gdx.audio.newMusic(Gdx.files
 				.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
-		openingMusic.play();
+		if(openingMusic.isPlaying() == false)
+		{
+			openingMusic.play();
+		}
 		openingMusic.setLooping(true);
 		openingMusic.setVolume(this.game.masterVolume);
 		

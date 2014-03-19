@@ -3,17 +3,15 @@ package mainpackage.Screens;
 import org.lwjgl.input.Keyboard;
 
 import mainpackage.Game;
-import mainpackage.GameInputProcessor;
+import mainpackage.PlayerInput;
 import mainpackage.SoundFiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -27,7 +25,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -39,7 +36,6 @@ public class CharacterSelectScreen implements Screen {
 
 	// sprite
 	private SpriteBatch batch;
-	private BitmapFont font;
 	private Stage stage;
 	private Texture splashTexture;
 	private BitmapFont whiteFont, blackFont;
@@ -86,10 +82,6 @@ public class CharacterSelectScreen implements Screen {
 
 		// this will enable the continuous key press
 		Keyboard.enableRepeatEvents(true);
-
-		// this method is to highlight the character
-		// need to modified to use
-		// drawRect(20, 20);
 	}
 
 	// called when the screen resized
@@ -99,20 +91,11 @@ public class CharacterSelectScreen implements Screen {
 			stage = new Stage(width, height, true);
 		}
 
-		// this will enable the both keyboard and mouse events
-		/*
-		 * InputMultiplexer multiplexer = new InputMultiplexer();
-		 * multiplexer.addProcessor(new MyUiInputProcessor());
-		 * multiplexer.addProcessor(new GameInputProcessor());
-		 * Gdx.input.setInputProcessor(multiplexer);
-		 */
-
 		stage.clear();
 		// to enable the keyboard events
-		GameInputProcessor inputProcessor = new GameInputProcessor(game);
+		PlayerInput playerInput = new PlayerInput(game);
 		// set the input processor
-		Gdx.input.setInputProcessor(inputProcessor);
-		// Gdx.input.setInputProcessor(stage);
+		Gdx.input.setInputProcessor(playerInput);
 
 		// set the background image to the menu screen
 		splashTexture = new Texture(
@@ -138,6 +121,26 @@ public class CharacterSelectScreen implements Screen {
 		btnPlayGame.toFront();
 		btnPlayGame.setDisabled(true);
 		stage.addActor(btnPlayGame);
+		
+		btnPlayGame.addListener(new InputListener() {
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				soundFiles = new SoundFiles();
+				soundFiles.playSound("menuSelect");
+				//hides/disables current screen
+				hide();
+				// goto Char Select Screen
+				game.setScreen(new GameScreen(game));
+			}
+		});
 		
 		
 
@@ -327,7 +330,7 @@ public class CharacterSelectScreen implements Screen {
 
 	// called when current screen changes from this to a different screen
 	public void hide() {
-
+		charSelectionMusic.stop();
 	}
 
 	// called when game paused
@@ -351,7 +354,6 @@ public class CharacterSelectScreen implements Screen {
 
 	// method to return the key selection
 	public void keyDown(int keycode) {
-		// soundFiles = new SoundFiles();
 		if (keycode == Keys.A) {
 			// return if prior than character 1
 			if (ch1 <= 0 || chP1Ready.isVisible())
@@ -436,7 +438,8 @@ public class CharacterSelectScreen implements Screen {
 		}
 
 		if (keycode == Keys.ENTER) {
-			// game.setScreen(new GameScreen(game, ch1Index, ch2Index));
+			game.setScreen(new GameScreen(game));
+			hide();
 			return;
 		}
 		

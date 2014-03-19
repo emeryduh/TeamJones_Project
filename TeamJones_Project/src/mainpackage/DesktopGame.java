@@ -16,7 +16,6 @@ public class DesktopGame {
             windowConfig.title = "Amazing Street Fighter" + Game.VERSION;
             windowConfig.resizable = false;
             windowConfig.addIcon("assets/gui/windowicon.png/", Files.FileType.Internal); 
-            new LwjglApplication(new Game(), windowConfig);
-                
+            new LwjglApplication(new Game(), windowConfig);   
         }
 }
