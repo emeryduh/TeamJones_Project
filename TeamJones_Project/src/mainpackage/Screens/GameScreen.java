@@ -175,12 +175,18 @@ public class GameScreen implements Screen {
 		switch(keycode)
 		{
 		case Keys.RIGHT:
-			playerPos += moveSpeed;
-			player01Img.setPosition(playerPos, groundOffset);
+			if(playerPos < 800 - player01Tex.getWidth() / 6)
+			{
+				playerPos += moveSpeed;
+				player01Img.setPosition(playerPos, groundOffset);
+			}
 			return;
 		case Keys.LEFT:
-			playerPos -= moveSpeed;
-			player01Img.setPosition(playerPos, groundOffset);
+			if(playerPos > 0)
+			{
+				playerPos -= moveSpeed;
+				player01Img.setPosition(playerPos, groundOffset);
+			}
 			return;
 		case Keys.A:
 			attack01.play();
