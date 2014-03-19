@@ -1,7 +1,5 @@
 package mainpackage.Screens;
 
-import org.lwjgl.input.Keyboard;
-
 import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.Sprite;
@@ -23,18 +21,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class GameScreen implements Screen {
 	// variables
 	private Game game;
-	private Sprite sprite;
+	private Sprite sprite = new Sprite();
 	private SpriteBatch batch;
 	private Stage stage;
 	private TextureAtlas atlas;
 	private Skin skin;
 	private int groundOffset = 15;
-	private int frameIndex = 0;
 	private Music battleMusic;
-	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01Tex, player01SmallTex, player01NameTex;
+	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01SmallTex, player01NameTex;
 	private Image backgroundImg, hpBarLeftImg, hpBarRightImg, roundsImg, player01Img, player01SmallImg, player01NameImg;
-	private int playerPos = 50, moveSpeed = 5;
+	private int playerPos = 50, moveSpeed = 4;
 	private Sound attack01;
+	private boolean isKeyPressed, isFacingRight = true;
+	private int curAction = 0;
 	
 
 	// constructor to keep a reference to the main Game class
@@ -54,13 +53,35 @@ public class GameScreen implements Screen {
 		batch.begin();
 		stage.draw();
 		batch.end();
+		
+		sprite.setSheetVals(0, curAction);
 
 		//enabling keyboard events
 		PlayerInput playerInput = new PlayerInput(game);
 		// set the input processor
 		Gdx.input.setInputProcessor(playerInput);
-		// this will enable continuous key pressing
-		Keyboard.enableRepeatEvents(true);
+		
+		//handles continuous keyboard input
+		if(player01Img.getX() > 0)
+		{
+			if(isKeyPressed = Gdx.input.isKeyPressed(Keys.LEFT))
+			{
+				curAction = 3;
+				isFacingRight = false;
+				playerPos -= moveSpeed;
+				player01Img.setPosition(playerPos, groundOffset);
+			}
+		}
+		/*if(player01Img.getX() < 800 - (player01Tex.getWidth() / 6))
+		{
+			if (isKeyPressed = Gdx.input.isKeyPressed(Keys.RIGHT))
+			{
+				curAction = 2;
+				isFacingRight = true;
+				playerPos += moveSpeed;
+				player01Img.setPosition(playerPos, groundOffset);
+			}
+		}*/
 	}
 
 	// called when the screen resized
@@ -111,9 +132,7 @@ public class GameScreen implements Screen {
 		//add rounds texture on the right side of screen
 		stage.addActor(roundsImg);
 		
-		//loads player 1 texture
-		player01Tex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Standing_Right.png"));
-		player01Img = new Image(new TextureRegion(player01Tex, frameIndex, 0, player01Tex.getWidth() / 6, player01Tex.getHeight()));
+		player01Img = new Image(sprite.Animate());
 		//positions player 1 texture
 		player01Img.setPosition(playerPos, groundOffset);
 		//add player 1 image to screen
@@ -174,20 +193,6 @@ public class GameScreen implements Screen {
 	{
 		switch(keycode)
 		{
-		case Keys.RIGHT:
-			if(playerPos < 800 - player01Tex.getWidth() / 6)
-			{
-				playerPos += moveSpeed;
-				player01Img.setPosition(playerPos, groundOffset);
-			}
-			return;
-		case Keys.LEFT:
-			if(playerPos > 0)
-			{
-				playerPos -= moveSpeed;
-				player01Img.setPosition(playerPos, groundOffset);
-			}
-			return;
 		case Keys.A:
 			attack01.play();
 			return;
