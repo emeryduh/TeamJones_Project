@@ -15,12 +15,12 @@ public class Sprite
 	private float elapsedTime;
 	private int numOfFrames, numOfRows;
 	private TextureRegion curFrame;
-	private Texture curAction;
+	private Texture curAnimation;
 	//loads character textures
 	private Texture ichigoIdleRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Standing_Right.png"));
 	private Texture ichigoIdleLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Standing_Left.png"));
-	private Texture ichigoRunRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Standing_Left.png"));
-	private Texture ichigoRunLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Standing_Left.png"));
+	private Texture ichigoRunRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Running_Right.png"));
+	private Texture ichigoRunLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Running_Left.png"));
 	
 	public Sprite()
 	{}
@@ -39,25 +39,25 @@ public class Sprite
 			{
 			case 0:
 				//loads texture corresponding to current action
-				curAction = ichigoIdleRTex;
+				curAnimation = ichigoIdleRTex;
 				//sets the width and height of a single frame
-				frameWidth = curAction.getWidth() / numOfFrames;
-				frameHeight = curAction.getHeight() / numOfRows;
+				frameWidth = curAnimation.getWidth() / numOfFrames;
+				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 1:
-				curAction = ichigoIdleLTex;
-				frameWidth = curAction.getWidth() / numOfFrames;
-				frameHeight = curAction.getHeight() / numOfRows;
+				curAnimation = ichigoIdleLTex;
+				frameWidth = curAnimation.getWidth() / numOfFrames;
+				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 2:
-				curAction = ichigoRunRTex;
-				frameWidth = curAction.getWidth() / numOfFrames;
-				frameHeight = curAction.getHeight() / numOfRows;
+				curAnimation = ichigoRunRTex;
+				frameWidth = curAnimation.getWidth() / numOfFrames;
+				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 3:
-				curAction = ichigoRunLTex;
-				frameWidth = curAction.getWidth() / numOfFrames;
-				frameHeight = curAction.getHeight() / numOfRows;
+				curAnimation = ichigoRunLTex;
+				frameWidth = curAnimation.getWidth() / numOfFrames;
+				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			}
 			break;
@@ -67,6 +67,11 @@ public class Sprite
 			numOfRows = 1;
 			break;
 		}
+	}
+	
+	public Texture setAnimation()
+	{
+		return curAnimation;
 	}
 	
 	public TextureRegion Animate()
@@ -84,11 +89,19 @@ public class Sprite
 			}
 		}
 		
+		//creates and stores a texture region into curFrame with parameters coinciding to current; frame index, frame width, frame height 
+		curFrame = new TextureRegion(curAnimation, cols * frameWidth, rows * frameHeight, frameWidth, frameHeight);
+		//sends the texture region to be used by GameScreen class
+		return curFrame;
+	}
+	
+	public int getFrameIndex()
+	{
 		//sets frame length based on total number of frames in current action sprite-sheet
-		frameLength = (numOfFrames * numOfRows) * 0.1f;
+		frameLength = 1.0f / (numOfFrames * numOfRows);
 		
 		//updates how much time has passed
-		elapsedTime += System.nanoTime();
+		elapsedTime += Gdx.graphics.getDeltaTime();
 		//checks if the amount of time passed has gone over the time length of a single frame
 		if(elapsedTime > frameLength)
 		{
@@ -104,9 +117,6 @@ public class Sprite
 			}
 		}
 		
-		//creates and stores a texture region into curFrame with parameters coinciding to current; frame index, frame width, frame height 
-		curFrame = new TextureRegion(curAction, cols * frameWidth, rows * frameHeight, frameWidth, frameHeight);
-		//sends the texture region to be used by GameScreen class
-		return curFrame;
+		return frameIndex;
 	}
 }

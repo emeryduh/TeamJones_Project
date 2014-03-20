@@ -32,14 +32,19 @@ public class GameScreen implements Screen {
 	private Image backgroundImg, hpBarLeftImg, hpBarRightImg, roundsImg, player01Img, player01SmallImg, player01NameImg;
 	private int playerPos = 50, moveSpeed = 4;
 	private Sound attack01;
-	private boolean isKeyPressed, isFacingRight = true;
+	private boolean isKeyPressed, isFacingRight;
 	private int curAction = 0;
+	private float elapsedTime;
+	private float frameLength = 0.6f;
+	private Texture curAnimation;
+
 	
 
 	// constructor to keep a reference to the main Game class
 	public GameScreen(Game game) {
 		super();
 		this.game = game;
+		attack01 = Gdx.audio.newSound(Gdx.files.internal("assets/audioFiles/ichigoCombat/ichigoAttack01.wav"));
 	}
 
 	// called when the screen should render itself
@@ -47,19 +52,39 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		attack01 = Gdx.audio.newSound(Gdx.files.internal("assets/audioFiles/ichigoCombat/ichigoAttack01.wav"));
+		sprite.setSheetVals(0, curAction);
+		curAnimation = sprite.setAnimation();
+		
+		player01Img = new Image();
+		
+		//loads the player01 texture
+		player01Img = new Image(new TextureRegion(curAnimation, sprite.getFrameIndex() * (curAnimation.getWidth() / 6), 0, curAnimation.getWidth() / 6, curAnimation.getHeight()));
+		//positions player 1 texture
+		player01Img.setPosition(playerPos, groundOffset);
+		//add player 1 image to screen
+		stage.addActor(player01Img);
 
 		stage.act(delta);
 		batch.begin();
 		stage.draw();
 		batch.end();
-		
-		sprite.setSheetVals(0, curAction);
 
 		//enabling keyboard events
 		PlayerInput playerInput = new PlayerInput(game);
 		// set the input processor
 		Gdx.input.setInputProcessor(playerInput);
+		
+		if(isKeyPressed != Gdx.input.isKeyPressed(Keys.LEFT) && isKeyPressed != Gdx.input.isKeyPressed(Keys.RIGHT))
+		{
+			if(isFacingRight == true)
+			{
+				curAction = 0;
+			}
+			else
+			{
+				curAction = 1;
+			}
+		}
 		
 		//handles continuous keyboard input
 		if(player01Img.getX() > 0)
@@ -72,7 +97,7 @@ public class GameScreen implements Screen {
 				player01Img.setPosition(playerPos, groundOffset);
 			}
 		}
-		/*if(player01Img.getX() < 800 - (player01Tex.getWidth() / 6))
+		if(player01Img.getX() < 800 - (curAnimation.getWidth() / 6))
 		{
 			if (isKeyPressed = Gdx.input.isKeyPressed(Keys.RIGHT))
 			{
@@ -81,7 +106,7 @@ public class GameScreen implements Screen {
 				playerPos += moveSpeed;
 				player01Img.setPosition(playerPos, groundOffset);
 			}
-		}*/
+		}	
 	}
 
 	// called when the screen resized
@@ -131,12 +156,6 @@ public class GameScreen implements Screen {
 		roundsImg.setBounds(425, 430, 25, 25);
 		//add rounds texture on the right side of screen
 		stage.addActor(roundsImg);
-		
-		player01Img = new Image(sprite.Animate());
-		//positions player 1 texture
-		player01Img.setPosition(playerPos, groundOffset);
-		//add player 1 image to screen
-		stage.addActor(player01Img);
 		
 		//loads small face texture for player 1
 		player01SmallTex = new Texture(Gdx.files.internal("assets/sprites/standAlone/ichigoSmall.png"));
