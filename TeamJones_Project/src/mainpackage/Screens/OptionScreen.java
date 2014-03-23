@@ -3,10 +3,15 @@ package mainpackage.Screens;
 import mainpackage.Game;
 import mainpackage.Battle;
 import mainpackage.SoundFiles;
+import mainpackage.PlayerInput;
+
+import org.lwjgl.input.Keyboard;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL10;
@@ -63,6 +68,7 @@ public class OptionScreen implements Screen {
 		// draw objects into the screen
 		batch.begin();
 		stage.draw();
+		
 		batch.end();
 		batch.begin();
 		blackFont.setColor(0,0,0,1);
@@ -71,6 +77,9 @@ public class OptionScreen implements Screen {
 		whiteFont.draw(batch, "SFX Volume:", 75, 315);
 		whiteFont.draw(batch, "BGM Volume:", 75, 215);
 		batch.end();
+		
+		// this will enable the continuous key press
+		Keyboard.enableRepeatEvents(true);
 	}
 	
 	// called when the screen resized
@@ -80,7 +89,11 @@ public class OptionScreen implements Screen {
 		}
 
 		stage.clear();
+		// to enable the keyboard events
+		PlayerInput playerInput = new PlayerInput(game);	
+		
 		Gdx.input.setInputProcessor(stage);
+		
 
 		// set the background image to the menu screen
 		splashTexture = new Texture(Gdx.files.internal("assets/gui/optionsMenuBG.png"));
@@ -180,7 +193,6 @@ public class OptionScreen implements Screen {
 		
 		
 		
-		
 	}
 	
 	// called when this screen becomes the current screen for a Game.
@@ -217,5 +229,14 @@ public class OptionScreen implements Screen {
 		skin.dispose();
 		atlas.dispose();
 		stage.dispose();
+	}
+	
+	// method to return the key selection
+	public void keyDown(int keycode) {		
+		if (keycode == Keys.ENTER) {
+			game.setScreen(new MenuScreen(game));
+			return;
+		}
+			
 	}
 }

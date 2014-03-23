@@ -1,9 +1,13 @@
 package mainpackage.Screens;
 
+import org.lwjgl.input.Keyboard;
+
 import mainpackage.Game;
+import mainpackage.PlayerInput;
 import mainpackage.SoundFiles;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -36,6 +40,9 @@ public class MenuScreen implements Screen {
 	private Texture splashTexture;
 	public Music openingMusic;
 	private SoundFiles soundFiles;
+	private int menuIndex = 0;
+	private Image menuSelector;
+	
 
 	// constructor to keep a reference to the main Game class
 	public MenuScreen(Game game) {
@@ -51,6 +58,9 @@ public class MenuScreen implements Screen {
 		batch.begin();
 		stage.draw();
 		batch.end();
+		
+		// this will enable the continuous key press
+		Keyboard.enableRepeatEvents(true);
 
 	}
 
@@ -61,6 +71,9 @@ public class MenuScreen implements Screen {
 		}
 
 		stage.clear();
+		// to enable the keyboard events
+		PlayerInput playerInput = new PlayerInput(game);
+		
 		Gdx.input.setInputProcessor(stage);
 
 		// set the background image to the menu screen
@@ -72,7 +85,9 @@ public class MenuScreen implements Screen {
 		img.setFillParent(true);
 		// adds an actor to the root of the stage.
 		stage.addActor(img);
-
+		
+				
+				
 		// creates start game button
 		TextButtonStyle txtStartgameStyle = new TextButtonStyle();
 		txtStartgameStyle.up = skin.getDrawable("button");
@@ -100,10 +115,9 @@ public class MenuScreen implements Screen {
 				// play menu select sound
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
-				//hides/disables current screen
-				hide();
 				// goto Char Select Screen
 				game.setScreen(new CharacterSelectScreen(game));
+
 			}
 		});
 
@@ -132,12 +146,23 @@ public class MenuScreen implements Screen {
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
 				game.setScreen(new OptionScreen(game));
+				openingMusic.stop();
 			}
 		});
 
 		// adds an start game and option actors to the root of the stage.
 		stage.addActor(btnStartGame);
 		stage.addActor(btnOptions);
+		
+		//Add Cursor
+		Texture cursorTex = new Texture(Gdx.files.internal("assets/gui/cursor.png"));
+		cursorTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		menuSelector = new Image(new TextureRegion(cursorTex));
+		menuSelector.setBounds(500, 170, 100, 50);
+		stage.addActor(menuSelector);
+		
+		
+		
 	}
 
 	// called when this screen becomes the current screen for a Game.
@@ -152,16 +177,10 @@ public class MenuScreen implements Screen {
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
 		openingMusic = Gdx.audio.newMusic(Gdx.files
 				.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
-		if(openingMusic.isPlaying() == false)
-		{
-			openingMusic.play();
-		}
+		openingMusic.play();
 		openingMusic.setLooping(true);
 		openingMusic.setVolume(this.game.masterVolume);
 		
-		
-		
-
 	}
 
 	// called when current screen changes from this to a different screen
@@ -188,19 +207,27 @@ public class MenuScreen implements Screen {
 		openingMusic.dispose();
 	}
 
+	
 	// method to return the key selection
-	public void keyDown(int keycode) {
+	public void keyDown(int keycode) {		
 		if (keycode == Keys.UP) {
-
+			menuIndex = 0;
+			menuSelector.setPosition(500, 170);
 			return;
 		}
 		if (keycode == Keys.DOWN) {
-
+			menuIndex = 1;
+			menuSelector.setPosition(500, 100);
 			return;
 		}
-		if (keycode == Keys.ENTER) {
+		if (keycode == Keys.ENTER && menuIndex == 0) {
 			game.setScreen(new CharacterSelectScreen(game));
 			return;
 		}
+		if (keycode == Keys.ENTER && menuIndex == 1) {
+			game.setScreen(new OptionScreen(game));
+			return;
+		}
+		
 	}
 }
