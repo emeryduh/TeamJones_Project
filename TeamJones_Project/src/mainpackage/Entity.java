@@ -5,7 +5,7 @@ package mainpackage;
 
 public class Entity {
 	// store sprite for a player
-	public Sprite[] spriteSheet;
+	public SpriteClass[] spriteSheet;
 	// store the selected character
 	public Character character;
 	// store the character name

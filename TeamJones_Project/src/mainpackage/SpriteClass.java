@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Sprite 
+public class SpriteClass 
 {
 	private int frameWidth;
 	private int frameHeight;
@@ -22,7 +22,7 @@ public class Sprite
 	private Texture ichigoRunRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Running_Right.png"));
 	private Texture ichigoRunLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Running_Left.png"));
 	
-	public Sprite()
+	public SpriteClass()
 	{}
 	
 	public void setSheetVals(int character, int action)

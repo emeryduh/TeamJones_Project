@@ -2,7 +2,7 @@ package mainpackage.Screens;
 
 import mainpackage.Game;
 import mainpackage.PlayerInput;
-import mainpackage.Sprite;
+import mainpackage.SpriteClass;
 import mainpackage.TextureFiles;
 
 import com.badlogic.gdx.Gdx;
@@ -22,16 +22,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class GameScreen implements Screen {
 	// variables
 	private Game game;
-	private Sprite sprite = new Sprite();
+	private SpriteClass spriteClass = new SpriteClass();
 	private SpriteBatch batch;
 	private Stage stage;
 	private TextureAtlas atlas;
 	private Skin skin;
-	private int groundOffset = 15;
 	private Music battleMusic;
 	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01SmallTex, player01NameTex;
 	private Image backgroundImg, hpBarLeftImg, hpBarRightImg, roundsImg, player01Img, player01SmallImg, player01NameImg;
-	private int playerPos = 50, moveSpeed = 4;
+	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4;
 	private Sound attack01;
 	private boolean isKeyPressed, isFacingRight;
 	private int curAction = 0;
@@ -53,21 +52,19 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		sprite.setSheetVals(0, curAction);
-		curAnimation = sprite.setAnimation();
+		spriteClass.setSheetVals(0, curAction);
+		curAnimation = spriteClass.setAnimation();
 		
 		player01Img = new Image();
 		
-		//loads the player01 texture
-		player01Img = new Image(new TextureRegion(curAnimation, sprite.getFrameIndex() * (curAnimation.getWidth() / 6), 0, curAnimation.getWidth() / 6, curAnimation.getHeight()));
 		//positions player 1 texture
-		player01Img.setPosition(playerPos, groundOffset);
+		player01Img.setPosition(playerXPos, playerYPos);
 		//add player 1 image to screen
 		stage.addActor(player01Img);
 
 		stage.act(delta);
 		batch.begin();
-		stage.draw();
+		batch.draw(new TextureRegion(curAnimation, spriteClass.getFrameIndex() * (curAnimation.getWidth() / 6), 0, curAnimation.getWidth() / 6, curAnimation.getHeight()), playerXPos, playerYPos);
 		batch.end();
 
 		//enabling keyboard events
@@ -94,8 +91,8 @@ public class GameScreen implements Screen {
 			{
 				curAction = 3;
 				isFacingRight = false;
-				playerPos -= moveSpeed;
-				player01Img.setPosition(playerPos, groundOffset);
+				playerXPos -= moveSpeed;
+				player01Img.setPosition(playerXPos, playerYPos);
 			}
 		}
 		if(player01Img.getX() < 800 - (curAnimation.getWidth() / 6))
@@ -104,8 +101,8 @@ public class GameScreen implements Screen {
 			{
 				curAction = 2;
 				isFacingRight = true;
-				playerPos += moveSpeed;
-				player01Img.setPosition(playerPos, groundOffset);
+				playerXPos += moveSpeed;
+				player01Img.setPosition(playerXPos, playerYPos);
 			}
 		}	
 	}

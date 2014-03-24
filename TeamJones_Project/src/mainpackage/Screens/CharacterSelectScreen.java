@@ -136,7 +136,7 @@ public class CharacterSelectScreen implements Screen {
 				soundFiles.playSound("menuSelect");
 				// hides/disables current screen
 				hide();
-				// goto Char Select Screen
+				// go to Game Screen
 				game.setScreen(new GameScreen(game));
 			}
 		});
@@ -284,7 +284,8 @@ public class CharacterSelectScreen implements Screen {
 				// play menu select sound
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
-				// goto Char Select Screen
+				// go to Game Screen
+				hide();
 				game.setScreen(new GameScreen(game));
 			}
 		});

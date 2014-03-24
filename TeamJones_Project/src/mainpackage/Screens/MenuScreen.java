@@ -112,6 +112,7 @@ public class MenuScreen implements Screen {
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
 				// goto Char Select Screen
+				hide();
 				game.setScreen(new CharacterSelectScreen(game));
 
 			}
