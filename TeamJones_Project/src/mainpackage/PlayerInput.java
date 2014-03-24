@@ -3,6 +3,8 @@ package mainpackage;
 import mainpackage.Screens.CharacterSelectScreen;
 import mainpackage.Screens.MenuScreen;
 import mainpackage.Screens.GameScreen;
+import mainpackage.Screens.OptionScreen;
+
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 
@@ -33,6 +35,11 @@ public class PlayerInput implements InputProcessor {
 		
 		if(screen instanceof GameScreen){
 			((GameScreen)screen).keyDown(keycode);
+			return true;
+		}
+		
+		if(screen instanceof OptionScreen){
+			((OptionScreen)screen).keyDown(keycode);
 			return true;
 		}
 		return false;
