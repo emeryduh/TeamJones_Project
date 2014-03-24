@@ -4,6 +4,7 @@ import mainpackage.Game;
 import mainpackage.Battle;
 import mainpackage.SoundFiles;
 import mainpackage.PlayerInput;
+import mainpackage.TextureFiles;
 
 import org.lwjgl.input.Keyboard;
 
@@ -96,7 +97,7 @@ public class OptionScreen implements Screen {
 		
 
 		// set the background image to the menu screen
-		splashTexture = new Texture(Gdx.files.internal("assets/gui/optionsMenuBG.png"));
+		splashTexture = TextureFiles.getBackgroundTexture("optionScreen");
 		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image img = new Image(new TextureRegion(splashTexture));
 		// fit the full image to the screen

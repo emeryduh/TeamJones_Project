@@ -3,6 +3,7 @@ package mainpackage.Screens;
 import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.Sprite;
+import mainpackage.TextureFiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -118,7 +119,7 @@ public class GameScreen implements Screen {
 		stage.clear();
 		
 		//loads the background texture
-		backgroundTex = new Texture(Gdx.files.internal("assets/sprites/backgrounds/battle_BG_01.png"));
+		backgroundTex = TextureFiles.getBackgroundTexture("gameScreen");
 		backgroundImg = new Image(new TextureRegion(backgroundTex));
 		//fill the screen with background texture
 		backgroundImg.setFillParent(true);

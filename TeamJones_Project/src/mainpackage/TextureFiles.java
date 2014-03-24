@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class TextureFiles {
 
+	// get the selected character textures
 	public static Texture getCharacterTexture(String strCharacter) {
 		Texture chTexture = null;
 		switch (strCharacter) {
@@ -70,6 +71,7 @@ public class TextureFiles {
 		return chTexture;
 	}
 
+	// get the character selection textures
 	public static Texture getCharacterSelectionTexture(String strCharacter) {
 		Texture chTexture = null;
 		switch (strCharacter) {
@@ -139,27 +141,66 @@ public class TextureFiles {
 		return chTexture;
 	}
 
+	// get the background texture
 	public static Texture getBackgroundTexture(String strTexture) {
 		Texture chTexture = null;
 		switch (strTexture) {
-		case "ichigo": {
+		case "characterSelection": {
 			chTexture = new Texture(
 					Gdx.files
-							.internal("assets/sprites/backgrounds/chIchigo.png"));
+							.internal("assets/sprites/backgrounds/character_bg.png"));
 			break;
 		}
 
-		case "byakuya": {
+		case "menuScreen": {
 			chTexture = new Texture(
-					Gdx.files
-							.internal("assets/sprites/backgrounds/chByakuya.png"));
+					Gdx.files.internal("assets/gui/mainMenuBG.png"));
 			break;
 		}
 
-		case "ikkaku": {
+		case "optionScreen": {
+			chTexture = new Texture(
+					Gdx.files.internal("assets/gui/optionsMenuBG.png"));
+			break;
+		}
+		case "gameScreen": {
 			chTexture = new Texture(
 					Gdx.files
-							.internal("assets/sprites/backgrounds/chIkkaku.png"));
+							.internal("assets/sprites/backgrounds/battle_BG_01.png"));
+			break;
+		}
+		}
+		return chTexture;
+	}
+
+	// get the utility texture
+	public static Texture geUtilityTexture(String strTexture) {
+		Texture chTexture = null;
+		switch (strTexture) {
+		case "player1": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/P1.png"));
+			break;
+		}
+
+		case "player2": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/P2.png"));
+			break;
+		}
+
+		case "ready": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/sprites/backgrounds/ready.png"));
+			break;
+		}
+		case "cursor": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/cursor.png"));
 			break;
 		}
 		}

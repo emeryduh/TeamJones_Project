@@ -99,9 +99,7 @@ public class CharacterSelectScreen implements Screen {
 		Gdx.input.setInputProcessor(playerInput);
 
 		// set the background image to the menu screen
-		splashTexture = new Texture(
-				Gdx.files
-						.internal("assets/sprites/backgrounds/character_bg.png"));
+		splashTexture = TextureFiles.getBackgroundTexture("characterSelection");
 		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image img = new Image(new TextureRegion(splashTexture));
 		// fit the full image to the screen
@@ -122,7 +120,7 @@ public class CharacterSelectScreen implements Screen {
 		btnPlayGame.toFront();
 		btnPlayGame.setDisabled(true);
 		stage.addActor(btnPlayGame);
-		
+
 		btnPlayGame.addListener(new InputListener() {
 
 			@Override
@@ -136,14 +134,12 @@ public class CharacterSelectScreen implements Screen {
 					int pointer, int button) {
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
-				//hides/disables current screen
+				// hides/disables current screen
 				hide();
 				// goto Char Select Screen
 				game.setScreen(new GameScreen(game));
 			}
 		});
-		
-		
 
 		// texture for player1
 		// default character is ichigo
@@ -172,7 +168,8 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgIchigo);
 
 		// byakuya texture
-		Texture texByakuya = TextureFiles.getCharacterSelectionTexture("byakuya");
+		Texture texByakuya = TextureFiles
+				.getCharacterSelectionTexture("byakuya");
 		texByakuya.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgByakuya = new Image(new TextureRegion(texByakuya));
 		// adds an actor to the root of the stage.
@@ -196,7 +193,8 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgIshida);
 
 		// kenpachi texture
-		Texture texKenpachi = TextureFiles.getCharacterSelectionTexture("kenpachi");
+		Texture texKenpachi = TextureFiles
+				.getCharacterSelectionTexture("kenpachi");
 		texKenpachi.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgKenpachi = new Image(new TextureRegion(texKenpachi));
 		// adds an actor to the root of the stage.
@@ -204,7 +202,8 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgKenpachi);
 
 		// urahara texture
-		Texture texUrahara = TextureFiles.getCharacterSelectionTexture("urahara");
+		Texture texUrahara = TextureFiles
+				.getCharacterSelectionTexture("urahara");
 		texUrahara.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgUrahara = new Image(new TextureRegion(texUrahara));
 		// adds an actor to the root of the stage.
@@ -212,7 +211,8 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgUrahara);
 
 		// komamura texture
-		Texture texkomamura = TextureFiles.getCharacterSelectionTexture("komamura");
+		Texture texkomamura = TextureFiles
+				.getCharacterSelectionTexture("komamura");
 		texkomamura.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgKomamura = new Image(new TextureRegion(texkomamura));
 		// adds an actor to the root of the stage.
@@ -236,7 +236,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgRenji);
 
 		// player 1 selection texture
-		Texture texP1 = new Texture(Gdx.files.internal("assets/gui/P1.png"));
+		Texture texP1 = TextureFiles.geUtilityTexture("player1");
 		texP1.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		chP1 = new Image(new TextureRegion(texP1));
 		// adds an actor to the root of the stage.
@@ -244,7 +244,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(chP1);
 
 		// player 2 selection texture
-		Texture texP2 = new Texture(Gdx.files.internal("assets/gui/P2.png"));
+		Texture texP2 = TextureFiles.geUtilityTexture("player2");
 		texP2.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		chP2 = new Image(new TextureRegion(texP2));
 		// adds an actor to the root of the stage.
@@ -252,8 +252,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(chP2);
 
 		// player 1 ready texture
-		Texture texP1Ready = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/ready.png"));
+		Texture texP1Ready = TextureFiles.geUtilityTexture("ready");
 		texP1Ready.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		chP1Ready = new Image(new TextureRegion(texP1Ready));
 		// adds an actor to the root of the stage.
@@ -262,15 +261,14 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(chP1Ready);
 
 		// player 2 ready texture
-		Texture texP2Ready = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/ready.png"));
+		Texture texP2Ready = TextureFiles.geUtilityTexture("ready");
 		texP2Ready.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		chP2Ready = new Image(new TextureRegion(texP2Ready));
 		// adds an actor to the root of the stage.
 		chP2Ready.setBounds(480, 50, 300, 550);
 		chP2Ready.setVisible(false);
 		stage.addActor(chP2Ready);
-		
+
 		btnPlayGame.addListener(new InputListener() {
 
 			@Override
@@ -390,7 +388,7 @@ public class CharacterSelectScreen implements Screen {
 			// soundFiles.playSound("charSelectMusic");
 			return;
 		}
-		if (keycode == Keys.LEFT ) {
+		if (keycode == Keys.LEFT) {
 			if (ch2 <= 0 || chP2Ready.isVisible())
 				return;
 			// change index based on character selection
@@ -405,21 +403,19 @@ public class CharacterSelectScreen implements Screen {
 			// soundFiles.playSound("charSelectMusic");
 			return;
 		}
-		
+
 		if (keycode == Keys.SPACE) {
-			if(chP1Ready.isVisible() && chP2Ready.isVisible())
-			{
+			if (chP1Ready.isVisible() && chP2Ready.isVisible()) {
 				btnPlayGame.setText("Ready");
 				btnPlayGame.setDisabled(false);
 			}
 			chP1Ready.setVisible(true);
-			
+
 			return;
 		}
-		
+
 		if (keycode == Keys.NUMPAD_0) {
-			if(chP1Ready.isVisible() && chP2Ready.isVisible())
-			{
+			if (chP1Ready.isVisible() && chP2Ready.isVisible()) {
 				btnPlayGame.setText("Ready");
 				btnPlayGame.setDisabled(false);
 			}
@@ -432,8 +428,8 @@ public class CharacterSelectScreen implements Screen {
 			hide();
 			return;
 		}
-		
-		if (keycode == Keys.ESCAPE) {								
+
+		if (keycode == Keys.ESCAPE) {
 			chP1Ready.setVisible(false);
 			chP2Ready.setVisible(false);
 			return;

@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.SoundFiles;
+import mainpackage.TextureFiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -77,8 +78,7 @@ public class MenuScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		// set the background image to the menu screen
-		splashTexture = new Texture(
-				Gdx.files.internal("assets/gui/mainMenuBG.png"));
+		splashTexture = TextureFiles.getBackgroundTexture("menuScreen");
 		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image img = new Image(new TextureRegion(splashTexture));
 		// fit the full image to the screen
@@ -155,14 +155,11 @@ public class MenuScreen implements Screen {
 		stage.addActor(btnOptions);
 		
 		//Add Cursor
-		Texture cursorTex = new Texture(Gdx.files.internal("assets/gui/cursor.png"));
+		Texture cursorTex = TextureFiles.geUtilityTexture("cursor");
 		cursorTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		menuSelector = new Image(new TextureRegion(cursorTex));
 		menuSelector.setBounds(500, 170, 100, 50);
-		stage.addActor(menuSelector);
-		
-		
-		
+		stage.addActor(menuSelector);	
 	}
 
 	// called when this screen becomes the current screen for a Game.
