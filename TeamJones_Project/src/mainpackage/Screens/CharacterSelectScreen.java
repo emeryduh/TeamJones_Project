@@ -358,8 +358,7 @@ public class CharacterSelectScreen implements Screen {
 			chP1.setPosition(ch1, 170);
 			// change the image texture
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
-			// play menu select sound
-			// soundFiles.playSound("charSelectMusic");
+			// play menu select sound			
 			soundFiles.playSound("menuTraverse");
 			break;
 		}

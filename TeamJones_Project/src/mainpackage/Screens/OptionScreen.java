@@ -50,14 +50,11 @@ public class OptionScreen implements Screen {
 	private SoundFiles soundFiles;
 	private Slider masterSlider, bgmSlider, sfxSlider;
 	public float volume;
-	private MenuScreen menuScreen;
-
-	
+	private MenuScreen menuScreen;	
 
 	// constructor to keep a reference to the main Game class
 	public OptionScreen(Game game) {
-		this.game = game;
-		
+		this.game = game;		
 	}
 	
 
@@ -93,7 +90,7 @@ public class OptionScreen implements Screen {
 		// to enable the keyboard events
 		PlayerInput playerInput = new PlayerInput(game);	
 		
-		Gdx.input.setInputProcessor(stage);
+		Gdx.input.setInputProcessor(playerInput);
 		
 
 		// set the background image to the menu screen
@@ -111,32 +108,10 @@ public class OptionScreen implements Screen {
 		txtBackStyle.down = skin.getDrawable("buttonpressed");
 		txtBackStyle.font = blackFont;
 		btnBack = new TextButton("Back", txtBackStyle);
-		btnBack.setWidth(140f);
+		btnBack.setWidth(110f);
 		btnBack.setHeight(40f);
-		btnBack.setX(600);
-		btnBack.setY(60);
-
-		// back button events
-		btnBack.addListener(new InputListener() {
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				// this is where functionality for next screen should be called
-				//play menu select sound
-				soundFiles = new SoundFiles();
-				soundFiles.playSound("menuSelect");
-				
-				//go to menu screen
-				game.setScreen(new MenuScreen(game));
-			}
-		});
+		btnBack.setX(645);
+		btnBack.setY(45);		
 
 		// adds back button actor to the root of the stage.
 		stage.addActor(btnBack);
@@ -190,10 +165,6 @@ public class OptionScreen implements Screen {
 				game.sfxVolume = sfxSlider.getValue();
 			}
 		});
-		
-		
-		
-		
 	}
 	
 	// called when this screen becomes the current screen for a Game.
@@ -234,10 +205,11 @@ public class OptionScreen implements Screen {
 	
 	// method to return the key selection
 	public void keyDown(int keycode) {		
+		soundFiles = new SoundFiles();
 		if (keycode == Keys.ENTER) {
 			game.setScreen(new MenuScreen(game));
+			soundFiles.playSound("menuBack");
 			return;
 		}
-			
 	}
 }

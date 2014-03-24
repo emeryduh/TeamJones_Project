@@ -200,7 +200,7 @@ public class TextureFiles {
 		case "cursor": {
 			chTexture = new Texture(
 					Gdx.files
-							.internal("assets/gui/cursor.png"));
+							.internal("assets/gui/selectorTex.png"));
 			break;
 		}
 		}
