@@ -48,8 +48,7 @@ public class SoundFiles {
 	}
 
 	// play menu sounds
-	public void playSound(String soundName) {
-		
+	public void playSound(String soundName) {	
 		
 		switch (soundName) {
 		// hitting back on a menu sound

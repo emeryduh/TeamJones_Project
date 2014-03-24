@@ -1,7 +1,5 @@
 package mainpackage;
 
-import mainpackage.Screens.Art;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,7 +12,7 @@ public class Player {
 		int width, height;
 		
 		
-		sprite = new Sprite();
+		/*sprite = new Sprite();
 		TextureRegion tex;
 		if(select=="bya"){
 			tex = Art.texture_bya_game;
@@ -27,7 +25,7 @@ public class Player {
 		}
 		sprite = new Sprite(tex);
 		sprite.setSize(width, height);
-		sprite.setPosition(300, 100);
+		sprite.setPosition(300, 100);*/
 	}
 	
 	public void render(Batch batch) {

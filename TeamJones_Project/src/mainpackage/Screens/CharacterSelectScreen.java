@@ -342,10 +342,14 @@ public class CharacterSelectScreen implements Screen {
 
 	// method to return the key selection
 	public void keyDown(int keycode) {
-		if (keycode == Keys.A) {
+		soundFiles = new SoundFiles();		
+		switch(keycode)
+		{
+		case Keys.A: 
+		{
 			// return if prior than character 1
 			if (ch1 <= 0 || chP1Ready.isVisible())
-				return;
+				break;
 			// change index based on character selection
 			ch1Index--;
 			// value that change the texture position
@@ -356,12 +360,13 @@ public class CharacterSelectScreen implements Screen {
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
 			// play menu select sound
 			// soundFiles.playSound("charSelectMusic");
-			return;
+			soundFiles.playSound("menuTraverse");
+			break;
 		}
-		if (keycode == Keys.D) {
+		case Keys.D:  {
 			// return if further than last character
 			if (ch1 >= 680 || chP1Ready.isVisible())
-				return;
+				break;
 			// change index based on character selection
 			ch1Index++;
 			// value that change the texture position
@@ -371,12 +376,12 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
 			// play menu select sound
-			// soundFiles.playSound("charSelectMusic");
-			return;
+			soundFiles.playSound("menuTraverse");
+			break;
 		}
-		if (keycode == Keys.RIGHT) {
+		case Keys.RIGHT:  {
 			if (ch2 >= 680 || chP2Ready.isVisible())
-				return;
+				break;
 			ch2Index++;
 			// value that change the texture position
 			ch2 += 85;
@@ -385,12 +390,12 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP2.setDrawable(new SpriteDrawable(changeCharacter(ch2Index)));
 			// play menu select sound
-			// soundFiles.playSound("charSelectMusic");
-			return;
+			soundFiles.playSound("menuTraverse");
+			break;
 		}
-		if (keycode == Keys.LEFT) {
+		case Keys.LEFT:  {
 			if (ch2 <= 0 || chP2Ready.isVisible())
-				return;
+				break;
 			// change index based on character selection
 			ch2Index--;
 			// value that change the texture position
@@ -400,39 +405,48 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP2.setDrawable(new SpriteDrawable(changeCharacter(ch2Index)));
 			// play menu select sound
-			// soundFiles.playSound("charSelectMusic");
-			return;
+			soundFiles.playSound("menuTraverse");
+			break;
 		}
 
-		if (keycode == Keys.SPACE) {
+		case Keys.SPACE:  {
 			if (chP1Ready.isVisible() && chP2Ready.isVisible()) {
 				btnPlayGame.setText("Ready");
 				btnPlayGame.setDisabled(false);
 			}
 			chP1Ready.setVisible(true);
-
-			return;
+			soundFiles.playSound("menuSelect");
+			break;
 		}
 
-		if (keycode == Keys.NUMPAD_0) {
+		case Keys.NUMPAD_0:  {
 			if (chP1Ready.isVisible() && chP2Ready.isVisible()) {
 				btnPlayGame.setText("Ready");
 				btnPlayGame.setDisabled(false);
 			}
 			chP2Ready.setVisible(true);
-			return;
+			soundFiles.playSound("menuSelect");
+			break;
 		}
 
-		if (keycode == Keys.ENTER) {
+		case Keys.ENTER:  {
 			game.setScreen(new GameScreen(game));
+			soundFiles.playSound("menuSelect");
 			hide();
-			return;
+			break;
 		}
 
-		if (keycode == Keys.ESCAPE) {
+		case Keys.ESCAPE:  {
 			chP1Ready.setVisible(false);
 			chP2Ready.setVisible(false);
-			return;
+			break;
+		}
+		
+		case Keys.BACKSPACE:  {
+			soundFiles.playSound("menuBack");
+			game.setScreen(new MenuScreen(game));
+			break;
+		}
 		}
 	}
 

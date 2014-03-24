@@ -159,6 +159,8 @@ public class MenuScreen implements Screen {
 		cursorTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		menuSelector = new Image(new TextureRegion(cursorTex));
 		menuSelector.setBounds(500, 170, 100, 50);
+		menuSelector.toFront();
+		menuSelector.setZIndex(10);
 		stage.addActor(menuSelector);	
 	}
 
