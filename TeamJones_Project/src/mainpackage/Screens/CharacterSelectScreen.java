@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.SoundFiles;
+import mainpackage.TextureFiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -146,8 +147,7 @@ public class CharacterSelectScreen implements Screen {
 
 		// texture for player1
 		// default character is ichigo
-		p1Texture = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/ichigo.png"));
+		p1Texture = TextureFiles.getCharacterTexture("ichigo");
 		p1Texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		imgP1 = new Image(new TextureRegion(p1Texture));
 		// adds an actor to the root of the stage.
@@ -156,8 +156,7 @@ public class CharacterSelectScreen implements Screen {
 
 		// texture for player2
 		// default character is renji
-		p2Texture = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/renji.png"));
+		p2Texture = TextureFiles.getCharacterTexture("renji");
 		p2Texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		imgP2 = new Image(new TextureRegion(p2Texture));
 		// adds an actor to the root of the stage.
@@ -165,8 +164,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgP2);
 
 		// ichigo texture
-		Texture texIchigo = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/chIchigo.png"));
+		Texture texIchigo = TextureFiles.getCharacterSelectionTexture("ichigo");
 		texIchigo.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgIchigo = new Image(new TextureRegion(texIchigo));
 		// adds an actor to the root of the stage.
@@ -174,8 +172,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgIchigo);
 
 		// byakuya texture
-		Texture texByakuya = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/chByakuya.png"));
+		Texture texByakuya = TextureFiles.getCharacterSelectionTexture("byakuya");
 		texByakuya.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgByakuya = new Image(new TextureRegion(texByakuya));
 		// adds an actor to the root of the stage.
@@ -183,8 +180,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgByakuya);
 
 		// ikkaku texture
-		Texture texIkkaku = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/chIkkaku.png"));
+		Texture texIkkaku = TextureFiles.getCharacterSelectionTexture("ikkaku");
 		texIkkaku.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgIkkaku = new Image(new TextureRegion(texIkkaku));
 		// adds an actor to the root of the stage.
@@ -192,8 +188,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgIkkaku);
 
 		// ishida texture
-		Texture texIshida = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/chIshida.png"));
+		Texture texIshida = TextureFiles.getCharacterSelectionTexture("ishida");
 		texIshida.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgIshida = new Image(new TextureRegion(texIshida));
 		// adds an actor to the root of the stage.
@@ -201,8 +196,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgIshida);
 
 		// kenpachi texture
-		Texture texKenpachi = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/chKenpachi.png"));
+		Texture texKenpachi = TextureFiles.getCharacterSelectionTexture("kenpachi");
 		texKenpachi.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgKenpachi = new Image(new TextureRegion(texKenpachi));
 		// adds an actor to the root of the stage.
@@ -210,8 +204,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgKenpachi);
 
 		// urahara texture
-		Texture texUrahara = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/chUrahara.png"));
+		Texture texUrahara = TextureFiles.getCharacterSelectionTexture("urahara");
 		texUrahara.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgUrahara = new Image(new TextureRegion(texUrahara));
 		// adds an actor to the root of the stage.
@@ -219,8 +212,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgUrahara);
 
 		// komamura texture
-		Texture texkomamura = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/chKomamura.png"));
+		Texture texkomamura = TextureFiles.getCharacterSelectionTexture("komamura");
 		texkomamura.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgKomamura = new Image(new TextureRegion(texkomamura));
 		// adds an actor to the root of the stage.
@@ -228,8 +220,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgKomamura);
 
 		// mayuri texture
-		Texture texMayuri = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/chMayuri.png"));
+		Texture texMayuri = TextureFiles.getCharacterSelectionTexture("mayuri");
 		texMayuri.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgMayuri = new Image(new TextureRegion(texMayuri));
 		// adds an actor to the root of the stage.
@@ -237,8 +228,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgMayuri);
 
 		// renji texture
-		Texture texRenji = new Texture(
-				Gdx.files.internal("assets/sprites/backgrounds/chRenji.png"));
+		Texture texRenji = TextureFiles.getCharacterSelectionTexture("renji");
 		texRenji.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Image imgRenji = new Image(new TextureRegion(texRenji));
 		// adds an actor to the root of the stage.
@@ -455,58 +445,39 @@ public class CharacterSelectScreen implements Screen {
 		Sprite chTexture = null;
 		switch (chIndex) {
 		case 0: {
-			chTexture = new Sprite(
-					new Texture(Gdx.files
-							.internal("assets/sprites/backgrounds/ichigo.png")));
+			chTexture = new Sprite(TextureFiles.getCharacterTexture("ichigo"));
 			break;
 		}
 		case 1: {
-			chTexture = new Sprite(
-					new Texture(Gdx.files
-							.internal("assets/sprites/backgrounds/byakuya.png")));
+			chTexture = new Sprite(TextureFiles.getCharacterTexture("byakuya"));
 			break;
 		}
 		case 2: {
-			chTexture = new Sprite(
-					new Texture(Gdx.files
-							.internal("assets/sprites/backgrounds/ikkaku.png")));
+			chTexture = new Sprite(TextureFiles.getCharacterTexture("ikkaku"));
 			break;
 		}
 		case 3: {
-			chTexture = new Sprite(
-					new Texture(Gdx.files
-							.internal("assets/sprites/backgrounds/ishida.png")));
+			chTexture = new Sprite(TextureFiles.getCharacterTexture("ishida"));
 			break;
 		}
 		case 4: {
-			chTexture = new Sprite(
-					new Texture(
-							Gdx.files
-									.internal("assets/sprites/backgrounds/kenpachi.png")));
+			chTexture = new Sprite(TextureFiles.getCharacterTexture("kenpachi"));
 			break;
 		}
 		case 5: {
-			chTexture = new Sprite(
-					new Texture(Gdx.files
-							.internal("assets/sprites/backgrounds/urahara.png")));
+			chTexture = new Sprite(TextureFiles.getCharacterTexture("urahara"));
 			break;
 		}
 		case 6: {
-			chTexture = new Sprite(
-					new Texture(
-							Gdx.files
-									.internal("assets/sprites/backgrounds/komamura.png")));
+			chTexture = new Sprite(TextureFiles.getCharacterTexture("komamura"));
 			break;
 		}
 		case 7: {
-			chTexture = new Sprite(
-					new Texture(Gdx.files
-							.internal("assets/sprites/backgrounds/mayuri.png")));
+			chTexture = new Sprite(TextureFiles.getCharacterTexture("mayuri"));
 			break;
 		}
 		case 8: {
-			chTexture = new Sprite(new Texture(
-					Gdx.files.internal("assets/sprites/backgrounds/renji.png")));
+			chTexture = new Sprite(TextureFiles.getCharacterTexture("renji"));
 			break;
 		}
 		}
