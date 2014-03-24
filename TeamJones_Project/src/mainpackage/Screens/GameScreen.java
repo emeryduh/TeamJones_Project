@@ -28,8 +28,7 @@ public class GameScreen implements Screen {
 	private TextureAtlas atlas;
 	private Skin skin;
 	private Music battleMusic;
-	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01SmallTex, player01NameTex;
-	private Image backgroundImg, hpBarLeftImg, hpBarRightImg, roundsImg, player01Img, player01SmallImg, player01NameImg;
+	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01SmallTex;
 	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4;
 	private Sound attack01;
 	private boolean isKeyPressed, isFacingRight;
@@ -45,6 +44,7 @@ public class GameScreen implements Screen {
 		super();
 		this.game = game;
 		attack01 = Gdx.audio.newSound(Gdx.files.internal("assets/audioFiles/ichigoCombat/ichigoAttack01.wav"));
+		backgroundTex = new Texture(Gdx.files.internal("assets/sprites/backgrounds/battle_BG_01.png"));
 	}
 
 	// called when the screen should render itself
@@ -54,16 +54,8 @@ public class GameScreen implements Screen {
 		
 		spriteClass.setSheetVals(0, curAction);
 		curAnimation = spriteClass.setAnimation();
-		
-		player01Img = new Image();
-		
-		//positions player 1 texture
-		player01Img.setPosition(playerXPos, playerYPos);
-		//add player 1 image to screen
-		stage.addActor(player01Img);
-
-		stage.act(delta);
 		batch.begin();
+		batch.draw(backgroundTex, 0, 0, 800, 600, 0, 0, backgroundTex.getWidth(), backgroundTex.getHeight(), false, false);
 		batch.draw(new TextureRegion(curAnimation, spriteClass.getFrameIndex() * (curAnimation.getWidth() / 6), 0, curAnimation.getWidth() / 6, curAnimation.getHeight()), playerXPos, playerYPos);
 		batch.end();
 
@@ -85,91 +77,29 @@ public class GameScreen implements Screen {
 		}
 		
 		//handles continuous keyboard input
-		if(player01Img.getX() > 0)
+		if(playerXPos > 0)
 		{
 			if(isKeyPressed = Gdx.input.isKeyPressed(Keys.LEFT))
 			{
 				curAction = 3;
 				isFacingRight = false;
 				playerXPos -= moveSpeed;
-				player01Img.setPosition(playerXPos, playerYPos);
 			}
 		}
-		if(player01Img.getX() < 800 - (curAnimation.getWidth() / 6))
+		if(playerXPos < 800 - (curAnimation.getWidth() / 6))
 		{
 			if (isKeyPressed = Gdx.input.isKeyPressed(Keys.RIGHT))
 			{
 				curAction = 2;
 				isFacingRight = true;
 				playerXPos += moveSpeed;
-				player01Img.setPosition(playerXPos, playerYPos);
 			}
 		}	
 	}
 
 	// called when the screen resized
 	public void resize(int width, int height) {
-		if (stage == null) {
-			stage = new Stage(width, height, true);
-		}
-
-		stage.clear();
 		
-		//loads the background texture
-		backgroundTex = TextureFiles.getBackgroundTexture("gameScreen");
-		backgroundImg = new Image(new TextureRegion(backgroundTex));
-		//fill the screen with background texture
-		backgroundImg.setFillParent(true);
-		//add background image to screen
-		stage.addActor(backgroundImg);
-		
-		//loads left hp bar texture
-		hpBarLeftTex = new Texture(Gdx.files.internal("assets/gui/healthBarLeft.png"));
-		hpBarLeftImg = new Image(new TextureRegion(hpBarLeftTex));
-		//positions the hp bar texture
-		hpBarLeftImg.setBounds(0, 400, 400, 200);
-		//add hp bar image to screen
-		stage.addActor(hpBarLeftImg);
-		
-		//loads right hp bar texture
-		hpBarRightTex = new Texture(Gdx.files.internal("assets/gui/healthBarRight.png"));
-		hpBarRightImg = new Image(new TextureRegion(hpBarRightTex));
-		//positions the hp bar texture
-		hpBarRightImg.setBounds(400, 400, 400, 200);
-		//add hp bar image to screen
-		stage.addActor(hpBarRightImg);
-		
-		//loads rounds texture on the left
-		roundsTex = new Texture(Gdx.files.internal("assets/gui/roundsWon_empty.png"));
-		roundsImg = new Image(new TextureRegion(roundsTex));
-		//positions the rounds texture on the left
-		roundsImg.setBounds(350, 430, 25, 25);
-		//add rounds texture on the left side of screen
-		stage.addActor(roundsImg);
-		
-		//loads rounds texture on the right
-		roundsTex = new Texture(Gdx.files.internal("assets/gui/roundsWon_empty.png"));
-		roundsImg = new Image(new TextureRegion(roundsTex));
-		//positions the rounds texture on the right
-		roundsImg.setBounds(425, 430, 25, 25);
-		//add rounds texture on the right side of screen
-		stage.addActor(roundsImg);
-		
-		//loads small face texture for player 1
-		player01SmallTex = new Texture(Gdx.files.internal("assets/sprites/standAlone/ichigoSmall.png"));
-		player01SmallImg = new Image(new TextureRegion(player01SmallTex));
-		//positions small face texture
-		player01SmallImg.setBounds(70, 460, 80, 80);
-		//add small face texture to the screen
-		stage.addActor(player01SmallImg);
-		
-		//loads name texture for player 1
-		player01NameTex = new Texture(Gdx.files.internal("assets/gui/ichigoName.png"));
-		player01NameImg = new Image(new TextureRegion(player01NameTex));
-		//positions name texture
-		player01NameImg.setBounds(150, 400, 200, 50);
-		//add name texture to the screen
-		stage.addActor(player01NameImg);
 	}
 
 	// called when this screen becomes the current screen for a Game
