@@ -285,7 +285,7 @@ public class CharacterSelectScreen implements Screen {
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
 				// go to Game Screen
-				hide();
+				charSelectionMusic.stop();
 				game.setScreen(new GameScreen(game));
 			}
 		});
@@ -319,7 +319,7 @@ public class CharacterSelectScreen implements Screen {
 
 	// called when current screen changes from this to a different screen
 	public void hide() {
-		charSelectionMusic.stop();
+		
 	}
 
 	// called when game paused
@@ -430,6 +430,7 @@ public class CharacterSelectScreen implements Screen {
 		}
 
 		case Keys.ENTER:  {
+			charSelectionMusic.stop();
 			game.setScreen(new GameScreen(game));
 			soundFiles.playSound("menuSelect");
 			hide();
@@ -444,6 +445,7 @@ public class CharacterSelectScreen implements Screen {
 		
 		case Keys.BACKSPACE:  {
 			soundFiles.playSound("menuBack");
+			charSelectionMusic.stop();
 			game.setScreen(new MenuScreen(game));
 			break;
 		}

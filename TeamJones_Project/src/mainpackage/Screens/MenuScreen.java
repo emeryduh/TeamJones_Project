@@ -47,6 +47,9 @@ public class MenuScreen implements Screen {
 	// constructor to keep a reference to the main Game class
 	public MenuScreen(Game game) {
 		this.game = game;
+		openingMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
+		openingMusic.setLooping(true);
+		openingMusic.setVolume(this.game.masterVolume);
 	}
 
 	// called when the screen should render itself.
@@ -112,7 +115,6 @@ public class MenuScreen implements Screen {
 				soundFiles = new SoundFiles();
 				soundFiles.playSound("menuSelect");
 				// goto Char Select Screen
-				hide();
 				game.setScreen(new CharacterSelectScreen(game));
 
 			}
@@ -169,17 +171,12 @@ public class MenuScreen implements Screen {
 				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
 		blackFont = new BitmapFont(
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
-		openingMusic = Gdx.audio.newMusic(Gdx.files
-				.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
 		openingMusic.play();
-		openingMusic.setLooping(true);
-		openingMusic.setVolume(this.game.masterVolume);
-
 	}
 
 	// called when current screen changes from this to a different screen
 	public void hide() {
-		openingMusic.stop();
+		
 	}
 
 	// called when game paused.
@@ -219,11 +216,13 @@ public class MenuScreen implements Screen {
 		if (keycode == Keys.ENTER && menuIndex == 0) {
 			game.setScreen(new CharacterSelectScreen(game));
 			soundFiles.playSound("menuSelect");
+			openingMusic.stop();
 			return;
 		}
 		if (keycode == Keys.ENTER && menuIndex == 1) {
 			game.setScreen(new OptionScreen(game));
 			soundFiles.playSound("menuSelect");
+			openingMusic.stop();
 			return;
 		}
 
