@@ -1,20 +1,15 @@
 package mainpackage.Screens;
 
 import mainpackage.Game;
-import mainpackage.Battle;
 import mainpackage.SoundFiles;
 import mainpackage.PlayerInput;
 import mainpackage.TextureFiles;
 
 import org.lwjgl.input.Keyboard;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -23,12 +18,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
@@ -50,7 +41,7 @@ public class OptionScreen implements Screen {
 	private SoundFiles soundFiles;
 	private Slider masterSlider, bgmSlider, sfxSlider;
 	public float volume;
-	private MenuScreen menuScreen;	
+	
 
 	// constructor to keep a reference to the main Game class
 	public OptionScreen(Game game) {
@@ -208,7 +199,7 @@ public class OptionScreen implements Screen {
 		soundFiles = new SoundFiles();
 		if (keycode == Keys.ENTER) {
 			game.setScreen(new MenuScreen(game));
-			soundFiles.playSound("menuBack");
+			soundFiles.playSound("menuBack", game.sfxVolume);
 			return;
 		}
 	}

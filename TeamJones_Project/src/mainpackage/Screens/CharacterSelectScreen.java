@@ -133,7 +133,7 @@ public class CharacterSelectScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				soundFiles = new SoundFiles();
-				soundFiles.playSound("menuSelect");
+				soundFiles.playSound("menuSelect", game.sfxVolume);
 				// hides/disables current screen
 				hide();
 				// go to Game Screen
@@ -283,7 +283,7 @@ public class CharacterSelectScreen implements Screen {
 				// this is where functionality for next screen should be called
 				// play menu select sound
 				soundFiles = new SoundFiles();
-				soundFiles.playSound("menuSelect");
+				soundFiles.playSound("menuSelect", game.sfxVolume);
 				// go to Game Screen
 				charSelectionMusic.stop();
 				game.setScreen(new GameScreen(game));
@@ -360,7 +360,7 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
 			// play menu select sound			
-			soundFiles.playSound("menuTraverse");
+			soundFiles.playSound("menuTraverse", game.sfxVolume);
 			break;
 		}
 		case Keys.D:  {
@@ -376,7 +376,7 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
 			// play menu select sound
-			soundFiles.playSound("menuTraverse");
+			soundFiles.playSound("menuTraverse", game.sfxVolume);
 			break;
 		}
 		case Keys.RIGHT:  {
@@ -390,7 +390,7 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP2.setDrawable(new SpriteDrawable(changeCharacter(ch2Index)));
 			// play menu select sound
-			soundFiles.playSound("menuTraverse");
+			soundFiles.playSound("menuTraverse", game.sfxVolume);
 			break;
 		}
 		case Keys.LEFT:  {
@@ -405,7 +405,7 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP2.setDrawable(new SpriteDrawable(changeCharacter(ch2Index)));
 			// play menu select sound
-			soundFiles.playSound("menuTraverse");
+			soundFiles.playSound("menuTraverse", game.sfxVolume);
 			break;
 		}
 
@@ -415,7 +415,7 @@ public class CharacterSelectScreen implements Screen {
 				btnPlayGame.setDisabled(false);
 			}
 			chP1Ready.setVisible(true);
-			soundFiles.playSound("menuSelect");
+			soundFiles.playSound("menuSelect", game.sfxVolume);
 			break;
 		}
 
@@ -425,14 +425,14 @@ public class CharacterSelectScreen implements Screen {
 				btnPlayGame.setDisabled(false);
 			}
 			chP2Ready.setVisible(true);
-			soundFiles.playSound("menuSelect");
+			soundFiles.playSound("menuSelect", game.sfxVolume);
 			break;
 		}
 
 		case Keys.ENTER:  {
 			charSelectionMusic.stop();
 			game.setScreen(new GameScreen(game));
-			soundFiles.playSound("menuSelect");
+			soundFiles.playSound("menuSelect", game.sfxVolume);
 			hide();
 			break;
 		}
@@ -444,7 +444,7 @@ public class CharacterSelectScreen implements Screen {
 		}
 		
 		case Keys.BACKSPACE:  {
-			soundFiles.playSound("menuBack");
+			soundFiles.playSound("menuBack", game.sfxVolume);
 			charSelectionMusic.stop();
 			game.setScreen(new MenuScreen(game));
 			break;

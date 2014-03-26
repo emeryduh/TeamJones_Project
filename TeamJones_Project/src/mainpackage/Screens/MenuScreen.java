@@ -113,7 +113,7 @@ public class MenuScreen implements Screen {
 				// this is where functionality for next screen should be called
 				// play menu select sound
 				soundFiles = new SoundFiles();
-				soundFiles.playSound("menuSelect");
+				soundFiles.playSound("menuSelect", game.sfxVolume);
 				// goto Char Select Screen
 				game.setScreen(new CharacterSelectScreen(game));
 
@@ -143,7 +143,7 @@ public class MenuScreen implements Screen {
 					int pointer, int button) {
 				// this is where functionality for next screen should be called
 				soundFiles = new SoundFiles();
-				soundFiles.playSound("menuSelect");
+				soundFiles.playSound("menuSelect", game.sfxVolume);
 				game.setScreen(new OptionScreen(game));
 				openingMusic.stop();
 			}
@@ -204,24 +204,24 @@ public class MenuScreen implements Screen {
 		if (keycode == Keys.UP) {
 			menuIndex = 0;
 			menuSelector.setPosition(530, 140);
-			soundFiles.playSound("menuTraverse");
+			soundFiles.playSound("menuTraverse", game.sfxVolume);
 			return;
 		}
 		if (keycode == Keys.DOWN) {
-			soundFiles.playSound("menuTraverse");
+			soundFiles.playSound("menuTraverse", game.sfxVolume);
 			menuIndex = 1;
 			menuSelector.setPosition(530, 70);
 			return;
 		}
 		if (keycode == Keys.ENTER && menuIndex == 0) {
 			game.setScreen(new CharacterSelectScreen(game));
-			soundFiles.playSound("menuSelect");
+			soundFiles.playSound("menuSelect", game.sfxVolume);
 			openingMusic.stop();
 			return;
 		}
 		if (keycode == Keys.ENTER && menuIndex == 1) {
 			game.setScreen(new OptionScreen(game));
-			soundFiles.playSound("menuSelect");
+			soundFiles.playSound("menuSelect", game.sfxVolume);
 			openingMusic.stop();
 			return;
 		}

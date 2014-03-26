@@ -1,54 +1,59 @@
 package mainpackage;
 
-import mainpackage.Screens.OptionScreen;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import mainpackage.Screens.OptionScreen;
 
 public class SoundFiles {
 
 	private Sound sound;
+	private Game game;
 	
 	
 	
 	// play in game fight sounds
-	public void playSound(Entity e, String soundName) {
+	public void playSound(Entity e, String soundName, float volume) {
+		
 		switch (soundName) {
 		// play punch sfx
 		case "punch":
 			soundName = "Attack01";
 			sound = Gdx.audio.newSound(Gdx.files.internal("assets/audioFiles/"
 					+ e.getName() + "combat/" + soundName + ".wav"));
-			sound.play();
+			long id = sound.play();
+			sound.setVolume(id, volume);
 			break;
 		// play kick sfx
 		case "kick":
 			soundName = "Attack02";
 			sound = Gdx.audio.newSound(Gdx.files.internal("assets/audioFiles/"
 					+ e.getName() + "combat/" + soundName + ".wav"));
-			sound.play();
+			id = sound.play();
+			sound.setVolume(id, volume);
 			break;
 		// play attack3 sfx
 		case "Attack3":
 			soundName = "Attack03";
 			sound = Gdx.audio.newSound(Gdx.files.internal("assets/audioFiles/"
 					+ e.getName() + "combat/" + soundName + ".wav"));
-			sound.play();
+			id = sound.play();
+			sound.setVolume(id, volume);
 			break;
 		// play hurt sfx
 		case "Hurt":
 			soundName = "Hurt";
 			sound = Gdx.audio.newSound(Gdx.files.internal("assets/audioFiles/"
 					+ e.getName() + "combat/" + soundName + ".wav"));
-			sound.play();
+			id = sound.play();
+			sound.setVolume(id, volume);
 			break;
 
 		}
 	}
 
 	// play menu sounds
-	public void playSound(String soundName) {	
+	public void playSound(String soundName, float volume) {	
 		
 		switch (soundName) {
 		// hitting back on a menu sound
@@ -56,7 +61,8 @@ public class SoundFiles {
 			sound = Gdx.audio.newSound(Gdx.files
 					.internal("assets/audioFiles/menuSounds/" + soundName
 							+ ".wav"));
-			sound.play();
+			long id = sound.play();
+			sound.setVolume(id, volume);
 			
 			//sound.setVolume(0, this.game.);
 			break;
@@ -65,14 +71,16 @@ public class SoundFiles {
 			sound = Gdx.audio.newSound(Gdx.files
 					.internal("assets/audioFiles/menuSounds/" + soundName
 							+ ".wav"));
-			sound.play();
+			id = sound.play();
+			sound.setVolume(id, volume);
 			break;
 		// traversing the menu sound
 		case "menuTraverse":
 			sound = Gdx.audio.newSound(Gdx.files
 					.internal("assets/audioFiles/menuSounds/" + soundName
 							+ ".wav"));
-			sound.play();
+			id = sound.play();
+			sound.setVolume(id, volume);
 			break;
 		}
 	}
