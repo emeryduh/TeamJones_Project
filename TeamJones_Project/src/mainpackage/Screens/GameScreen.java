@@ -17,8 +17,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class GameScreen implements Screen {
@@ -26,7 +24,6 @@ public class GameScreen implements Screen {
 	private Game game;
 	private SpriteClass spriteClass = new SpriteClass();
 	private SpriteBatch batch;
-	private Stage stage;
 	private TextureAtlas atlas;
 	private Skin skin;
 	private Music battleMusic;
@@ -35,8 +32,6 @@ public class GameScreen implements Screen {
 	private Sound attack01;
 	private boolean isKeyPressed, isFacingRight;
 	private int curAction = 0;
-	private float elapsedTime;
-	private float frameLength = 0.6f;
 	private Texture curAnimation;
 
 	
@@ -54,7 +49,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		spriteClass.setSheetVals(0, curAction);
+		spriteClass.setSheetVals(1, curAction);
 		curAnimation = spriteClass.setAnimation();
 		batch.begin();
 		batch.draw(backgroundTex, 0, 0, 800, 600, 0, 0, backgroundTex.getWidth(), backgroundTex.getHeight(), false, false);
@@ -134,7 +129,6 @@ public class GameScreen implements Screen {
 		batch.dispose();
 		skin.dispose();
 		atlas.dispose();
-		stage.dispose();
 		battleMusic.dispose();
 	}
 

@@ -16,6 +16,8 @@ public class SpriteClass
 	private int numOfFrames, numOfRows;
 	private TextureRegion curFrame;
 	private Texture curAnimation;
+	//loads the selector texture
+	private Texture selectorTex = new Texture(Gdx.files.internal("assets/gui/selectorTex.png"));
 	//loads character textures
 	private Texture ichigoIdleRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Standing_Right.png"));
 	private Texture ichigoIdleLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Standing_Left.png"));
@@ -32,8 +34,25 @@ public class SpriteClass
 		//checks which character is selected
 		switch(character)
 		{
-		//if the character is Ichigo, sets the # of frames and rows accordingly
+		//if its the selector Icon
 		case 0:
+			numOfFrames = 4;
+			numOfRows = 3;
+			switch(action)
+			{
+			case 0:
+				f = 2.0f;
+				//sets the current sprite-sheet to the selector sprite-sheet
+				curAnimation = selectorTex;
+				//sets the width and height of a single frame
+				frameWidth = curAnimation.getWidth() / numOfFrames;
+				frameHeight = curAnimation.getHeight() / numOfRows;
+				break;
+			}
+			break;
+		
+		//if the character is Ichigo, sets the # of frames and rows accordingly
+		case 1:
 			numOfFrames = 6;
 			numOfRows = 1;
 			//checks what is Ichigo's current action
@@ -79,7 +98,7 @@ public class SpriteClass
 				break;
 			}
 			break;
-		case 1:
+		case 2:
 			//if the character is Byakuya, sets the # of frames and rows accordingly
 			numOfFrames = 4;
 			numOfRows = 1;
