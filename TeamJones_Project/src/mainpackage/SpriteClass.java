@@ -11,7 +11,7 @@ public class SpriteClass
 	private int frameHeight;
 	private Rectangle[] frames;
 	private int frameIndex = 0, rows, cols;
-	private float frameLength;
+	private float frameLength, f;
 	private float elapsedTime;
 	private int numOfFrames, numOfRows;
 	private TextureRegion curFrame;
@@ -21,6 +21,8 @@ public class SpriteClass
 	private Texture ichigoIdleLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Standing_Left.png"));
 	private Texture ichigoRunRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Running_Right.png"));
 	private Texture ichigoRunLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Running_Left.png"));
+	private Texture ichigoAttackRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Attack_01_Right.png"));
+	private Texture ichigoAttackLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Attack_01_Left.png"));
 	
 	public SpriteClass()
 	{}
@@ -38,6 +40,7 @@ public class SpriteClass
 			switch(action)
 			{
 			case 0:
+				f = 1.0f;
 				//loads texture corresponding to current action
 				curAnimation = ichigoIdleRTex;
 				//sets the width and height of a single frame
@@ -45,17 +48,32 @@ public class SpriteClass
 				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 1:
+				f = 1.0f;
 				curAnimation = ichigoIdleLTex;
 				frameWidth = curAnimation.getWidth() / numOfFrames;
 				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 2:
+				f = 1.0f;
 				curAnimation = ichigoRunRTex;
 				frameWidth = curAnimation.getWidth() / numOfFrames;
 				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 3:
+				f = 1.0f;
 				curAnimation = ichigoRunLTex;
+				frameWidth = curAnimation.getWidth() / numOfFrames;
+				frameHeight = curAnimation.getHeight() / numOfRows;
+				break;
+			case 4:
+				f = 0.35f;
+				curAnimation = ichigoAttackRTex;
+				frameWidth = curAnimation.getWidth() / numOfFrames;
+				frameHeight = curAnimation.getHeight() / numOfRows;
+				break;
+			case 5:
+				f = 0.35f;
+				curAnimation = ichigoAttackLTex;
 				frameWidth = curAnimation.getWidth() / numOfFrames;
 				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
@@ -95,10 +113,15 @@ public class SpriteClass
 		return curFrame;
 	}
 	
+	public void resetFrameIndex()
+	{
+		frameIndex = 0;
+	}
+	
 	public int getFrameIndex()
 	{
 		//sets frame length based on total number of frames in current action sprite-sheet
-		frameLength = 1.0f / (numOfFrames * numOfRows);
+		frameLength = f / (numOfFrames * numOfRows);
 		
 		//updates how much time has passed
 		elapsedTime += Gdx.graphics.getDeltaTime();
@@ -115,8 +138,7 @@ public class SpriteClass
 				//resets to first frame
 				frameIndex = 0;
 			}
-		}
-		
+		}	
 		return frameIndex;
 	}
 }

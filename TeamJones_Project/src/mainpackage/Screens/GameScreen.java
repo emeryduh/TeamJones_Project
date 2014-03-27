@@ -1,5 +1,7 @@
 package mainpackage.Screens;
 
+import org.lwjgl.input.Keyboard;
+
 import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.SpriteClass;
@@ -29,7 +31,7 @@ public class GameScreen implements Screen {
 	private Skin skin;
 	private Music battleMusic;
 	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01SmallTex;
-	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4;
+	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4, player01State = 0;
 	private Sound attack01;
 	private boolean isKeyPressed, isFacingRight;
 	private int curAction = 0;
@@ -64,7 +66,7 @@ public class GameScreen implements Screen {
 		// set the input processor
 		Gdx.input.setInputProcessor(playerInput);
 		
-		if(isKeyPressed != Gdx.input.isKeyPressed(Keys.LEFT) && isKeyPressed != Gdx.input.isKeyPressed(Keys.RIGHT))
+		if(isKeyPressed == Gdx.input.isKeyPressed(Keyboard.KEY_NONE) && player01State == 0)
 		{
 			if(isFacingRight == true)
 			{
@@ -141,7 +143,16 @@ public class GameScreen implements Screen {
 		switch(keycode)
 		{
 		case Keys.A:
+			spriteClass.resetFrameIndex();
 			attack01.play();
+			if(isFacingRight == true)
+			{
+				curAction = 4;
+			}
+			else
+			{
+				curAction = 5;
+			}
 			return;
 		case Keys.DOWN:
 			return;
