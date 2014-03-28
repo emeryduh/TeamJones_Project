@@ -171,7 +171,10 @@ public class MenuScreen implements Screen {
 				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
 		blackFont = new BitmapFont(
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
-		openingMusic.play();
+		if(openingMusic.isPlaying() == false)
+		{
+			openingMusic.play();
+		}
 	}
 
 	// called when current screen changes from this to a different screen
@@ -222,7 +225,6 @@ public class MenuScreen implements Screen {
 		if (keycode == Keys.ENTER && menuIndex == 1) {
 			game.setScreen(new OptionScreen(game));
 			soundFiles.playSound("menuSelect", game.sfxVolume);
-			openingMusic.stop();
 			return;
 		}
 

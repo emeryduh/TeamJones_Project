@@ -9,12 +9,10 @@ public class SoundFiles {
 
 	private Sound sound;
 	private Game game;
-	
-	
-	
+
 	// play in game fight sounds
 	public void playSound(Entity e, String soundName, float volume) {
-		
+
 		switch (soundName) {
 		// play punch sfx
 		case "punch":
@@ -53,8 +51,8 @@ public class SoundFiles {
 	}
 
 	// play menu sounds
-	public void playSound(String soundName, float volume) {	
-		
+	public void playSound(String soundName, float volume) {
+
 		switch (soundName) {
 		// hitting back on a menu sound
 		case "menuBack":
@@ -63,8 +61,8 @@ public class SoundFiles {
 							+ ".wav"));
 			long id = sound.play();
 			sound.setVolume(id, volume);
-			
-			//sound.setVolume(0, this.game.);
+
+			// sound.setVolume(0, this.game.);
 			break;
 		// selecting an item sound
 		case "menuSelect":
@@ -76,6 +74,14 @@ public class SoundFiles {
 			break;
 		// traversing the menu sound
 		case "menuTraverse":
+			sound = Gdx.audio.newSound(Gdx.files
+					.internal("assets/audioFiles/menuSounds/" + soundName
+							+ ".wav"));
+			id = sound.play();
+			sound.setVolume(id, volume);
+			break;
+		// traversing the volume sound
+		case "volumeChange":
 			sound = Gdx.audio.newSound(Gdx.files
 					.internal("assets/audioFiles/menuSounds/" + soundName
 							+ ".wav"));

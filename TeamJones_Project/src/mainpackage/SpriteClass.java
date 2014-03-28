@@ -36,12 +36,12 @@ public class SpriteClass
 		{
 		//if its the selector Icon
 		case 0:
-			numOfFrames = 4;
-			numOfRows = 3;
+			numOfFrames = 6;
+			numOfRows = 1;
 			switch(action)
 			{
 			case 0:
-				f = 2.0f;
+				f = 1.0f;
 				//sets the current sprite-sheet to the selector sprite-sheet
 				curAnimation = selectorTex;
 				//sets the width and height of a single frame

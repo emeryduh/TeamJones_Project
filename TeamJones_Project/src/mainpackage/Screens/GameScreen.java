@@ -105,7 +105,7 @@ public class GameScreen implements Screen {
 		atlas = new TextureAtlas("assets/gui/button.pack");
 		skin = new Skin();
 		skin.addRegions(atlas);
-		battleMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audioFiles/battleMusic/battleMusic_01.mp3"));
+		battleMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audioFiles/battleMusic/battleMusic01.mp3"));
 		battleMusic.play();
 		battleMusic.setLooping(true);
 		battleMusic.setVolume(this.game.masterVolume);
