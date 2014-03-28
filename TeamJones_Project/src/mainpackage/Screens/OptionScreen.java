@@ -26,34 +26,37 @@ public class OptionScreen implements Screen
 	private TextureAtlas atlas;
 	private Skin skin;
 	private SpriteBatch batch;
-	private Texture backgroundTex, selectorTex, volumeEmptyTex, volumeFullTex, helpTxt01, helpTxt02, helpTxt03;
+	private Texture backgroundTex, selectorTex, volumeEmptyTex, volumeFullTex, helpTxt01, helpTxt02, helpTxt03, helpTxt04;
 	private SoundFiles soundFiles = new SoundFiles();
 	private float masterVolume = 1.0f, bgmVolume = 0.7f, sfxVolume = 0.5f;
 	private int selectorXPos = 40, selectorYPos, optionIndex = 0;
-	private int[] optionPositions = new int[3];
-	private Texture[] helpTxts = new Texture[3];
+	private int[] optionPositions = new int[4];
+	private Texture[] helpTxts = new Texture[4];
 
 	// constructor to keep a reference to the main Game class
 	public OptionScreen(Game game) 
 	{
 		this.game = game;
 		// loads the textures
-		backgroundTex = new Texture(Gdx.files.internal("assets/gui/optionsMenuBG.png"));
+		backgroundTex = new Texture(Gdx.files.internal("assets/gui/optionsMenuBG02.png"));
 		volumeEmptyTex = new Texture(Gdx.files.internal("assets/gui/volumeBar_Empty.png"));
 		volumeFullTex = new Texture(Gdx.files.internal("assets/gui/volumeBar_Full.png"));
 		helpTxt01 = new Texture(Gdx.files.internal("assets/gui/masterVolumeText.png"));
 		helpTxt02 = new Texture(Gdx.files.internal("assets/gui/bgmVolumeText.png"));
 		helpTxt03 = new Texture(Gdx.files.internal("assets/gui/sfxVolumeText.png"));
+		helpTxt04 = new Texture(Gdx.files.internal("assets/gui/backText.png"));
 
 		// stores the y coordinates in pixels of each option into an array
 		optionPositions[0] = 490;
 		optionPositions[1] = 405;
 		optionPositions[2] = 325;
+		optionPositions[3] = 190;
 
 		// stores the help text textures into an array
 		helpTxts[0] = helpTxt01;
 		helpTxts[1] = helpTxt02;
 		helpTxts[2] = helpTxt03;
+		helpTxts[3] = helpTxt04;
 	}
 
 	// called when the screen should render itself.
@@ -139,19 +142,23 @@ public class OptionScreen implements Screen
 		switch (keycode) 
 		{
 		case Keys.ENTER:
+			if(optionIndex == 3)
+			{
+				game.setScreen(new MenuScreen(game));
+			}
 			return;
 		//allows user to to go up and down in the options menu
 		case Keys.UP:
 			optionIndex--;
 			if (optionIndex < 0) 
 			{
-				optionIndex = 2;
+				optionIndex = 3;
 			}
 			soundFiles.playSound("menuTraverse", game.sfxVolume);
 			return;
 		case Keys.DOWN:
 			optionIndex++;
-			if (optionIndex > 2) 
+			if (optionIndex > 3) 
 			{
 				optionIndex = 0;
 			}

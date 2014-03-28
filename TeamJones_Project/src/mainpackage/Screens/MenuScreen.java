@@ -171,6 +171,7 @@ public class MenuScreen implements Screen {
 				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
 		blackFont = new BitmapFont(
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
+		//plays background music for menus
 		if(openingMusic.isPlaying() == false)
 		{
 			openingMusic.play();
@@ -198,7 +199,6 @@ public class MenuScreen implements Screen {
 		skin.dispose();
 		atlas.dispose();
 		stage.dispose();
-		openingMusic.dispose();
 	}
 
 	// method to return the key selection

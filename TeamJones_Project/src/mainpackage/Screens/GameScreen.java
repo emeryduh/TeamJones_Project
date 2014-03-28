@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
 	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01SmallTex;
 	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4, player01State = 0;
 	private Sound attack01;
-	private boolean isKeyPressed, isFacingRight;
+	private boolean isKeyPressed, isFacingRight, isPaused;
 	private int curAction = 0;
 	private Texture curAnimation;
 
@@ -130,6 +130,11 @@ public class GameScreen implements Screen {
 		skin.dispose();
 		atlas.dispose();
 		battleMusic.dispose();
+	}
+	
+	public boolean pausedState()
+	{
+		return isPaused;
 	}
 
 	public void keyDown(int keycode)
