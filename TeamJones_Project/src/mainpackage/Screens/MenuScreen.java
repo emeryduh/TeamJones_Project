@@ -225,6 +225,7 @@ public class MenuScreen implements Screen {
 		if (keycode == Keys.ENTER && menuIndex == 1) {
 			game.setScreen(new OptionScreen(game));
 			soundFiles.playSound("menuSelect", game.sfxVolume);
+			openingMusic.stop();
 			return;
 		}
 

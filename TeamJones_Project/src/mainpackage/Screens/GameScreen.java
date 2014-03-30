@@ -12,16 +12,27 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class GameScreen implements Screen {
 	// variables
 	private Game game;
+	private Stage stage;
 	private SpriteClass spriteClass = new SpriteClass();
 	private SpriteBatch batch;
 	private TextureAtlas atlas;
@@ -33,15 +44,24 @@ public class GameScreen implements Screen {
 	private boolean isKeyPressed, isFacingRight, isPaused;
 	private int curAction = 0;
 	private Texture curAnimation;
-
+	private BitmapFont blackFont;
+	private int state, timer;
+	private Window pause;
+	
+	static final int GAME_RUNNING = 1;
+	static final int GAME_PAUSED = 2;
+	
 	
 
 	// constructor to keep a reference to the main Game class
 	public GameScreen(Game game) {
 		super();
 		this.game = game;
+		state = GAME_RUNNING;
 		attack01 = Gdx.audio.newSound(Gdx.files.internal("assets/audioFiles/ichigoCombat/ichigoAttack01.wav"));
 		backgroundTex = new Texture(Gdx.files.internal("assets/sprites/backgrounds/battle_BG_01.png"));
+		blackFont = new BitmapFont(Gdx.files.internal("assets/gui/blackfont.fnt"), false);
+		
 	}
 
 	// called when the screen should render itself
@@ -55,12 +75,12 @@ public class GameScreen implements Screen {
 		batch.draw(backgroundTex, 0, 0, 800, 600, 0, 0, backgroundTex.getWidth(), backgroundTex.getHeight(), false, false);
 		batch.draw(new TextureRegion(curAnimation, spriteClass.getFrameIndex() * (curAnimation.getWidth() / 6), 0, curAnimation.getWidth() / 6, curAnimation.getHeight()), playerXPos, playerYPos);
 		batch.end();
-
+		stage.draw();
 		//enabling keyboard events
 		PlayerInput playerInput = new PlayerInput(game);
 		// set the input processor
 		Gdx.input.setInputProcessor(playerInput);
-		
+				
 		if(isKeyPressed == Gdx.input.isKeyPressed(Keyboard.KEY_NONE) && player01State == 0)
 		{
 			if(isFacingRight == true)
@@ -72,26 +92,51 @@ public class GameScreen implements Screen {
 				curAction = 1;
 			}
 		}
-		
-		//handles continuous keyboard input
-		if(playerXPos > 0)
-		{
-			if(isKeyPressed = Gdx.input.isKeyPressed(Keys.LEFT))
+			//handles continuous keyboard input
+		if (state == GAME_RUNNING) {
+			if(playerXPos > 0)
 			{
-				curAction = 3;
-				isFacingRight = false;
-				playerXPos -= moveSpeed;
+				if(isKeyPressed = Gdx.input.isKeyPressed(Keys.LEFT))
+				{
+					curAction = 3;
+					isFacingRight = false;
+					playerXPos -= moveSpeed;
+				}
+			}
+			if(playerXPos < 800 - (curAnimation.getWidth() / 6))
+			{
+				if (isKeyPressed = Gdx.input.isKeyPressed(Keys.RIGHT))
+				{
+					curAction = 2;
+					isFacingRight = true;
+					playerXPos += moveSpeed;
+				}
+			}
+			pause.setVisible(false);
+			timer++;
+			if (Gdx.input.isKeyPressed(Keys.P) && timer > 10)
+			{
+				timer = 0;
+				state = GAME_PAUSED;
 			}
 		}
-		if(playerXPos < 800 - (curAnimation.getWidth() / 6))
-		{
-			if (isKeyPressed = Gdx.input.isKeyPressed(Keys.RIGHT))
+		if (state == GAME_PAUSED) {
+			if(isFacingRight == true)
 			{
-				curAction = 2;
-				isFacingRight = true;
-				playerXPos += moveSpeed;
+				curAction = 0;
 			}
-		}	
+			else
+			{
+				curAction = 1;
+			}
+			timer ++;
+			pause.setVisible(true);
+			if (Gdx.input.isKeyPressed(Keys.P) && timer > 10)
+			{
+				timer = 0;
+				state = GAME_RUNNING;
+			}
+		}
 	}
 
 	// called when the screen resized
@@ -101,14 +146,49 @@ public class GameScreen implements Screen {
 
 	// called when this screen becomes the current screen for a Game
 	public void show() {
+		stage = new Stage();
 		batch = new SpriteBatch();
 		atlas = new TextureAtlas("assets/gui/button.pack");
-		skin = new Skin();
+		skin = new Skin(Gdx.files.internal("assets/gui/menuSkin.json"), atlas);
 		skin.addRegions(atlas);
 		battleMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audioFiles/battleMusic/battleMusic01.mp3"));
 		battleMusic.play();
 		battleMusic.setLooping(true);
 		battleMusic.setVolume(this.game.masterVolume);
+		pause = new Window("PAUSE",skin);
+		pause.setVisible(false);
+		TextButtonStyle txtResume = new TextButtonStyle();
+		txtResume.up = skin.getDrawable("button");
+		txtResume.down = skin.getDrawable("buttonpressed");
+		txtResume.font = blackFont;
+		TextButton resumeButton = new TextButton("Resume",txtResume);
+		TextButtonStyle txtOptions = new TextButtonStyle();
+		txtOptions.up = skin.getDrawable("button");
+		txtOptions.down = skin.getDrawable("buttonpressed");
+		txtOptions.font = blackFont;
+		TextButton optionsButton = new TextButton("Options",txtOptions);
+		TextButtonStyle txtCombos = new TextButtonStyle();
+		txtCombos.up = skin.getDrawable("button");
+		txtCombos.down = skin.getDrawable("buttonpressed");
+		txtCombos.font = blackFont;
+		TextButton combosButton = new TextButton("Combos",txtCombos);
+		TextButtonStyle txtQuit = new TextButtonStyle();
+		txtQuit.up = skin.getDrawable("button");
+		txtQuit.down = skin.getDrawable("buttonpressed");
+		txtQuit.font = blackFont;
+		TextButton quitButton = new TextButton("Quit",txtQuit);
+	
+		pause.padTop(64);
+		pause.add(resumeButton).row();
+		pause.add(optionsButton).row();
+		pause.add(combosButton).row();
+		pause.add(quitButton).row();
+		pause.setSize(stage.getWidth()/1.5f, stage.getHeight()/1.5f);
+		pause.setPosition(stage.getWidth()/2 -pause.getWidth()/2, stage.getHeight()/2 - pause.getHeight()/2);
+		
+		
+		
+		stage.addActor(pause); 
 	}
 
 	// called when current screen changes from this to a different screen

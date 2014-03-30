@@ -145,6 +145,7 @@ public class OptionScreen implements Screen
 			if(optionIndex == 3)
 			{
 				game.setScreen(new MenuScreen(game));
+				
 			}
 			return;
 		//allows user to to go up and down in the options menu
