@@ -43,13 +43,15 @@ public class GameScreen implements Screen {
 	private Skin skin;
 	private Music battleMusic;
 	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01SmallTex, selectorTex;
-	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4, player01State = 0;
+	public int playerXPos = 50, playerYPos = 15, moveSpeed = 4, player01State = 0;
 	private Sound attack01;
-	private boolean isKeyPressed, isFacingRight, isPaused;
+	private boolean isKeyPressed, isPaused;
+	public boolean isFacingRight;
 	private int curAction = 0;
 	private Texture curAnimation;
 	private BitmapFont blackFont;
-	private int state, timer;
+	private int state;
+	public int timer;
 	private Window pause;
 	private int menuIndex = 0;
 	private Image menuSelector;

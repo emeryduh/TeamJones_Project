@@ -5,9 +5,9 @@ import mainpackage.Screens.ScoreScreen;
 public class Battle 
 {
 	public int player1Health = 0;
-	public int player2Health = 0;
+	public int aiHealth = 0;
 	int player1Wins = 0;
-	int player2Wins = 0;
+	int aiWins = 0;
 	int winner = 2;
 	int timer = 60;
 	private Game game;
@@ -20,32 +20,32 @@ public class Battle
 	public void startMatch() 
 	{
 		player1Health = 100;
-		player2Health = 100;
+		aiHealth = 100;
 	}
 	
 	public void matchOutcome() 
 	{
 		
-		if ((player1Wins < 2) && (player2Wins  < 2))
+		if ((player1Wins < 2) && (aiWins  < 2))
 		{
 			if (timer > 0)
 			{
 				if (player1Health == 0) 
 				{
-					player2Wins++;
+					aiWins++;
 				}
-				if (player2Health == 0)
+				if (aiHealth == 0)
 				{
 					player1Wins++;
 				}
 			}
 			if (timer == 0) 
 			{
-				if (player1Health < player2Health)
+				if (player1Health < aiHealth)
 				{
-					player2Wins++;
+					aiWins++;
 				}
-				if (player1Health > player2Health)
+				if (player1Health > aiHealth)
 				{
 					player1Wins++;
 				}
@@ -67,7 +67,7 @@ public class Battle
 		{
 			winner = 1;
 		}
-		if (player2Wins == 2) 
+		if (aiWins == 2) 
 		{
 			winner = 2;
 		}
