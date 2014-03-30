@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import mainpackage.Game;
 import mainpackage.PlayerInput;
+import mainpackage.SoundFiles;
 import mainpackage.SpriteClass;
 import mainpackage.TextureFiles;
 
@@ -15,6 +16,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,6 +24,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -34,11 +37,12 @@ public class GameScreen implements Screen {
 	private Game game;
 	private Stage stage;
 	private SpriteClass spriteClass = new SpriteClass();
+	private SpriteClass selectorSprite = new SpriteClass();
 	private SpriteBatch batch;
 	private TextureAtlas atlas;
 	private Skin skin;
 	private Music battleMusic;
-	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01SmallTex;
+	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01SmallTex, selectorTex;
 	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4, player01State = 0;
 	private Sound attack01;
 	private boolean isKeyPressed, isFacingRight, isPaused;
@@ -47,6 +51,11 @@ public class GameScreen implements Screen {
 	private BitmapFont blackFont;
 	private int state, timer;
 	private Window pause;
+	private int menuIndex = 0;
+	private Image menuSelector;
+	private SoundFiles soundFiles;
+	private int[] optionPositions = new int[4];
+	private int selectorXPos = 300, selectorYPos, optionIndex = 0;
 	
 	static final int GAME_RUNNING = 1;
 	static final int GAME_PAUSED = 2;
@@ -62,12 +71,21 @@ public class GameScreen implements Screen {
 		backgroundTex = new Texture(Gdx.files.internal("assets/sprites/backgrounds/battle_BG_01.png"));
 		blackFont = new BitmapFont(Gdx.files.internal("assets/gui/blackfont.fnt"), false);
 		
+		// stores the y coordinates in pixels of each option into an array
+		optionPositions[0] = 320;
+		optionPositions[1] = 275;
+		optionPositions[2] = 225;
+		optionPositions[3] = 190;
+		
 	}
 
 	// called when the screen should render itself
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		selectorYPos = optionPositions[optionIndex];
+		selectorSprite.setSheetVals(0,0);
+		selectorTex = selectorSprite.setAnimation();
 		
 		spriteClass.setSheetVals(1, curAction);
 		curAnimation = spriteClass.setAnimation();
@@ -131,6 +149,9 @@ public class GameScreen implements Screen {
 			}
 			timer ++;
 			pause.setVisible(true);
+			batch.begin();
+			batch.draw(new TextureRegion(selectorTex, selectorSprite.getFrameIndex() * (selectorTex.getWidth() / 6), 0, selectorTex.getWidth() / 6, selectorTex.getHeight()), selectorXPos, selectorYPos);
+			batch.end();
 			if (Gdx.input.isKeyPressed(Keys.P) && timer > 10)
 			{
 				timer = 0;
@@ -185,6 +206,11 @@ public class GameScreen implements Screen {
 		pause.add(quitButton).row();
 		pause.setSize(stage.getWidth()/1.5f, stage.getHeight()/1.5f);
 		pause.setPosition(stage.getWidth()/2 -pause.getWidth()/2, stage.getHeight()/2 - pause.getHeight()/2);
+		Texture cursorTex = TextureFiles.geUtilityTexture("cursor");
+		cursorTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		menuSelector = new Image(new TextureRegion(cursorTex));
+		menuSelector.setBounds(530, 140, 60, 30);
+		pause.addActor(menuSelector);
 		
 		
 		
@@ -219,24 +245,75 @@ public class GameScreen implements Screen {
 
 	public void keyDown(int keycode)
 	{
-		switch(keycode)
-		{
-		case Keys.A:
-			spriteClass.resetFrameIndex();
-			attack01.play();
-			if(isFacingRight == true)
+		if (state == GAME_RUNNING) {
+			switch(keycode)
 			{
-				curAction = 4;
+			case Keys.A:
+				spriteClass.resetFrameIndex();
+				attack01.play();
+				if(isFacingRight == true)
+				{
+					curAction = 4;
+				}
+				else
+				{
+					curAction = 5;
+				}
+				return;
+			case Keys.DOWN:
+				return;
+			case Keys.UP:
+				return;
 			}
-			else
+		}
+		if (state == GAME_PAUSED) {
+			soundFiles = new SoundFiles();
+			switch (keycode) 
 			{
-				curAction = 5;
+			case Keys.ENTER:
+				if(optionIndex == 0)
+				{
+					state = GAME_RUNNING;
+					pause.setVisible(false);
+					
+				}
+				if(optionIndex == 1)
+				{
+					game.setScreen(new OptionScreen(game));
+					battleMusic.stop();
+					
+				}
+				if(optionIndex == 2)
+				{
+					game.setScreen(new MenuScreen(game));
+					battleMusic.stop();
+					
+				}
+				if(optionIndex == 3)
+				{
+					game.setScreen(new MenuScreen(game));
+					battleMusic.stop();
+					
+				}
+				return;
+			//allows user to to go up and down in the options menu
+			case Keys.UP:
+				optionIndex--;
+				if (optionIndex < 0) 
+				{
+					optionIndex = 0;
+				}
+				soundFiles.playSound("menuTraverse", game.sfxVolume);
+				return;
+			case Keys.DOWN:
+				optionIndex++;
+				if (optionIndex > 3) 
+				{
+					optionIndex = 3;
+				}
+				soundFiles.playSound("menuTraverse", game.sfxVolume);
+				return;
 			}
-			return;
-		case Keys.DOWN:
-			return;
-		case Keys.UP:
-			return;
 		}
 	}
 }
