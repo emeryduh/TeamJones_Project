@@ -6,18 +6,19 @@ public class AI {
 	
 	GameScreen gameScreen;
 	private Battle battle;
-	private int aiPosition;
-	private boolean isAIFacingLeft;
 	private int aiAttackRange = 25;
 	
-	public AI()
-	{
-		aiPosition = 600;
-		isAIFacingLeft = gameScreen.isFacingRight;
-	}
-	public void initializeAI()
+	
+	public static int runLogic(int playerXPos, int player2XPos)
 	{
 		
+		if(playerXPos < player2XPos)
+		{
+			player2XPos -= 4;
+		}
+		return player2XPos;
+		
+		/*
 		if(isAIFacingLeft)
 		{
 			//Move towards player
@@ -78,11 +79,11 @@ public class AI {
 					aiPosition += gameScreen.moveSpeed;
 				}
 				
-			}
+			}*/
 		}
 		
 	}
 	
 	
 
-}
+

@@ -2,6 +2,7 @@ package mainpackage.Screens;
 
 import org.lwjgl.input.Keyboard;
 
+import mainpackage.AI;
 import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.SoundFiles;
@@ -36,6 +37,7 @@ public class GameScreen implements Screen {
 	// variables
 	private Game game;
 	private Stage stage;
+	private AI ai;
 	private SpriteClass spriteClass = new SpriteClass();
 	private SpriteClass selectorSprite = new SpriteClass();
 	private SpriteBatch batch;
@@ -58,6 +60,7 @@ public class GameScreen implements Screen {
 	private SoundFiles soundFiles;
 	private int[] optionPositions = new int[4];
 	private int selectorXPos = 300, selectorYPos, optionIndex = 0;
+	public int player2XPos = 650, player2YPos = 15, moveSpeed2 = 4, player02State = 0;
 	
 	static final int GAME_RUNNING = 1;
 	static final int GAME_PAUSED = 2;
@@ -94,8 +97,15 @@ public class GameScreen implements Screen {
 		batch.begin();
 		batch.draw(backgroundTex, 0, 0, 800, 600, 0, 0, backgroundTex.getWidth(), backgroundTex.getHeight(), false, false);
 		batch.draw(new TextureRegion(curAnimation, spriteClass.getFrameIndex() * (curAnimation.getWidth() / 6), 0, curAnimation.getWidth() / 6, curAnimation.getHeight()), playerXPos, playerYPos);
+		
+		//Running AI logic
+		player2XPos = AI.runLogic(playerXPos, player2XPos);
+		
+		batch.draw(new TextureRegion(curAnimation, spriteClass.getFrameIndex() * (curAnimation.getWidth() / 6), 0, curAnimation.getWidth() / 6, curAnimation.getHeight()), player2XPos, player2YPos);
+		
 		batch.end();
 		stage.draw();
+		
 		//enabling keyboard events
 		PlayerInput playerInput = new PlayerInput(game);
 		// set the input processor
