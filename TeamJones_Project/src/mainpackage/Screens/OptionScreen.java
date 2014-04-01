@@ -22,7 +22,7 @@ public class OptionScreen implements Screen
 {
 	// variables
 	private Game game;
-	private SpriteClass spriteClass = new SpriteClass();
+	private SpriteClass spriteClass = new SpriteClass();;
 	private TextureAtlas atlas;
 	private Skin skin;
 	private SpriteBatch batch;

@@ -1,35 +1,45 @@
 package mainpackage;
-
+                               
 import com.badlogic.gdx.Gdx;
 import mainpackage.Screens.GameScreen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 
 public class SpriteClass 
 {
+	Game game;
 	GameScreen gameScreen;
-	private int frameWidth;
-	private int frameHeight;
-	private Rectangle[] frames;
-	private int frameIndex = 0, rows, cols;
+	private int frameIndex = 0;
 	private float frameLength, f;
 	private float elapsedTime;
 	private int numOfFrames, numOfRows;
-	private TextureRegion curFrame;
 	private Texture curAnimation;
 	//loads the selector texture
 	private Texture selectorTex = new Texture(Gdx.files.internal("assets/gui/selectorTex.png"));
-	//loads character textures
+	//loads idle textures
 	private Texture ichigoIdleRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Standing_Right.png"));
 	private Texture ichigoIdleLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Standing_Left.png"));
+	//loads the running textures
 	private Texture ichigoRunRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Running_Right.png"));
 	private Texture ichigoRunLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Running_Left.png"));
+	//loads the first attack textures
 	private Texture ichigoAttackRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Attack_01_Right.png"));
 	private Texture ichigoAttackLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Attack_01_Left.png"));
+	//loads the ducking textures
+	private Texture ichigoDuckRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Ducking_Right.png"));
+	private Texture ichigoDuckLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Ducking_Left.png"));
+	//loads the blocking textures
+	private Texture ichigoBlockRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Blocking_Right.png"));
+	private Texture ichigoBlockLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Blocking_Left.png"));
+	//loads the ducking block textures
+	private Texture ichigoDuckingBlockRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_DuckingBlock_Right.png"));
+	private Texture ichigoDuckingBlockLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_DuckingBlock_Left.png"));
+	//loads the ducking attack textures
+	private Texture ichigoDuckingAttackRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_DuckingAttack_Right.png"));
+	private Texture ichigoDuckingAttackLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_DuckingAttack_Left.png"));
 	
 	public SpriteClass()
-	{}
+	{
+	}
 	
 	public void setSheetVals(int character, int action)
 	{
@@ -46,9 +56,6 @@ public class SpriteClass
 				f = 1.0f;
 				//sets the current sprite-sheet to the selector sprite-sheet
 				curAnimation = selectorTex;
-				//sets the width and height of a single frame
-				frameWidth = curAnimation.getWidth() / numOfFrames;
-				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			}
 			break;
@@ -61,42 +68,62 @@ public class SpriteClass
 			switch(action)
 			{
 			case 0:
-				f = 1.0f;
+				//f represents the total time for all frames to run through once in a given animation
+				f = 0.80f;
 				//loads texture corresponding to current action
 				curAnimation = ichigoIdleRTex;
-				//sets the width and height of a single frame
-				frameWidth = curAnimation.getWidth() / numOfFrames;
-				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 1:
-				f = 1.0f;
+				f = 0.80f;
 				curAnimation = ichigoIdleLTex;
-				frameWidth = curAnimation.getWidth() / numOfFrames;
-				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 2:
-				f = 1.0f;
+				f = 0.80f;
 				curAnimation = ichigoRunRTex;
-				frameWidth = curAnimation.getWidth() / numOfFrames;
-				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 3:
-				f = 1.0f;
+				f = 0.80f;
 				curAnimation = ichigoRunLTex;
-				frameWidth = curAnimation.getWidth() / numOfFrames;
-				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 4:
-				f = 0.35f;
+				f = 0.60f;
 				curAnimation = ichigoAttackRTex;
-				frameWidth = curAnimation.getWidth() / numOfFrames;
-				frameHeight = curAnimation.getHeight() / numOfRows;
 				break;
 			case 5:
-				f = 0.35f;
+				f = 0.60f;
 				curAnimation = ichigoAttackLTex;
-				frameWidth = curAnimation.getWidth() / numOfFrames;
-				frameHeight = curAnimation.getHeight() / numOfRows;
+				break;
+			case 6:
+				f = 0.80f;
+				curAnimation = ichigoDuckRTex;
+				break;
+			case 7:
+				f = 0.80f;
+				curAnimation = ichigoDuckLTex;
+				break;
+			case 8:
+				f = 0.80f;
+				curAnimation = ichigoBlockRTex;
+				break;
+			case 9:
+				f = 0.80f;
+				curAnimation = ichigoBlockLTex;
+				break;
+			case 10:
+				f = 0.80f;
+				curAnimation = ichigoDuckingBlockRTex;
+				break;
+			case 11:
+				f = 0.80f;
+				curAnimation = ichigoDuckingBlockLTex;
+				break;
+			case 12:
+				f = 0.60f;
+				curAnimation = ichigoDuckingAttackRTex;
+				break;
+			case 13:
+				f = 0.60f;
+				curAnimation = ichigoDuckingAttackLTex;
 				break;
 			}
 			break;
@@ -108,37 +135,19 @@ public class SpriteClass
 		}
 	}
 	
+	//called in GameScreen class to tell it which texture to draw
 	public Texture setAnimation()
 	{
 		return curAnimation;
 	}
 	
-	public TextureRegion Animate()
-	{
-		//creates rectangle array with a size matching the number of frames in sprite-sheet of current action
-		frames = new Rectangle[numOfFrames * numOfRows];
-		//cycles through rows
-		for(rows = 0; rows < numOfRows; rows++)
-		{
-			//cycles through columns
-			for(cols = 0; cols < numOfFrames; cols++)
-			{
-				//creates a rectangle with a width and height matching current action frame and stores it into rectangle array with element index matching the current frame index
-				frames[rows * numOfFrames + cols] = new Rectangle(cols * frameWidth, rows * frameHeight, frameWidth, frameHeight);
-			}
-		}
-		
-		//creates and stores a texture region into curFrame with parameters coinciding to current; frame index, frame width, frame height 
-		curFrame = new TextureRegion(curAnimation, cols * frameWidth, rows * frameHeight, frameWidth, frameHeight);
-		//sends the texture region to be used by GameScreen class
-		return curFrame;
-	}
-	
+	//called to reset the frameIndex to 0
 	public void resetFrameIndex()
 	{
 		frameIndex = 0;
 	}
 	
+	//called the get the current frame #
 	public int getFrameIndex()
 	{
 		//sets frame length based on total number of frames in current action sprite-sheet
@@ -149,8 +158,11 @@ public class SpriteClass
 		//checks if the amount of time passed has gone over the time length of a single frame
 		if(elapsedTime > frameLength)
 		{
-			//goes to next frame
-			frameIndex++;
+			//if(gameScreen.pausedState() == false)
+			//{
+				//goes to next frame
+				frameIndex++;
+			//}
 			//resets elapsedTime so that it is once again less than the time length of a single frame
 			elapsedTime = 0;
 			//checks if the frame index has reached last frame

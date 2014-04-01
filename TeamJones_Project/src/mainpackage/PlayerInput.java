@@ -47,6 +47,12 @@ public class PlayerInput implements InputProcessor {
 
 	// Called when a key was released
 	public boolean keyUp(int keycode) {		
+		Screen screen = game.getScreen();
+		
+		if(screen instanceof GameScreen){
+			((GameScreen)screen).keyUp(keycode);
+			return true;
+		}
 		return false;
 	}
 
