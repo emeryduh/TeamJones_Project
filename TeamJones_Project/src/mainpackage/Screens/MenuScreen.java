@@ -97,29 +97,7 @@ public class MenuScreen implements Screen {
 		btnStartGame.setHeight(40f);
 		btnStartGame.setX(600);
 		btnStartGame.setY(130);
-
-		// start game events
-		btnStartGame.addListener(new InputListener() {
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				// this is where functionality for next screen should be called
-				// play menu select sound
-				soundFiles = new SoundFiles();
-				soundFiles.playSound("menuSelect", game.sfxVolume);
-				// goto Char Select Screen
-				game.setScreen(new CharacterSelectScreen(game));
-
-			}
-		});
-
+	
 		// creates the option button
 		TextButtonStyle txtOptionStyle = new TextButtonStyle();
 		txtOptionStyle.up = skin.getDrawable("button");
@@ -129,25 +107,7 @@ public class MenuScreen implements Screen {
 		btnOptions.setWidth(140f);
 		btnOptions.setHeight(40f);
 		btnOptions.setX(600);
-		btnOptions.setY(60);
-
-		// option button events
-		btnOptions.addListener(new InputListener() {
-
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				// this is where functionality for next screen should be called
-				soundFiles = new SoundFiles();
-				soundFiles.playSound("menuSelect", game.sfxVolume);
-				game.setScreen(new OptionScreen(game));
-				openingMusic.stop();
-			}
-		});
+		btnOptions.setY(60);		
 
 		// adds an start game and option actors to the root of the stage.
 		stage.addActor(btnStartGame);
@@ -217,7 +177,7 @@ public class MenuScreen implements Screen {
 			return;
 		}
 		if (keycode == Keys.ENTER && menuIndex == 0) {
-			game.setScreen(new CharacterSelectScreen(game));
+			game.setScreen(new CharacterSelectScreen(game));			
 			soundFiles.playSound("menuSelect", game.sfxVolume);
 			openingMusic.stop();
 			return;
