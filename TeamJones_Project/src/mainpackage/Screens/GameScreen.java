@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
 	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex, player01SmallTex;
 	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4, player01State = 0, curAction = 0, optionIndex =0;
 	private boolean isKeyPressed, isFacingRight = true, isPaused = false, grounded = true, timeUp;
-	private float currentTimeTens = 9, currentTimeOnes = 0, velocityX, velocityY, gravity = 5, elapsedTime, jumpStrength = 100;
+	private float velocityX, velocityY, gravity = 5, elapsedTime, jumpStrength = 100;
 	private Texture curAnimation, selectorTex, pauseFilterTex, pauseMenuTex;
 	private int[] pauseOptions = new int[3];
 	private Texture[] pauseHelpTxts = new Texture[3];
@@ -77,23 +77,6 @@ public class GameScreen implements Screen {
 		if(grounded == false)
 		{
 			playerYPos -= gravity;
-		}
-		
-		//updates game timer
-		if(isPaused == false)
-		{
-			currentTimeOnes -= Gdx.graphics.getDeltaTime();
-		}
-		if(currentTimeOnes < 0)
-		{
-			currentTimeOnes = 9;
-			currentTimeTens --;
-			if(currentTimeTens < 0)
-			{
-				currentTimeTens = 0;
-				currentTimeOnes = 0;
-				timeUp = true;
-			}
 		}
 		
 		//sent to SpriteClass to tell it what the current character and animation are
