@@ -7,7 +7,7 @@ public class AI {
 	
 	GameScreen gameScreen;
 	private Battle battle;
-	private SpriteClass spriteClass;
+	private static SpriteClass spriteClass = new SpriteClass();
 	private static int aiAttackRange = 75;
 	
 	private static int curActionPlayer2 = 1;
@@ -23,7 +23,8 @@ public class AI {
 		if(playerXPos < player2XPos-aiAttackRange)
 		{
 			player2XPos -= 4;
-			curActionPlayer2 = 3;
+			curActionPlayer2 = RUN_LEFT;
+			
 			
 		}
 		

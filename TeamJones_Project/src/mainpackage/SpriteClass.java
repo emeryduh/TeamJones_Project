@@ -69,60 +69,60 @@ public class SpriteClass
 			{
 			case 0:
 				//f represents the total time for all frames to run through once in a given animation
-				f = 0.80f;
+				f = 1f;
 				//loads texture corresponding to current action
 				curAnimation = ichigoIdleRTex;
 				break;
 			case 1:
-				f = 0.80f;
+				f = 1f;
 				curAnimation = ichigoIdleLTex;
 				break;
 			case 2:
-				f = 0.80f;
+				f = 1f;
 				curAnimation = ichigoRunRTex;
 				break;
 			case 3:
-				f = 0.80f;
+				f = 1f;
 				curAnimation = ichigoRunLTex;
 				break;
 			case 4:
-				f = 0.60f;
+				f = 0.80f;
 				curAnimation = ichigoAttackRTex;
 				break;
 			case 5:
-				f = 0.60f;
+				f = 0.80f;
 				curAnimation = ichigoAttackLTex;
 				break;
 			case 6:
-				f = 0.80f;
+				f = 1f;
 				curAnimation = ichigoDuckRTex;
 				break;
 			case 7:
-				f = 0.80f;
+				f = 1f;
 				curAnimation = ichigoDuckLTex;
 				break;
 			case 8:
-				f = 0.80f;
+				f = 1f;
 				curAnimation = ichigoBlockRTex;
 				break;
 			case 9:
-				f = 0.80f;
+				f = 1f;
 				curAnimation = ichigoBlockLTex;
 				break;
 			case 10:
-				f = 0.80f;
+				f = 1f;
 				curAnimation = ichigoDuckingBlockRTex;
 				break;
 			case 11:
-				f = 0.80f;
+				f = 1f;
 				curAnimation = ichigoDuckingBlockLTex;
 				break;
 			case 12:
-				f = 0.60f;
+				f = 0.80f;
 				curAnimation = ichigoDuckingAttackRTex;
 				break;
 			case 13:
-				f = 0.60f;
+				f = 0.80f;
 				curAnimation = ichigoDuckingAttackLTex;
 				break;
 			}

@@ -130,7 +130,8 @@ public class GameScreen implements Screen {
 		player2TextureRegion = new TextureRegion(curAnimationPlayer2, spriteClass.getFrameIndex() * (curAnimationPlayer2.getWidth() / 6), 0, curAnimationPlayer2.getWidth() / 6, curAnimationPlayer2.getHeight());
 		//flip textures
 		player2TextureRegion.flip(true,false);
-				
+		
+		
 		batch.begin();
 
 		//draws the background texture (texture, x-coordinate, y-coordinate, width, height, source width, source height, horizontal flip, vertical flip)
