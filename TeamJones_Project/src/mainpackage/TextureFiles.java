@@ -203,6 +203,43 @@ public class TextureFiles {
 							.internal("assets/gui/selectorTex.png"));
 			break;
 		}
+		case "pauseBackground": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/pauseFilter.png"));
+			break;
+		}
+		case "pauseMenu": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/pauseMenuTex.png"));
+			break;
+		}
+		case "gameover": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/gameover.png"));
+			break;
+		}
+		case "pauseHelpTxt01": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/pauseHelpTxt01.png"));
+			break;
+		}
+		case "pauseHelpTxt02": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/pauseHelpTxt02.png"));
+			break;
+		}
+		case "pauseHelpTxt03": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/pauseHelpTxt03.png"));
+			break;
+		}
+		
 		}
 		return chTexture;
 	}

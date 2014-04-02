@@ -57,22 +57,14 @@ public class GameScreen implements Screen {
 				.internal("assets/audioFiles/battleMusic/battleMusic01.mp3"));
 		attack01 = Gdx.audio.newSound(Gdx.files
 				.internal("assets/audioFiles/ichigoCombat/ichigoAttack01.wav"));
-		backgroundTex = new Texture(
-				Gdx.files
-						.internal("assets/sprites/backgrounds/battle_BG_01.png"));
-		selectorTex = new Texture(
-				Gdx.files.internal("assets/gui/selectorTex.png"));
-		pauseFilterTex = new Texture(
-				Gdx.files.internal("assets/gui/pauseFilter.png"));
-		pauseMenuTex = new Texture(
-				Gdx.files.internal("assets/gui/pauseMenuTex.png"));
-		gameOverTex = new Texture(Gdx.files.internal("assets/gui/gameover.png"));
-		pauseHelpTxts[0] = new Texture(
-				Gdx.files.internal("assets/gui/pauseHelpTxt01.png"));
-		pauseHelpTxts[1] = new Texture(
-				Gdx.files.internal("assets/gui/pauseHelpTxt02.png"));
-		pauseHelpTxts[2] = new Texture(
-				Gdx.files.internal("assets/gui/pauseHelpTxt03.png"));
+		backgroundTex = TextureFiles.getBackgroundTexture("gameScreen");
+		selectorTex = TextureFiles.geUtilityTexture("cursor");
+		pauseFilterTex = TextureFiles.geUtilityTexture("pauseBackground");
+		pauseMenuTex = TextureFiles.geUtilityTexture("pauseMenu");
+		gameOverTex = TextureFiles.geUtilityTexture("gameover");
+		pauseHelpTxts[0] = TextureFiles.geUtilityTexture("pauseHelpTxt01");
+		pauseHelpTxts[1] = TextureFiles.geUtilityTexture("pauseHelpTxt02");
+		pauseHelpTxts[2] = TextureFiles.geUtilityTexture("pauseHelpTxt03");
 		// stores the Y coordinates of the pause menu options in pixels
 		pauseOptions[0] = 350;
 		pauseOptions[1] = 300;
