@@ -1,6 +1,8 @@
 package mainpackage.Screens;
 
 import org.lwjgl.input.Keyboard;
+
+import mainpackage.AI;
 import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.SpriteClass;
@@ -48,6 +50,14 @@ public class GameScreen implements Screen {
 	private int seconds = 60;
 	long startTime = System.nanoTime();
 	BitmapFont timerFont;
+	
+	private TextureRegion player1TextureRegion, player2TextureRegion;
+	
+	//PLAYER 2
+	private int player2XPos = 650, player2YPos = 15,  player02State = 0, curActionPlayer2 = 0, optionIndexPlayer2 =0;
+	private boolean isPlayer2FacingRight;
+	private Texture curAnimationPlayer2;
+	
 
 	// constructor to keep a reference to the main Game class
 	public GameScreen(Game game) {
@@ -101,26 +111,35 @@ public class GameScreen implements Screen {
 		if (grounded == false) {
 			playerYPos -= gravity;
 		}
+		
+		//AI will always face the player1
+		isPlayer2FacingRight = !isFacingRight;
+		//AI logic initialization
+		player2XPos = AI.runLogic(playerXPos, player2XPos);
 
 		// sent to SpriteClass to tell it what the current character and
 		// animation are
 		spriteClass.setSheetVals(1, curAction);
-		// calls SpriteClass to get the current animation and stores it
+		//calls SpriteClass to get the current animation and stores it
 		curAnimation = spriteClass.setAnimation();
+		//calls SpriteClass to get the current animation for player 2
+		curAnimationPlayer2 = spriteClass.setAnimation();
+		
+		//initialize texture regions (texture, source x-coordinate, source y-coordinate, source width, source height, x-coordinate, y-coordinate)
+		player1TextureRegion = new TextureRegion(curAnimation, spriteClass.getFrameIndex() * (curAnimation.getWidth() / 6), 0, curAnimation.getWidth() / 6, curAnimation.getHeight());
+		player2TextureRegion = new TextureRegion(curAnimationPlayer2, spriteClass.getFrameIndex() * (curAnimationPlayer2.getWidth() / 6), 0, curAnimationPlayer2.getWidth() / 6, curAnimationPlayer2.getHeight());
+		//flip textures
+		player2TextureRegion.flip(true,false);
+				
 		batch.begin();
 
-		// draws the background texture (texture, x-coordinate, y-coordinate,
-		// width, height, source width, source height, horizontal flip, vertical
-		// flip)
-		batch.draw(backgroundTex, 0, 0, 800, 600, 0, 0,
-				backgroundTex.getWidth(), backgroundTex.getHeight(), false,
-				false);
-		// draws player 1 (texture, source x-coordinate, source y-coordinate,
-		// source width, source height, x-coordinate, y-coordinate)
-		batch.draw(new TextureRegion(curAnimation, spriteClass.getFrameIndex()
-				* (curAnimation.getWidth() / 6), 0,
-				curAnimation.getWidth() / 6, curAnimation.getHeight()),
-				playerXPos, playerYPos);
+		//draws the background texture (texture, x-coordinate, y-coordinate, width, height, source width, source height, horizontal flip, vertical flip)
+		batch.draw(backgroundTex, 0, 0, 800, 600, 0, 0, backgroundTex.getWidth(), backgroundTex.getHeight(), false, false);
+		//draws player 1 
+		batch.draw(player1TextureRegion , playerXPos, playerYPos);
+		//draws AI
+		batch.draw(player2TextureRegion , player2XPos, player2YPos);
+				
 		// set timer color
 		timerFont.setColor(Color.WHITE);
 

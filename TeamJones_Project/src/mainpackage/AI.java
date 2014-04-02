@@ -1,21 +1,33 @@
 package mainpackage;
 
 import mainpackage.Screens.GameScreen;
+import mainpackage.SpriteClass;
 
 public class AI {
 	
 	GameScreen gameScreen;
 	private Battle battle;
-	private int aiAttackRange = 25;
+	private SpriteClass spriteClass;
+	private static int aiAttackRange = 75;
 	
+	private static int curActionPlayer2 = 1;
+	
+	final static int IDLE_RIGHT = 0;
+	final static int IDLE_LEFT = 1;
+	final static int RUN_RIGHT = 2;
+	final static int RUN_LEFT = 3;
 	
 	public static int runLogic(int playerXPos, int player2XPos)
 	{
 		
-		if(playerXPos < player2XPos)
+		if(playerXPos < player2XPos-aiAttackRange)
 		{
 			player2XPos -= 4;
+			curActionPlayer2 = 3;
+			
 		}
+		
+		
 		return player2XPos;
 		
 		/*
@@ -81,8 +93,10 @@ public class AI {
 				
 			}*/
 		}
+	
 		
 	}
+
 	
 	
 
