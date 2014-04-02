@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
 	private int[] gameOverOptions = new int[2];
 	private Texture[] pauseHelpTxts = new Texture[3];
 	private int[] optionPositions = new int[4];
-	private int seconds;
+	private int seconds = 60;
 	long startTime = System.nanoTime();
 	BitmapFont timerFont;
 
@@ -88,7 +88,7 @@ public class GameScreen implements Screen {
 		// count the timer and convert nanotime to second
 		if (System.nanoTime() - startTime >= 1000000000 && !isPaused
 				& !isGameOver) {
-			seconds++;
+			seconds--;
 			startTime = System.nanoTime();
 		}
 
@@ -124,8 +124,8 @@ public class GameScreen implements Screen {
 		// set timer color
 		timerFont.setColor(Color.WHITE);
 
-		// show game over screen if game is passed 60 seconds
-		if (seconds >= 60) {
+		// show game over screen if game is passed 0 seconds
+		if (seconds == 0) {
 			isGameOver = true;
 			// draws the black filter to create dimming effect
 			batch.draw(pauseFilterTex, 0, 0);
