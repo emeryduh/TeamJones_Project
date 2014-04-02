@@ -38,6 +38,7 @@ public class OptionScreen implements Screen
 	{
 		this.game = game;
 		// loads the textures
+		selectorTex = new Texture(Gdx.files.internal("assets/gui/selectorTex.png"));
 		backgroundTex = new Texture(Gdx.files.internal("assets/gui/optionsMenuBG02.png"));
 		volumeEmptyTex = new Texture(Gdx.files.internal("assets/gui/volumeBar_Empty.png"));
 		volumeFullTex = new Texture(Gdx.files.internal("assets/gui/volumeBar_Full.png"));
@@ -65,10 +66,9 @@ public class OptionScreen implements Screen
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
+		//positions the selector on the Y axis according to the option selected
 		selectorYPos = optionPositions[optionIndex];
-
-		spriteClass.setSheetVals(0, 0);
-		selectorTex = spriteClass.setAnimation();
+		
 		// draw objects into the screen
 		batch.begin();
 		// draws the background texture

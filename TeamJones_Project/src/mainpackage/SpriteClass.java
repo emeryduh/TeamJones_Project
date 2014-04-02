@@ -12,7 +12,7 @@ public class SpriteClass
 	private float frameLength, f;
 	private float elapsedTime;
 	private int numOfFrames, numOfRows;
-	private Texture curAnimation;
+	private Texture curAnimationP1, curAnimationP2;
 	//loads the selector texture
 	private Texture selectorTex = new Texture(Gdx.files.internal("assets/gui/selectorTex.png"));
 	//loads idle textures
@@ -41,27 +41,13 @@ public class SpriteClass
 	{
 	}
 	
-	public void setSheetVals(int character, int action)
+	public void setSheetValsP1(int character, int action)
 	{
 		//checks which character is selected
 		switch(character)
 		{
-		//if its the selector Icon
-		case 0:
-			numOfFrames = 6;
-			numOfRows = 1;
-			switch(action)
-			{
-			case 0:
-				f = 1.0f;
-				//sets the current sprite-sheet to the selector sprite-sheet
-				curAnimation = selectorTex;
-				break;
-			}
-			break;
-		
 		//if the character is Ichigo, sets the # of frames and rows accordingly
-		case 1:
+		case 0:
 			numOfFrames = 6;
 			numOfRows = 1;
 			//checks what is Ichigo's current action
@@ -71,63 +57,63 @@ public class SpriteClass
 				//f represents the total time for all frames to run through once in a given animation
 				f = 1f;
 				//loads texture corresponding to current action
-				curAnimation = ichigoIdleRTex;
+				curAnimationP1 = ichigoIdleRTex;
 				break;
 			case 1:
 				f = 1f;
-				curAnimation = ichigoIdleLTex;
+				curAnimationP1 = ichigoIdleLTex;
 				break;
 			case 2:
 				f = 1f;
-				curAnimation = ichigoRunRTex;
+				curAnimationP1 = ichigoRunRTex;
 				break;
 			case 3:
 				f = 1f;
-				curAnimation = ichigoRunLTex;
+				curAnimationP1 = ichigoRunLTex;
 				break;
 			case 4:
 				f = 0.80f;
-				curAnimation = ichigoAttackRTex;
+				curAnimationP1 = ichigoAttackRTex;
 				break;
 			case 5:
 				f = 0.80f;
-				curAnimation = ichigoAttackLTex;
+				curAnimationP1 = ichigoAttackLTex;
 				break;
 			case 6:
 				f = 1f;
-				curAnimation = ichigoDuckRTex;
+				curAnimationP1 = ichigoDuckRTex;
 				break;
 			case 7:
 				f = 1f;
-				curAnimation = ichigoDuckLTex;
+				curAnimationP1 = ichigoDuckLTex;
 				break;
 			case 8:
 				f = 1f;
-				curAnimation = ichigoBlockRTex;
+				curAnimationP1 = ichigoBlockRTex;
 				break;
 			case 9:
 				f = 1f;
-				curAnimation = ichigoBlockLTex;
+				curAnimationP1 = ichigoBlockLTex;
 				break;
 			case 10:
 				f = 1f;
-				curAnimation = ichigoDuckingBlockRTex;
+				curAnimationP1 = ichigoDuckingBlockRTex;
 				break;
 			case 11:
 				f = 1f;
-				curAnimation = ichigoDuckingBlockLTex;
+				curAnimationP1 = ichigoDuckingBlockLTex;
 				break;
 			case 12:
 				f = 0.80f;
-				curAnimation = ichigoDuckingAttackRTex;
+				curAnimationP1 = ichigoDuckingAttackRTex;
 				break;
 			case 13:
 				f = 0.80f;
-				curAnimation = ichigoDuckingAttackLTex;
+				curAnimationP1 = ichigoDuckingAttackLTex;
 				break;
 			}
 			break;
-		case 2:
+		case 1:
 			//if the character is Byakuya, sets the # of frames and rows accordingly
 			numOfFrames = 4;
 			numOfRows = 1;
@@ -135,10 +121,96 @@ public class SpriteClass
 		}
 	}
 	
-	//called in GameScreen class to tell it which texture to draw
-	public Texture setAnimation()
+	public void setSheetValsP2(int character, int action)
 	{
-		return curAnimation;
+		//checks which character is selected
+		switch(character)
+		{
+		//if the character is Ichigo, sets the # of frames and rows accordingly
+		case 0:
+			numOfFrames = 6;
+			numOfRows = 1;
+			//checks what is Ichigo's current action
+			switch(action)
+			{
+			case 0:
+				//f represents the total time for all frames to run through once in a given animation
+				f = 1f;
+				//loads texture corresponding to current action
+				curAnimationP2 = ichigoIdleRTex;
+				break;
+			case 1:
+				f = 1f;
+				curAnimationP2 = ichigoIdleLTex;
+				break;
+			case 2:
+				f = 1f;
+				curAnimationP2 = ichigoRunRTex;
+				break;
+			case 3:
+				f = 1f;
+				curAnimationP2 = ichigoRunLTex;
+				break;
+			case 4:
+				f = 0.80f;
+				curAnimationP2 = ichigoAttackRTex;
+				break;
+			case 5:
+				f = 0.80f;
+				curAnimationP2 = ichigoAttackLTex;
+				break;
+			case 6:
+				f = 1f;
+				curAnimationP2 = ichigoDuckRTex;
+				break;
+			case 7:
+				f = 1f;
+				curAnimationP2 = ichigoDuckLTex;
+				break;
+			case 8:
+				f = 1f;
+				curAnimationP2 = ichigoBlockRTex;
+				break;
+			case 9:
+				f = 1f;
+				curAnimationP2 = ichigoBlockLTex;
+				break;
+			case 10:
+				f = 1f;
+				curAnimationP2 = ichigoDuckingBlockRTex;
+				break;
+			case 11:
+				f = 1f;
+				curAnimationP2 = ichigoDuckingBlockLTex;
+				break;
+			case 12:
+				f = 0.80f;
+				curAnimationP2 = ichigoDuckingAttackRTex;
+				break;
+			case 13:
+				f = 0.80f;
+				curAnimationP2 = ichigoDuckingAttackLTex;
+				break;
+			}
+			break;
+		case 1:
+			//if the character is Byakuya, sets the # of frames and rows accordingly
+			numOfFrames = 4;
+			numOfRows = 1;
+			break;
+		}
+	}
+	
+	//called in GameScreen class to tell it which texture to draw for P1
+	public Texture setAnimationP1()
+	{
+		return curAnimationP1;
+	}
+	
+	//called in GameScreen class to tell it which texture to draw for P2
+	public Texture setAnimationP2()
+	{
+		return curAnimationP2;
 	}
 	
 	//called to reset the frameIndex to 0

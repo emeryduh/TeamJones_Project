@@ -32,31 +32,23 @@ public class GameScreen implements Screen {
 	private Skin skin;
 	private Music battleMusic;
 	private Sound attack01;
-	private Texture backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex,
-			player01SmallTex;
 	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4,
 			player01State = 0, curAction = 0, optionIndex = 0,
-			gameOverIndex = 0;
-	private boolean isKeyPressed, isFacingRight = true, isPaused = false,
-			grounded = true, timeUp, isGameOver = false;
+			gameOverIndex = 0, player2XPos = 650, player2YPos = 15,  player02State = 0, curActionPlayer2 = 0, optionIndexPlayer2 =0, seconds = 60;
+	private boolean isKeyPressed, isFacingRightP1 = true, isPaused = false,
+			grounded = true, timeUp, isGameOver = false, isFacingRightP2;;
 	private float velocityX, velocityY, gravity = 5, elapsedTime,
 			jumpStrength = 100;
-	private Texture curAnimation, selectorTex, pauseFilterTex, pauseMenuTex,
-			gameOverTex;
+	private Texture curAnimationP1, curAnimationP2, selectorTex, pauseFilterTex, pauseMenuTex,
+			gameOverTex, backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex,
+			player01SmallTex;;
 	private int[] pauseOptions = new int[3];
 	private int[] gameOverOptions = new int[2];
 	private Texture[] pauseHelpTxts = new Texture[3];
 	private int[] optionPositions = new int[4];
-	private int seconds = 60;
 	long startTime = System.nanoTime();
-	BitmapFont timerFont;
-	
 	private TextureRegion player1TextureRegion, player2TextureRegion;
-	
-	//PLAYER 2
-	private int player2XPos = 650, player2YPos = 15,  player02State = 0, curActionPlayer2 = 0, optionIndexPlayer2 =0;
-	private boolean isPlayer2FacingRight;
-	private Texture curAnimationPlayer2;
+	private BitmapFont timerFont;
 	
 
 	// constructor to keep a reference to the main Game class
@@ -113,21 +105,22 @@ public class GameScreen implements Screen {
 		}
 		
 		//AI will always face the player1
-		isPlayer2FacingRight = !isFacingRight;
+		isFacingRightP2 = !isFacingRightP1;
 		//AI logic initialization
 		player2XPos = AI.runLogic(playerXPos, player2XPos);
 
 		// sent to SpriteClass to tell it what the current character and
 		// animation are
-		spriteClass.setSheetVals(1, curAction);
-		//calls SpriteClass to get the current animation and stores it
-		curAnimation = spriteClass.setAnimation();
+		spriteClass.setSheetValsP1(0, curAction);
+		spriteClass.setSheetValsP2(0, curAction);
+		//calls SpriteClass to get the current animation for player 1
+		curAnimationP1 = spriteClass.setAnimationP1();
 		//calls SpriteClass to get the current animation for player 2
-		curAnimationPlayer2 = spriteClass.setAnimation();
+		curAnimationP2 = spriteClass.setAnimationP2();
 		
 		//initialize texture regions (texture, source x-coordinate, source y-coordinate, source width, source height, x-coordinate, y-coordinate)
-		player1TextureRegion = new TextureRegion(curAnimation, spriteClass.getFrameIndex() * (curAnimation.getWidth() / 6), 0, curAnimation.getWidth() / 6, curAnimation.getHeight());
-		player2TextureRegion = new TextureRegion(curAnimationPlayer2, spriteClass.getFrameIndex() * (curAnimationPlayer2.getWidth() / 6), 0, curAnimationPlayer2.getWidth() / 6, curAnimationPlayer2.getHeight());
+		player1TextureRegion = new TextureRegion(curAnimationP1, spriteClass.getFrameIndex() * (curAnimationP1.getWidth() / 6), 0, curAnimationP1.getWidth() / 6, curAnimationP1.getHeight());
+		player2TextureRegion = new TextureRegion(curAnimationP2, spriteClass.getFrameIndex() * (curAnimationP2.getWidth() / 6), 0, curAnimationP2.getWidth() / 6, curAnimationP2.getHeight());
 		//flip textures
 		player2TextureRegion.flip(true,false);
 		
@@ -197,7 +190,7 @@ public class GameScreen implements Screen {
 				// checks if no key is pressed down
 				if (isKeyPressed == Gdx.input.isKeyPressed(Keyboard.KEY_NONE)
 						&& player01State == 0) {
-					if (isFacingRight == true) {
+					if (isFacingRightP1 == true) {
 						curAction = 0;
 					} else {
 						curAction = 1;
@@ -219,17 +212,17 @@ public class GameScreen implements Screen {
 					if (isKeyPressed = Gdx.input.isKeyPressed(Keys.LEFT)
 							&& player01State == 0) {
 						curAction = 3;
-						isFacingRight = false;
+						isFacingRightP1 = false;
 						playerXPos -= moveSpeed;
 					}
 				}
 				// checks if the player is at the right edge of the screen
-				if (playerXPos < 800 - (curAnimation.getWidth() / 6)) {
+				if (playerXPos < 800 - (curAnimationP1.getWidth() / 6)) {
 					// checks if the right arrow key has been held down
 					if (isKeyPressed = Gdx.input.isKeyPressed(Keys.RIGHT)
 							&& player01State == 0) {
 						curAction = 2;
-						isFacingRight = true;
+						isFacingRightP1 = true;
 						playerXPos += moveSpeed;
 					}
 				}
@@ -238,7 +231,7 @@ public class GameScreen implements Screen {
 				if (isKeyPressed = Gdx.input.isKeyPressed(Keys.DOWN)
 						&& (player01State == 0 || player01State == 2)) {
 					player01State = 3;
-					if (isFacingRight == true) {
+					if (isFacingRightP1 == true) {
 						curAction = 6;
 					} else {
 						curAction = 7;
@@ -248,7 +241,7 @@ public class GameScreen implements Screen {
 					// arrow key is held down
 					if (isKeyPressed = Gdx.input.isKeyPressed(Keys.N)) {
 						player01State = 2;
-						if (isFacingRight == true) {
+						if (isFacingRightP1 == true) {
 							curAction = 10;
 						} else {
 							curAction = 11;
@@ -260,7 +253,7 @@ public class GameScreen implements Screen {
 				if (isKeyPressed = Gdx.input.isKeyPressed(Keys.N)
 						&& player01State == 0) {
 					player01State = 2;
-					if (isFacingRight == true) {
+					if (isFacingRightP1 == true) {
 						curAction = 8;
 					} else {
 						curAction = 9;
@@ -336,7 +329,7 @@ public class GameScreen implements Screen {
 					spriteClass.resetFrameIndex();
 					attack01.play();
 					player01State = 1;
-					if (isFacingRight == true) {
+					if (isFacingRightP1 == true) {
 						curAction = 4;
 					} else {
 						curAction = 5;
@@ -346,7 +339,7 @@ public class GameScreen implements Screen {
 					spriteClass.resetFrameIndex();
 					attack01.play();
 					player01State = 1;
-					if (isFacingRight == true) {
+					if (isFacingRightP1 == true) {
 						curAction = 12;
 					} else {
 						curAction = 13;
