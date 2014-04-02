@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
 	private Music battleMusic;
 	private Sound attack01;
 	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4,
-			player01State = 0, curAction = 0, optionIndex = 0,
+			player01State = 0, curActionP1 = 0, curActionP2 = 0, optionIndex = 0,
 			gameOverIndex = 0, player2XPos = 650, player2YPos = 15,  player02State = 0, curActionPlayer2 = 0, optionIndexPlayer2 =0, seconds = 60;
 	private boolean isKeyPressed, isFacingRightP1 = true, isPaused = false,
 			grounded = true, timeUp, isGameOver = false, isFacingRightP2;;
@@ -111,16 +111,16 @@ public class GameScreen implements Screen {
 
 		// sent to SpriteClass to tell it what the current character and
 		// animation are
-		spriteClass.setSheetValsP1(0, curAction);
-		spriteClass.setSheetValsP2(0, curAction);
+		spriteClass.setSheetValsP1(0, curActionP1);
+		spriteClass.setSheetValsP2(1, curActionP2);
 		//calls SpriteClass to get the current animation for player 1
 		curAnimationP1 = spriteClass.setAnimationP1();
 		//calls SpriteClass to get the current animation for player 2
 		curAnimationP2 = spriteClass.setAnimationP2();
 		
 		//initialize texture regions (texture, source x-coordinate, source y-coordinate, source width, source height, x-coordinate, y-coordinate)
-		player1TextureRegion = new TextureRegion(curAnimationP1, spriteClass.getFrameIndex() * (curAnimationP1.getWidth() / 6), 0, curAnimationP1.getWidth() / 6, curAnimationP1.getHeight());
-		player2TextureRegion = new TextureRegion(curAnimationP2, spriteClass.getFrameIndex() * (curAnimationP2.getWidth() / 6), 0, curAnimationP2.getWidth() / 6, curAnimationP2.getHeight());
+		player1TextureRegion = new TextureRegion(curAnimationP1, spriteClass.getFrameIndexP1() * (curAnimationP1.getWidth() / spriteClass.getNumOfFramesP1()), 0, curAnimationP1.getWidth() / spriteClass.getNumOfFramesP1(), curAnimationP1.getHeight());
+		player2TextureRegion = new TextureRegion(curAnimationP2, spriteClass.getFrameIndexP2() * (curAnimationP2.getWidth() / spriteClass.getNumOfFramesP2()), 0, curAnimationP2.getWidth() / spriteClass.getNumOfFramesP2(), curAnimationP2.getHeight());
 		//flip textures
 		player2TextureRegion.flip(true,false);
 		
@@ -137,7 +137,7 @@ public class GameScreen implements Screen {
 		// set timer color
 		timerFont.setColor(Color.WHITE);
 
-		// show game over screen if game is passed 0 seconds
+		// show game over screen if timer hits 0
 		if (seconds == 0) {
 			isGameOver = true;
 			// draws the black filter to create dimming effect
@@ -148,9 +148,9 @@ public class GameScreen implements Screen {
 			// y-coordinate, source width, source height, x-coordinate,
 			// y-coordinate)
 			batch.draw(
-					new TextureRegion(selectorTex, spriteClass.getFrameIndex()
-							* (selectorTex.getWidth() / 6), 0, selectorTex
-							.getWidth() / 6, selectorTex.getHeight()), 300,
+					new TextureRegion(selectorTex, spriteClass.getFrameIndexGUI()
+							* (selectorTex.getWidth() / spriteClass.getNumOfFramesGUI()), 0, selectorTex
+							.getWidth() / spriteClass.getNumOfFramesGUI(), selectorTex.getHeight()), 300,
 					gameOverOptions[gameOverIndex]);
 
 			// hide the timer when paused
@@ -165,17 +165,14 @@ public class GameScreen implements Screen {
 			batch.draw(pauseMenuTex, 250, 200);
 			// draws the help text-boxes
 			batch.draw(pauseHelpTxts[optionIndex], 360, 450);
-			// draws the selector (texture, source x-coordinate, source
-			// y-coordinate, source width, source height, x-coordinate,
+			// draws the selector (texture, source x-coordinate, 
+			// source y-coordinate, source width, source height, x-coordinate,
 			// y-coordinate)
 			batch.draw(
-					new TextureRegion(selectorTex, spriteClass.getFrameIndex()
-							* (selectorTex.getWidth() / 6), 0, selectorTex
-							.getWidth() / 6, selectorTex.getHeight()), 300,
+					new TextureRegion(selectorTex, spriteClass.getFrameIndexP1()
+							* (selectorTex.getWidth() / spriteClass.getNumOfFramesGUI()), 0, selectorTex
+							.getWidth() / spriteClass.getNumOfFramesGUI(), selectorTex.getHeight()), 300,
 					pauseOptions[optionIndex]);
-
-			// hide the timer when paused
-			timerFont.setColor(Color.CLEAR);
 		}
 
 		// draw the timer font
@@ -191,15 +188,15 @@ public class GameScreen implements Screen {
 				if (isKeyPressed == Gdx.input.isKeyPressed(Keyboard.KEY_NONE)
 						&& player01State == 0) {
 					if (isFacingRightP1 == true) {
-						curAction = 0;
+						curActionP1 = 0;
 					} else {
-						curAction = 1;
+						curActionP1 = 1;
 					}
 				}
 
 				// checks if an attack has finished
 				if (player01State == 1 || player01State == 3) {
-					if (spriteClass.getFrameIndex() >= 5) {
+					if (spriteClass.getFrameIndexP1() >= 5) {
 						player01State = 0;
 					}
 				}
@@ -211,17 +208,17 @@ public class GameScreen implements Screen {
 					// checks if the left arrow key has been held down
 					if (isKeyPressed = Gdx.input.isKeyPressed(Keys.LEFT)
 							&& player01State == 0) {
-						curAction = 3;
+						curActionP1 = 3;
 						isFacingRightP1 = false;
 						playerXPos -= moveSpeed;
 					}
 				}
 				// checks if the player is at the right edge of the screen
-				if (playerXPos < 800 - (curAnimationP1.getWidth() / 6)) {
+				if (playerXPos < 800 - (curAnimationP1.getWidth() / spriteClass.getNumOfFramesP1())) {
 					// checks if the right arrow key has been held down
 					if (isKeyPressed = Gdx.input.isKeyPressed(Keys.RIGHT)
 							&& player01State == 0) {
-						curAction = 2;
+						curActionP1 = 2;
 						isFacingRightP1 = true;
 						playerXPos += moveSpeed;
 					}
@@ -232,9 +229,9 @@ public class GameScreen implements Screen {
 						&& (player01State == 0 || player01State == 2)) {
 					player01State = 3;
 					if (isFacingRightP1 == true) {
-						curAction = 6;
+						curActionP1 = 6;
 					} else {
-						curAction = 7;
+						curActionP1 = 7;
 					}
 
 					// checks if the block key is also held down while the down
@@ -242,9 +239,9 @@ public class GameScreen implements Screen {
 					if (isKeyPressed = Gdx.input.isKeyPressed(Keys.N)) {
 						player01State = 2;
 						if (isFacingRightP1 == true) {
-							curAction = 10;
+							curActionP1 = 10;
 						} else {
-							curAction = 11;
+							curActionP1 = 11;
 						}
 					}
 				}
@@ -254,9 +251,9 @@ public class GameScreen implements Screen {
 						&& player01State == 0) {
 					player01State = 2;
 					if (isFacingRightP1 == true) {
-						curAction = 8;
+						curActionP1 = 8;
 					} else {
-						curAction = 9;
+						curActionP1 = 9;
 					}
 				}
 			}
@@ -326,23 +323,23 @@ public class GameScreen implements Screen {
 				// the coinciding attack animation
 				switch (player01State) {
 				case 0:
-					spriteClass.resetFrameIndex();
+					spriteClass.resetFrameIndexP1();
 					attack01.play();
 					player01State = 1;
 					if (isFacingRightP1 == true) {
-						curAction = 4;
+						curActionP1 = 4;
 					} else {
-						curAction = 5;
+						curActionP1 = 5;
 					}
 					break;
 				case 3:
-					spriteClass.resetFrameIndex();
+					spriteClass.resetFrameIndexP1();
 					attack01.play();
 					player01State = 1;
 					if (isFacingRightP1 == true) {
-						curAction = 12;
+						curActionP1 = 12;
 					} else {
-						curAction = 13;
+						curActionP1 = 13;
 					}
 					break;
 				}

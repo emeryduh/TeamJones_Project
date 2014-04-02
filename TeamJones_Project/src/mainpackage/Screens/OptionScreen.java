@@ -38,7 +38,6 @@ public class OptionScreen implements Screen
 	{
 		this.game = game;
 		// loads the textures
-		selectorTex = new Texture(Gdx.files.internal("assets/gui/selectorTex.png"));
 		backgroundTex = new Texture(Gdx.files.internal("assets/gui/optionsMenuBG02.png"));
 		volumeEmptyTex = new Texture(Gdx.files.internal("assets/gui/volumeBar_Empty.png"));
 		volumeFullTex = new Texture(Gdx.files.internal("assets/gui/volumeBar_Full.png"));
@@ -69,6 +68,9 @@ public class OptionScreen implements Screen
 		//positions the selector on the Y axis according to the option selected
 		selectorYPos = optionPositions[optionIndex];
 		
+		//sets the current gui element to draw as the selector
+		selectorTex = spriteClass.setAnimationGUI();
+		
 		// draw objects into the screen
 		batch.begin();
 		// draws the background texture
@@ -85,7 +87,7 @@ public class OptionScreen implements Screen
 		// draws the help text
 		batch.draw(helpTxts[optionIndex], 0, 50);
 		// draws the animating selector texture
-		batch.draw(new TextureRegion(selectorTex, spriteClass.getFrameIndex() * (selectorTex.getWidth() / 6), 0, selectorTex.getWidth() / 6, selectorTex.getHeight()), selectorXPos, selectorYPos);
+		batch.draw(new TextureRegion(selectorTex, spriteClass.getFrameIndexGUI() * (selectorTex.getWidth() / 6), 0, selectorTex.getWidth() / 6, selectorTex.getHeight()), selectorXPos, selectorYPos);
 		batch.end();
 
 		// this will enable the continuous key press
