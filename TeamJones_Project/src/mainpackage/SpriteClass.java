@@ -10,7 +10,7 @@ public class SpriteClass
 	GameScreen gameScreen;
 	private int frameIndexP1 = 0, frameIndexP2 = 0, frameIndexGUI = 0;
 	private float frameLengthP1, frameLengthP2, frameLengthGUI, f;
-	private float elapsedTime;
+	private float elapsedTime, elapsedTimeP2;
 	private int numOfFramesP1, numOfRowsP1, numOfFramesP2, numOfRowsP2, numOfFramesGUI, numOfRowsGUI;
 	private Texture curAnimationP1, curAnimationP2, curAnimationGUI;
 	//loads the textures for any GUI element sprite-sheets
@@ -83,20 +83,20 @@ public class SpriteClass
 			{
 			case 0:
 				//f represents the total time for all frames to run through once in a given animation
-				f = 1f;
+				f = 0.4f;
 				//loads texture corresponding to current action
 				curAnimationP1 = ichigoIdleRTex;
 				break;
 			case 1:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = ichigoIdleLTex;
 				break;
 			case 2:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = ichigoRunRTex;
 				break;
 			case 3:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = ichigoRunLTex;
 				break;
 			case 4:
@@ -108,27 +108,27 @@ public class SpriteClass
 				curAnimationP1 = ichigoAttackLTex;
 				break;
 			case 6:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = ichigoDuckRTex;
 				break;
 			case 7:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = ichigoDuckLTex;
 				break;
 			case 8:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = ichigoBlockRTex;
 				break;
 			case 9:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = ichigoBlockLTex;
 				break;
 			case 10:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = ichigoDuckingBlockRTex;
 				break;
 			case 11:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = ichigoDuckingBlockLTex;
 				break;
 			case 12:
@@ -150,20 +150,20 @@ public class SpriteClass
 			{
 			case 0:
 				//f represents the total time for all frames to run through once in a given animation
-				f = 1f;
+				f = 0.4f;
 				//loads texture corresponding to current action
 				curAnimationP1 = byakuyaIdleRTex;
 				break;
 			case 1:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = byakuyaIdleLTex;
 				break;
 			case 2:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = byakuyaRunRTex;
 				break;
 			case 3:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP1 = byakuyaRunLTex;
 				break;
 			case 4:
@@ -193,20 +193,20 @@ public class SpriteClass
 			{
 			case 0:
 				//f represents the total time for all frames to run through once in a given animation
-				f = 1f;
+				f = 0.4f;
 				//loads texture corresponding to current action
 				curAnimationP2 = ichigoIdleRTex;
 				break;
 			case 1:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = ichigoIdleLTex;
 				break;
 			case 2:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = ichigoRunRTex;
 				break;
 			case 3:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = ichigoRunLTex;
 				break;
 			case 4:
@@ -218,27 +218,27 @@ public class SpriteClass
 				curAnimationP2 = ichigoAttackLTex;
 				break;
 			case 6:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = ichigoDuckRTex;
 				break;
 			case 7:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = ichigoDuckLTex;
 				break;
 			case 8:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = ichigoBlockRTex;
 				break;
 			case 9:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = ichigoBlockLTex;
 				break;
 			case 10:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = ichigoDuckingBlockRTex;
 				break;
 			case 11:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = ichigoDuckingBlockLTex;
 				break;
 			case 12:
@@ -260,28 +260,28 @@ public class SpriteClass
 			{
 			case 0:
 				//f represents the total time for all frames to run through once in a given animation
-				f = 1f;
+				f = 0.4f;
 				//loads texture corresponding to current action
 				curAnimationP2 = byakuyaIdleRTex;
 				break;
 			case 1:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = byakuyaIdleLTex;
 				break;
 			case 2:
-				f = 1f;
+				f =0.4f;
 				curAnimationP2 = byakuyaRunRTex;
 				break;
 			case 3:
-				f = 1f;
+				f = 0.4f;
 				curAnimationP2 = byakuyaRunLTex;
 				break;
 			case 4:
-				f = 0.80f;
+				f = 0.4f;
 				curAnimationP2 = byakuyaAttackRTex;
 				break;
 			case 5:
-				f = 0.80f;
+				f = 0.4f;
 				curAnimationP2 = byakuyaAttackLTex;
 				break;
 			}
@@ -397,9 +397,9 @@ public class SpriteClass
 		frameLengthP2 = f / (numOfFramesP2 * numOfRowsP2);
 		
 		//updates how much time has passed
-		elapsedTime += Gdx.graphics.getDeltaTime();
+		elapsedTimeP2 += Gdx.graphics.getDeltaTime();
 		//checks if the amount of time passed has gone over the time length of a single frame
-		if(elapsedTime > frameLengthP2)
+		if(elapsedTimeP2 > frameLengthP2)
 		{
 			//if(gameScreen.pausedState() == false)
 			//{
@@ -407,7 +407,7 @@ public class SpriteClass
 				frameIndexP2++;
 			//}
 			//resets elapsedTime so that it is once again less than the time length of a single frame
-			elapsedTime = 0;
+				elapsedTimeP2 = 0;
 			//checks if the frame index has reached last frame
 			if(frameIndexP2 > numOfFramesP2 - 1)
 			{

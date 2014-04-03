@@ -34,14 +34,14 @@ public class GameScreen implements Screen {
 	private Sound attack01;
 	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4,
 			player01State = 0, curActionP1 = 0, curActionP2 = 0, optionIndex = 0,
-			gameOverIndex = 0, player2XPos = 650, player2YPos = 15,  player02State = 0, curActionPlayer2 = 0, optionIndexPlayer2 =0, seconds = 60;
+			gameOverIndex = 0, player2XPos = 650, player2YPos = 15,  player02State = 0,  optionIndexPlayer2 =0, seconds = 60;
 	private boolean isKeyPressed, isFacingRightP1 = true, isPaused = false,
-			grounded = true, timeUp, isGameOver = false, isFacingRightP2;;
+			grounded = true, timeUp, isGameOver = false, isFacingRightP2;
 	private float velocityX, velocityY, gravity = 5, elapsedTime,
 			jumpStrength = 100;
 	private Texture curAnimationP1, curAnimationP2, selectorTex, pauseFilterTex, pauseMenuTex,
 			gameOverTex, backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex,
-			player01SmallTex;;
+			player01SmallTex;
 	private int[] pauseOptions = new int[3];
 	private int[] gameOverOptions = new int[2];
 	private Texture[] pauseHelpTxts = new Texture[3];
@@ -49,6 +49,8 @@ public class GameScreen implements Screen {
 	long startTime = System.nanoTime();
 	private TextureRegion player1TextureRegion, player2TextureRegion;
 	private BitmapFont timerFont;
+	
+	public int curActionPlayer2 = 0;
 	
 
 	// constructor to keep a reference to the main Game class
@@ -104,15 +106,14 @@ public class GameScreen implements Screen {
 			playerYPos -= gravity;
 		}
 		
-		//AI will always face the player1
-		isFacingRightP2 = !isFacingRightP1;
+		
 		//AI logic initialization
 		player2XPos = AI.runLogic(playerXPos, player2XPos);
 
 		// sent to SpriteClass to tell it what the current character and
 		// animation are
 		spriteClass.setSheetValsP1(0, curActionP1);
-		spriteClass.setSheetValsP2(1, curActionP2);
+		spriteClass.setSheetValsP2(1, AI.curActionP2);
 		//calls SpriteClass to get the current animation for player 1
 		curAnimationP1 = spriteClass.setAnimationP1();
 		//calls SpriteClass to get the current animation for player 2
@@ -121,8 +122,6 @@ public class GameScreen implements Screen {
 		//initialize texture regions (texture, source x-coordinate, source y-coordinate, source width, source height, x-coordinate, y-coordinate)
 		player1TextureRegion = new TextureRegion(curAnimationP1, spriteClass.getFrameIndexP1() * (curAnimationP1.getWidth() / spriteClass.getNumOfFramesP1()), 0, curAnimationP1.getWidth() / spriteClass.getNumOfFramesP1(), curAnimationP1.getHeight());
 		player2TextureRegion = new TextureRegion(curAnimationP2, spriteClass.getFrameIndexP2() * (curAnimationP2.getWidth() / spriteClass.getNumOfFramesP2()), 0, curAnimationP2.getWidth() / spriteClass.getNumOfFramesP2(), curAnimationP2.getHeight());
-		//flip textures
-		player2TextureRegion.flip(true,false);
 		
 		
 		batch.begin();
