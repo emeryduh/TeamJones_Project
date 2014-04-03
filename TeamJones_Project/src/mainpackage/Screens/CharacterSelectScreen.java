@@ -6,6 +6,7 @@ import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.SoundFiles;
 import mainpackage.TextureFiles;
+import mainpackage.UserConfig;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -43,7 +44,7 @@ public class CharacterSelectScreen implements Screen {
 	private TextureAtlas atlas;
 	private Skin skin;
 	private TextButton btnPlayGame;
-
+	
 	// music
 	private Music charSelectionMusic;
 	private SoundFiles soundFiles;
@@ -64,10 +65,16 @@ public class CharacterSelectScreen implements Screen {
 
 	// highlight the character
 	private ShapeRenderer sRenderer;
+	
+	// Holds the screens volume levels when loaded in
+	private float bgmVolume;
+	private float sfxVolume;
 
 	// constructor to keep a reference to the main Game class
 	public CharacterSelectScreen(Game game) {
 		this.game = game;
+		
+		
 	}
 
 	// called when the screen should render itself
@@ -87,7 +94,7 @@ public class CharacterSelectScreen implements Screen {
 
 	// called when the screen resized
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+		
 		if (stage == null) {
 			stage = new Stage(width, height, true);
 		}
@@ -133,7 +140,7 @@ public class CharacterSelectScreen implements Screen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				soundFiles = new SoundFiles();
-				soundFiles.playSound("menuSelect", game.sfxVolume);
+				soundFiles.playSound("menuSelect", sfxVolume);
 				// hides/disables current screen
 				hide();
 				// go to Game Screen
@@ -283,7 +290,7 @@ public class CharacterSelectScreen implements Screen {
 				// this is where functionality for next screen should be called
 				// play menu select sound
 				soundFiles = new SoundFiles();
-				soundFiles.playSound("menuSelect", game.sfxVolume);
+				soundFiles.playSound("menuSelect", sfxVolume);
 				// go to Game Screen
 				charSelectionMusic.stop();
 				game.setScreen(new GameScreen(game));
@@ -302,6 +309,10 @@ public class CharacterSelectScreen implements Screen {
 
 	// called when this screen becomes the current screen for a Game
 	public void show() {
+		// Set volume levels upon loading
+		bgmVolume = UserConfig.getBGMVolume(false);
+		sfxVolume = UserConfig.getSFXVolume(false);
+		
 		batch = new SpriteBatch();
 		atlas = new TextureAtlas("assets/gui/button.pack");
 		skin = new Skin();
@@ -314,7 +325,7 @@ public class CharacterSelectScreen implements Screen {
 				.internal("assets/audioFiles/menuSounds/charSelectMusic.mp3"));
 		charSelectionMusic.play();
 		charSelectionMusic.setLooping(true);
-		charSelectionMusic.setVolume(this.game.masterVolume);
+		charSelectionMusic.setVolume(UserConfig.getBGMVolume(false));
 	}
 
 	// called when current screen changes from this to a different screen
@@ -360,7 +371,7 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
 			// play menu select sound			
-			soundFiles.playSound("menuTraverse", game.sfxVolume);
+			soundFiles.playSound("menuTraverse", sfxVolume);
 			break;
 		}
 		case Keys.D:  {
@@ -376,7 +387,7 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP1.setDrawable(new SpriteDrawable(changeCharacter(ch1Index)));
 			// play menu select sound
-			soundFiles.playSound("menuTraverse", game.sfxVolume);
+			soundFiles.playSound("menuTraverse", sfxVolume);
 			break;
 		}
 		case Keys.RIGHT:  {
@@ -390,7 +401,7 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP2.setDrawable(new SpriteDrawable(changeCharacter(ch2Index)));
 			// play menu select sound
-			soundFiles.playSound("menuTraverse", game.sfxVolume);
+			soundFiles.playSound("menuTraverse", sfxVolume);
 			break;
 		}
 		case Keys.LEFT:  {
@@ -405,7 +416,7 @@ public class CharacterSelectScreen implements Screen {
 			// change the image texture
 			imgP2.setDrawable(new SpriteDrawable(changeCharacter(ch2Index)));
 			// play menu select sound
-			soundFiles.playSound("menuTraverse", game.sfxVolume);
+			soundFiles.playSound("menuTraverse", sfxVolume);
 			break;
 		}
 
@@ -415,7 +426,7 @@ public class CharacterSelectScreen implements Screen {
 				btnPlayGame.setDisabled(false);
 			}
 			chP1Ready.setVisible(true);
-			soundFiles.playSound("menuSelect", game.sfxVolume);
+			soundFiles.playSound("menuSelect", sfxVolume);
 			break;
 		}
 
@@ -425,14 +436,14 @@ public class CharacterSelectScreen implements Screen {
 				btnPlayGame.setDisabled(false);
 			}
 			chP2Ready.setVisible(true);
-			soundFiles.playSound("menuSelect", game.sfxVolume);
+			soundFiles.playSound("menuSelect", sfxVolume);
 			break;
 		}
 
 		case Keys.ENTER:  {
 			charSelectionMusic.stop();
 			game.setScreen(new GameScreen(game));
-			soundFiles.playSound("menuSelect", game.sfxVolume);
+			soundFiles.playSound("menuSelect", sfxVolume);
 			hide();
 			break;
 		}
@@ -444,7 +455,7 @@ public class CharacterSelectScreen implements Screen {
 		}
 		
 		case Keys.BACKSPACE:  {
-			soundFiles.playSound("menuBack", game.sfxVolume);
+			soundFiles.playSound("menuBack", sfxVolume);
 			charSelectionMusic.stop();
 			game.setScreen(new MenuScreen(game));
 			break;

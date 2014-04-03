@@ -7,6 +7,7 @@ import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.SpriteClass;
 import mainpackage.TextureFiles;
+import mainpackage.UserConfig;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -52,6 +53,12 @@ public class GameScreen implements Screen {
 	
 	public int curActionPlayer2 = 0;
 	
+	// Holds where characters are drawn to be placed on the "ground"
+	private final static int groundHeight = 15;
+	
+	// Holds the modification to move speed while in the air
+	private double jumpSpeedMod = 0.85;
+	
 
 	// constructor to keep a reference to the main Game class
 	public GameScreen(Game game) {
@@ -59,8 +66,12 @@ public class GameScreen implements Screen {
 		this.game = game;
 		battleMusic = Gdx.audio.newMusic(Gdx.files
 				.internal("assets/audioFiles/battleMusic/battleMusic01.mp3"));
+		battleMusic.setVolume(UserConfig.getBGMVolume(false));
+		
 		attack01 = Gdx.audio.newSound(Gdx.files
 				.internal("assets/audioFiles/ichigoCombat/ichigoAttack01.wav"));
+		attack01.setVolume(0, UserConfig.getSFXVolume(false));
+		
 		backgroundTex = TextureFiles.getBackgroundTexture("gameScreen");
 		selectorTex = TextureFiles.geUtilityTexture("cursor");
 		pauseFilterTex = TextureFiles.geUtilityTexture("pauseBackground");
@@ -97,7 +108,7 @@ public class GameScreen implements Screen {
 		}
 
 		// checks for when the player is touching the ground
-		if (playerYPos <= 15) {
+		if (playerYPos <= groundHeight) {
 			grounded = true;
 		}
 
@@ -182,7 +193,7 @@ public class GameScreen implements Screen {
 		// checks if the game is not paused
 		if (isPaused == false &&  !isGameOver) {
 			// checks if player 1 is grounded
-			if (grounded == true) {
+			//if (grounded == true) {
 				// checks if no key is pressed down
 				if (isKeyPressed == Gdx.input.isKeyPressed(Keyboard.KEY_NONE)
 						&& player01State == 0) {
@@ -209,7 +220,12 @@ public class GameScreen implements Screen {
 							&& player01State == 0) {
 						curActionP1 = 3;
 						isFacingRightP1 = false;
-						playerXPos -= moveSpeed;
+						//playerXPos -= moveSpeed;
+						if(grounded == true) {
+							playerXPos -= moveSpeed;
+						} else {
+							playerXPos -= moveSpeed * jumpSpeedMod;
+						}
 					}
 				}
 				// checks if the player is at the right edge of the screen
@@ -219,7 +235,12 @@ public class GameScreen implements Screen {
 							&& player01State == 0) {
 						curActionP1 = 2;
 						isFacingRightP1 = true;
-						playerXPos += moveSpeed;
+						//playerXPos += moveSpeed;
+						if(grounded == true) {
+							playerXPos += moveSpeed;
+						} else {
+							playerXPos += moveSpeed * jumpSpeedMod;
+						}
 					}
 				}
 
@@ -255,7 +276,7 @@ public class GameScreen implements Screen {
 						curActionP1 = 9;
 					}
 				}
-			}
+			//}
 		} else {
 			// pauses the music whenever the game is paused
 			battleMusic.pause();
@@ -280,7 +301,7 @@ public class GameScreen implements Screen {
 		skin.addRegions(atlas);
 		battleMusic.play();
 		battleMusic.setLooping(true);
-		battleMusic.setVolume(this.game.masterVolume);
+		//battleMusic.setVolume(this.game.masterVolume);
 	}
 
 	// called when current screen changes to a different screen
@@ -370,10 +391,10 @@ public class GameScreen implements Screen {
 		case Keys.UP:
 			if (isPaused == false && !isGameOver) {
 				// makes player 1 jump
-				grounded = false;
-				if (grounded == false) {
+				if (grounded == true) {
 					playerYPos += jumpStrength;
 				}
+				grounded = false;
 			}
 			// changes the functionality of the up arrow key when the game is
 			// paused

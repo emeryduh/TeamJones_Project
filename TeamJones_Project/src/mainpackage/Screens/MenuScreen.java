@@ -6,6 +6,7 @@ import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.SoundFiles;
 import mainpackage.TextureFiles;
+import mainpackage.UserConfig;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -43,13 +44,16 @@ public class MenuScreen implements Screen {
 	private SoundFiles soundFiles;
 	private int menuIndex = 0;
 	private Image menuSelector;
+	private float bgmVolume, sfxVolume;
 
 	// constructor to keep a reference to the main Game class
 	public MenuScreen(Game game) {
 		this.game = game;
+		bgmVolume = UserConfig.getBGMVolume(false);
+		sfxVolume = UserConfig.getSFXVolume(false);
 		openingMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
+		openingMusic.setVolume(bgmVolume);
 		openingMusic.setLooping(true);
-		openingMusic.setVolume(this.game.masterVolume);
 	}
 
 	// called when the screen should render itself.
@@ -167,24 +171,24 @@ public class MenuScreen implements Screen {
 		if (keycode == Keys.UP) {
 			menuIndex = 0;
 			menuSelector.setPosition(530, 140);
-			soundFiles.playSound("menuTraverse", game.sfxVolume);
+			soundFiles.playSound("menuTraverse", sfxVolume);
 			return;
 		}
 		if (keycode == Keys.DOWN) {
-			soundFiles.playSound("menuTraverse", game.sfxVolume);
+			soundFiles.playSound("menuTraverse", sfxVolume);
 			menuIndex = 1;
 			menuSelector.setPosition(530, 70);
 			return;
 		}
 		if (keycode == Keys.ENTER && menuIndex == 0) {
 			game.setScreen(new CharacterSelectScreen(game));			
-			soundFiles.playSound("menuSelect", game.sfxVolume);
+			soundFiles.playSound("menuSelect", sfxVolume);
 			openingMusic.stop();
 			return;
 		}
 		if (keycode == Keys.ENTER && menuIndex == 1) {
 			game.setScreen(new OptionScreen(game));
-			soundFiles.playSound("menuSelect", game.sfxVolume);
+			soundFiles.playSound("menuSelect", sfxVolume);
 			openingMusic.stop();
 			return;
 		}
