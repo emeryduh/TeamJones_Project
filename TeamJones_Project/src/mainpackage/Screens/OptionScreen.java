@@ -80,6 +80,9 @@ public class OptionScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		//sent to the spriteClass to tell it what gui element to draw
+		spriteClass.setSheetValsGUI(0, 0);
 
 		// positions the selector on the Y axis according to the option selected
 		selectorYPos = optionPositions[optionIndex];
@@ -119,8 +122,8 @@ public class OptionScreen implements Screen {
 		// draws the animating selector texture
 		batch.draw(
 				new TextureRegion(selectorTex, spriteClass.getFrameIndexGUI()
-						* (selectorTex.getWidth() / 6), 0, selectorTex
-						.getWidth() / 6, selectorTex.getHeight()),
+						* (selectorTex.getWidth() / spriteClass.getNumOfFramesGUI()), 0, selectorTex
+						.getWidth() / spriteClass.getNumOfFramesGUI(), selectorTex.getHeight()),
 				selectorXPos, selectorYPos);
 		batch.end();
 

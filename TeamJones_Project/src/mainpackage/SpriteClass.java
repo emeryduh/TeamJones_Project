@@ -36,6 +36,12 @@ public class SpriteClass
 	//loads the ducking attack textures for Ichigo
 	private Texture ichigoDuckingAttackRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_DuckingAttack_Right.png"));
 	private Texture ichigoDuckingAttackLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_DuckingAttack_Left.png"));
+	//loads the jumping textures for Ichigo
+	private Texture ichigoJumpRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Jumping_Right.png"));
+	private Texture ichigoJumpLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Jumping_Left.png"));
+	//loads the jumping attack textures for Ichigo
+	private Texture ichigoJumpingAttackRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_JumpingAttack_Right.png"));
+	private Texture ichigoJumpingAttackLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_JumpingAttack_Left.png"));
 	
 	//loads idle textures for Byakuya
 	private Texture byakuyaIdleRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Byakuya/Byakuya_Standing_Right.png"));

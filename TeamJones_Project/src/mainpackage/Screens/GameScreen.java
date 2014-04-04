@@ -35,7 +35,7 @@ public class GameScreen implements Screen {
 	private Sound attack01;
 	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4,
 			player01State = 0, curActionP1 = 0, curActionP2 = 0, optionIndex = 0,
-			gameOverIndex = 0, player2XPos = 650, player2YPos = 15,  player02State = 0,  optionIndexPlayer2 =0, seconds = 60;
+			gameOverIndex = 0, player2XPos = 650, player2YPos = 15,  player02State = 0,  optionIndexPlayer2 =0, seconds = 90;
 	private boolean isKeyPressed, isFacingRightP1 = true, isPaused = false,
 			grounded = true, timeUp, isGameOver = false, isFacingRightP2;
 	private float velocityX, velocityY, gravity = 5, elapsedTime,
@@ -116,13 +116,10 @@ public class GameScreen implements Screen {
 		if (grounded == false) {
 			playerYPos -= gravity;
 		}
-		
-		
-		//AI logic initialization
-		player2XPos = AI.runLogic(playerXPos, player2XPos);
 
-		// sent to SpriteClass to tell it what the current character and
-		// animation are
+		//sent to the spriteClass to tell it what gui element to draw
+		spriteClass.setSheetValsGUI(0, 0);
+		// sent to SpriteClass to tell it what the current character and animation are
 		spriteClass.setSheetValsP1(0, curActionP1);
 		spriteClass.setSheetValsP2(1, AI.curActionP2);
 		//calls SpriteClass to get the current animation for player 1
@@ -192,8 +189,10 @@ public class GameScreen implements Screen {
 
 		// checks if the game is not paused
 		if (isPaused == false &&  !isGameOver) {
+			//AI logic initialization
+			player2XPos = AI.runLogic(playerXPos, player2XPos);
 			// checks if player 1 is grounded
-			//if (grounded == true) {
+			if (grounded == true) {
 				// checks if no key is pressed down
 				if (isKeyPressed == Gdx.input.isKeyPressed(Keyboard.KEY_NONE)
 						&& player01State == 0) {
@@ -276,7 +275,7 @@ public class GameScreen implements Screen {
 						curActionP1 = 9;
 					}
 				}
-			//}
+			}
 		} else {
 			// pauses the music whenever the game is paused
 			battleMusic.pause();
