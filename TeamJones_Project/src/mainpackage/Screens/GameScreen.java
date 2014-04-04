@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import mainpackage.AI;
 import mainpackage.Game;
+import mainpackage.Player;
 import mainpackage.PlayerInput;
 import mainpackage.SpriteClass;
 import mainpackage.TextureFiles;
@@ -27,22 +28,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class GameScreen implements Screen {
 	// variables
 	private Game game;
+	private Player player = new Player();
 	private SpriteClass spriteClass = new SpriteClass();
 	private SpriteBatch batch;
 	private TextureAtlas atlas;
 	private Skin skin;
 	private Music battleMusic;
 	private Sound attack01;
-	private int playerXPos = 50, playerYPos = 15, moveSpeed = 4,
-			player01State = 0, curActionP1 = 0, curActionP2 = 0, optionIndex = 0,
-			gameOverIndex = 0, player2XPos = 650, player2YPos = 15,  player02State = 0,  optionIndexPlayer2 =0, seconds = 90;
+	private int player1XPos = 50, player1YPos = 15, moveSpeed = 4,
+			player01State = 0, curActionP1 = 0, curActionP2 = 0,
+			optionIndex = 0, gameOverIndex = 0, player2XPos = 650,
+			player2YPos = 15, player02State = 0, optionIndexPlayer2 = 0,
+			seconds = 90;
 	private boolean isKeyPressed, isFacingRightP1 = true, isPaused = false,
 			grounded = true, timeUp, isGameOver = false, isFacingRightP2;
-	private float velocityX, velocityY, gravity = 5, elapsedTime,
-			jumpStrength = 100;
-	private Texture curAnimationP1, curAnimationP2, selectorTex, pauseFilterTex, pauseMenuTex,
-			gameOverTex, backgroundTex, hpBarLeftTex, hpBarRightTex, roundsTex,
-			player01SmallTex;
+	private float velocityX, velocityY, gravity = 6, elapsedTime,
+			jumpStrength = 150;
+	private Texture curAnimationP1, curAnimationP2, selectorTex,
+			pauseFilterTex, pauseMenuTex, gameOverTex, backgroundTex, playerInfoGUI, 
+			hpBarLTex, hpBarRTex, roundsTex, player01SmallTex, player02SmallTex;
 	private int[] pauseOptions = new int[3];
 	private int[] gameOverOptions = new int[2];
 	private Texture[] pauseHelpTxts = new Texture[3];
@@ -50,15 +54,14 @@ public class GameScreen implements Screen {
 	long startTime = System.nanoTime();
 	private TextureRegion player1TextureRegion, player2TextureRegion;
 	private BitmapFont timerFont;
-	
+
 	public int curActionPlayer2 = 0;
-	
+
 	// Holds where characters are drawn to be placed on the "ground"
 	private final static int groundHeight = 15;
-	
+
 	// Holds the modification to move speed while in the air
 	private double jumpSpeedMod = 0.85;
-	
 
 	// constructor to keep a reference to the main Game class
 	public GameScreen(Game game) {
@@ -67,19 +70,24 @@ public class GameScreen implements Screen {
 		battleMusic = Gdx.audio.newMusic(Gdx.files
 				.internal("assets/audioFiles/battleMusic/battleMusic01.mp3"));
 		battleMusic.setVolume(UserConfig.getBGMVolume(false));
-		
+
 		attack01 = Gdx.audio.newSound(Gdx.files
 				.internal("assets/audioFiles/ichigoCombat/ichigoAttack01.wav"));
 		attack01.setVolume(0, UserConfig.getSFXVolume(false));
-		
-		backgroundTex = TextureFiles.getBackgroundTexture("gameScreen");
-		selectorTex = TextureFiles.geUtilityTexture("cursor");
-		pauseFilterTex = TextureFiles.geUtilityTexture("pauseBackground");
-		pauseMenuTex = TextureFiles.geUtilityTexture("pauseMenu");
-		gameOverTex = TextureFiles.geUtilityTexture("gameover");
-		pauseHelpTxts[0] = TextureFiles.geUtilityTexture("pauseHelpTxt01");
-		pauseHelpTxts[1] = TextureFiles.geUtilityTexture("pauseHelpTxt02");
-		pauseHelpTxts[2] = TextureFiles.geUtilityTexture("pauseHelpTxt03");
+
+		backgroundTex = TextureFiles.getBackgroundTexture("gameScreen01");
+		hpBarLTex = TextureFiles.getUtilityTexture("hpBarL");
+		hpBarRTex = TextureFiles.getUtilityTexture("hpBarR");
+		playerInfoGUI = TextureFiles.getUtilityTexture("playerInfoGUI");
+		player01SmallTex = TextureFiles.getUtilityTexture("ichigoSmall");
+		player02SmallTex = TextureFiles.getUtilityTexture("byakuyaSmall");
+		selectorTex = TextureFiles.getUtilityTexture("cursor");
+		pauseFilterTex = TextureFiles.getUtilityTexture("pauseBackground");
+		pauseMenuTex = TextureFiles.getUtilityTexture("pauseMenu");
+		gameOverTex = TextureFiles.getUtilityTexture("gameover");
+		pauseHelpTxts[0] = TextureFiles.getUtilityTexture("pauseHelpTxt01");
+		pauseHelpTxts[1] = TextureFiles.getUtilityTexture("pauseHelpTxt02");
+		pauseHelpTxts[2] = TextureFiles.getUtilityTexture("pauseHelpTxt03");
 		// stores the Y coordinates of the pause menu options in pixels
 		pauseOptions[0] = 350;
 		pauseOptions[1] = 300;
@@ -108,39 +116,63 @@ public class GameScreen implements Screen {
 		}
 
 		// checks for when the player is touching the ground
-		if (playerYPos <= groundHeight) {
+		if (player1YPos <= 15) {
 			grounded = true;
 		}
 
 		// applies gravity
 		if (grounded == false) {
-			playerYPos -= gravity;
+			player1YPos -= gravity;
 		}
 
-		//sent to the spriteClass to tell it what gui element to draw
+		// sent to the spriteClass to tell it what gui element to draw
 		spriteClass.setSheetValsGUI(0, 0);
-		// sent to SpriteClass to tell it what the current character and animation are
+		// sent to SpriteClass to tell it what the current character and
+		// animation are
 		spriteClass.setSheetValsP1(0, curActionP1);
 		spriteClass.setSheetValsP2(1, AI.curActionP2);
-		//calls SpriteClass to get the current animation for player 1
+		// calls SpriteClass to get the current animation for player 1
 		curAnimationP1 = spriteClass.setAnimationP1();
-		//calls SpriteClass to get the current animation for player 2
+		// calls SpriteClass to get the current animation for player 2
 		curAnimationP2 = spriteClass.setAnimationP2();
-		
-		//initialize texture regions (texture, source x-coordinate, source y-coordinate, source width, source height, x-coordinate, y-coordinate)
-		player1TextureRegion = new TextureRegion(curAnimationP1, spriteClass.getFrameIndexP1() * (curAnimationP1.getWidth() / spriteClass.getNumOfFramesP1()), 0, curAnimationP1.getWidth() / spriteClass.getNumOfFramesP1(), curAnimationP1.getHeight());
-		player2TextureRegion = new TextureRegion(curAnimationP2, spriteClass.getFrameIndexP2() * (curAnimationP2.getWidth() / spriteClass.getNumOfFramesP2()), 0, curAnimationP2.getWidth() / spriteClass.getNumOfFramesP2(), curAnimationP2.getHeight());
-		
-		
+
+		// initialize texture regions (texture, source x-coordinate, source
+		// y-coordinate, source width, source height, x-coordinate,
+		// y-coordinate)
+		player1TextureRegion = new TextureRegion(curAnimationP1,
+				spriteClass.getFrameIndexP1()
+						* (curAnimationP1.getWidth() / spriteClass
+								.getNumOfFramesP1()), 0,
+				curAnimationP1.getWidth() / spriteClass.getNumOfFramesP1(),
+				curAnimationP1.getHeight());
+		player2TextureRegion = new TextureRegion(curAnimationP2,
+				spriteClass.getFrameIndexP2()
+						* (curAnimationP2.getWidth() / spriteClass
+								.getNumOfFramesP2()), 0,
+				curAnimationP2.getWidth() / spriteClass.getNumOfFramesP2(),
+				curAnimationP2.getHeight());
+
 		batch.begin();
 
-		//draws the background texture (texture, x-coordinate, y-coordinate, width, height, source width, source height, horizontal flip, vertical flip)
-		batch.draw(backgroundTex, 0, 0, 800, 600, 0, 0, backgroundTex.getWidth(), backgroundTex.getHeight(), false, false);
-		//draws player 1 
-		batch.draw(player1TextureRegion , playerXPos, playerYPos);
-		//draws AI
-		batch.draw(player2TextureRegion , player2XPos, player2YPos);
-				
+		// draws the background texture (texture, x-coordinate, y-coordinate,
+		// width, height, source width, source height, horizontal flip, vertical
+		// flip)
+		batch.draw(backgroundTex, 0, 0, 800, 600, 0, 0,
+				backgroundTex.getWidth(), backgroundTex.getHeight(), false,
+				false);
+		//draws the health bars
+		batch.draw(hpBarLTex, 0, 545, (int) (hpBarLTex.getWidth() * (player.getPlayer1HP() / 100)), hpBarLTex.getHeight(), 0, 0, (int) (hpBarLTex.getWidth() * (player.getPlayer1HP() / 100)), hpBarLTex.getHeight(), false, false);
+		batch.draw(hpBarRTex, 400, 545, (int) (hpBarRTex.getWidth() * (player.getPlayer2HP() / 100)), hpBarRTex.getHeight(), 0, 0, (int) (hpBarRTex.getWidth() * (player.getPlayer2HP() / 100)), hpBarRTex.getHeight(), false, false);
+		//draws the small character images
+		batch.draw(player01SmallTex, 5, 545);
+		batch.draw(player02SmallTex, 725, 542);
+		//draws the player info gui
+		batch.draw(playerInfoGUI, 0, 530);
+		// draws player 1
+		batch.draw(player1TextureRegion, player1XPos, player1YPos);
+		// draws AI
+		batch.draw(player2TextureRegion, player2XPos, player2YPos);
+
 		// set timer color
 		timerFont.setColor(Color.WHITE);
 
@@ -155,9 +187,12 @@ public class GameScreen implements Screen {
 			// y-coordinate, source width, source height, x-coordinate,
 			// y-coordinate)
 			batch.draw(
-					new TextureRegion(selectorTex, spriteClass.getFrameIndexGUI()
-							* (selectorTex.getWidth() / spriteClass.getNumOfFramesGUI()), 0, selectorTex
-							.getWidth() / spriteClass.getNumOfFramesGUI(), selectorTex.getHeight()), 300,
+					new TextureRegion(selectorTex, spriteClass
+							.getFrameIndexGUI()
+							* (selectorTex.getWidth() / spriteClass
+									.getNumOfFramesGUI()), 0, selectorTex
+							.getWidth() / spriteClass.getNumOfFramesGUI(),
+							selectorTex.getHeight()), 300,
 					gameOverOptions[gameOverIndex]);
 
 			// hide the timer when paused
@@ -172,13 +207,16 @@ public class GameScreen implements Screen {
 			batch.draw(pauseMenuTex, 250, 200);
 			// draws the help text-boxes
 			batch.draw(pauseHelpTxts[optionIndex], 360, 450);
-			// draws the selector (texture, source x-coordinate, 
+			// draws the selector (texture, source x-coordinate,
 			// source y-coordinate, source width, source height, x-coordinate,
 			// y-coordinate)
 			batch.draw(
-					new TextureRegion(selectorTex, spriteClass.getFrameIndexP1()
-							* (selectorTex.getWidth() / spriteClass.getNumOfFramesGUI()), 0, selectorTex
-							.getWidth() / spriteClass.getNumOfFramesGUI(), selectorTex.getHeight()), 300,
+					new TextureRegion(selectorTex, spriteClass
+							.getFrameIndexP1()
+							* (selectorTex.getWidth() / spriteClass
+									.getNumOfFramesGUI()), 0, selectorTex
+							.getWidth() / spriteClass.getNumOfFramesGUI(),
+							selectorTex.getHeight()), 300,
 					pauseOptions[optionIndex]);
 		}
 
@@ -188,9 +226,25 @@ public class GameScreen implements Screen {
 		batch.end();
 
 		// checks if the game is not paused
-		if (isPaused == false &&  !isGameOver) {
-			//AI logic initialization
-			player2XPos = AI.runLogic(playerXPos, player2XPos);
+		if (isPaused == false && !isGameOver) {
+			// AI logic initialization
+			player2XPos = AI.runLogic(player1XPos, player2XPos);
+			// checks if an attack has finished
+			if (player01State == 1) {
+				if (grounded == true) {
+					if (spriteClass.getFrameIndexP1() >= 5) {
+						player01State = 0;
+					}
+				} else {
+					if (spriteClass.getFrameIndexP1() >= 5) {
+						if (isFacingRightP1 == true) {
+							curActionP1 = 14;
+						} else {
+							curActionP1 = 15;
+						}
+					}
+				}
+			}
 			// checks if player 1 is grounded
 			if (grounded == true) {
 				// checks if no key is pressed down
@@ -203,42 +257,36 @@ public class GameScreen implements Screen {
 					}
 				}
 
-				// checks if an attack has finished
-				if (player01State == 1 || player01State == 3) {
-					if (spriteClass.getFrameIndexP1() >= 5) {
-						player01State = 0;
-					}
-				}
-
 				// handles keyboard input involving held down key actions
 
 				// checks if player 1 is at the left edge of the screen
-				if (playerXPos > 0) {
+				if (player1XPos > 0) {
 					// checks if the left arrow key has been held down
 					if (isKeyPressed = Gdx.input.isKeyPressed(Keys.LEFT)
 							&& player01State == 0) {
 						curActionP1 = 3;
 						isFacingRightP1 = false;
-						//playerXPos -= moveSpeed;
-						if(grounded == true) {
-							playerXPos -= moveSpeed;
+						// playerXPos -= moveSpeed;
+						if (grounded == true) {
+							player1XPos -= moveSpeed;
 						} else {
-							playerXPos -= moveSpeed * jumpSpeedMod;
+							player1XPos -= moveSpeed * jumpSpeedMod;
 						}
 					}
 				}
 				// checks if the player is at the right edge of the screen
-				if (playerXPos < 800 - (curAnimationP1.getWidth() / spriteClass.getNumOfFramesP1())) {
+				if (player1XPos < 800 - (curAnimationP1.getWidth() / spriteClass
+						.getNumOfFramesP1())) {
 					// checks if the right arrow key has been held down
 					if (isKeyPressed = Gdx.input.isKeyPressed(Keys.RIGHT)
 							&& player01State == 0) {
 						curActionP1 = 2;
 						isFacingRightP1 = true;
-						//playerXPos += moveSpeed;
-						if(grounded == true) {
-							playerXPos += moveSpeed;
+						// playerXPos += moveSpeed;
+						if (grounded == true) {
+							player1XPos += moveSpeed;
 						} else {
-							playerXPos += moveSpeed * jumpSpeedMod;
+							player1XPos += moveSpeed * jumpSpeedMod;
 						}
 					}
 				}
@@ -300,7 +348,7 @@ public class GameScreen implements Screen {
 		skin.addRegions(atlas);
 		battleMusic.play();
 		battleMusic.setLooping(true);
-		//battleMusic.setVolume(this.game.masterVolume);
+		// battleMusic.setVolume(this.game.masterVolume);
 	}
 
 	// called when current screen changes to a different screen
@@ -338,29 +386,55 @@ public class GameScreen implements Screen {
 		// checks whether the attack key was pressed
 		case Keys.M:
 			if (isPaused == false) {
-				// checks whether the player is standing up or ducking and plays
-				// the coinciding attack animation
-				switch (player01State) {
-				case 0:
-					spriteClass.resetFrameIndexP1();
+				// checks if the player is jumping and plays the jumping attack
+				// animation
+				if (grounded == false && player01State == 0) {
+					// plays the sound for a basic attack
 					attack01.play();
+					spriteClass.resetFrameIndexP1();
 					player01State = 1;
 					if (isFacingRightP1 == true) {
-						curActionP1 = 4;
+						curActionP1 = 16;
 					} else {
-						curActionP1 = 5;
+						curActionP1 = 17;
 					}
 					break;
-				case 3:
-					spriteClass.resetFrameIndexP1();
-					attack01.play();
-					player01State = 1;
-					if (isFacingRightP1 == true) {
-						curActionP1 = 12;
-					} else {
-						curActionP1 = 13;
+				} else {
+					// checks whether the player is standing up or ducking and
+					// plays
+					// the coinciding attack animation
+					switch (player01State) {
+					case 0:
+						// plays the sound for a basic attack
+						attack01.play();
+						// resets the frameIndex for player 1 to animate the
+						// attack
+						// from the first frame
+						spriteClass.resetFrameIndexP1();
+						// sets the player state to attacking
+						player01State = 1;
+						if (isFacingRightP1 == true) {
+							curActionP1 = 4;
+						} else {
+							curActionP1 = 5;
+						}
+						break;
+					case 3:
+						// plays the sound for a basic attack
+						attack01.play();
+						// resets the frameIndex for player 1 to animate the
+						// attack
+						// from the first frame
+						spriteClass.resetFrameIndexP1();
+						// sets the player state to attacking
+						player01State = 1;
+						if (isFacingRightP1 == true) {
+							curActionP1 = 12;
+						} else {
+							curActionP1 = 13;
+						}
+						break;
 					}
-					break;
 				}
 			}
 			// changes the functionality of the attack key to select when the
@@ -389,11 +463,20 @@ public class GameScreen implements Screen {
 			// checks whether the up arrow key was pressed
 		case Keys.UP:
 			if (isPaused == false && !isGameOver) {
+				// resets the frameIndex for player 1 to animate the jump
+				// from the first frame
+				spriteClass.resetFrameIndexP1();
 				// makes player 1 jump
 				if (grounded == true) {
-					playerYPos += jumpStrength;
+					grounded = false;
+					player1YPos += jumpStrength;
+					if (isFacingRightP1 == true) {
+						curActionP1 = 14;
+					} else {
+						curActionP1 = 15;
+					}
+					break;
 				}
-				grounded = false;
 			}
 			// changes the functionality of the up arrow key when the game is
 			// paused
@@ -431,12 +514,12 @@ public class GameScreen implements Screen {
 				}
 			}
 			return;
-			
+
 			// checks whether the enter key was pressed
 		case Keys.ENTER:
 			if (isGameOver) {
 				if (gameOverIndex == 0) {
-					// if index is 0 redirect to character selection screen 
+					// if index is 0 redirect to character selection screen
 					game.setScreen(new CharacterSelectScreen(game));
 				} else {
 					// if index is 1 redirect to menu screen

@@ -163,10 +163,16 @@ public class TextureFiles {
 					Gdx.files.internal("assets/gui/optionsMenuBG.png"));
 			break;
 		}
-		case "gameScreen": {
+		case "gameScreen01": {
 			chTexture = new Texture(
 					Gdx.files
 							.internal("assets/sprites/backgrounds/battle_BG_01.png"));
+			break;
+		}
+		case "gameScreen02": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/sprites/backgrounds/battle_BG_02.png"));
 			break;
 		}
 		}
@@ -174,7 +180,7 @@ public class TextureFiles {
 	}
 
 	// get the utility texture
-	public static Texture geUtilityTexture(String strTexture) {
+	public static Texture getUtilityTexture(String strTexture) {
 		Texture chTexture = null;
 		switch (strTexture) {
 		case "player1": {
@@ -239,7 +245,36 @@ public class TextureFiles {
 							.internal("assets/gui/pauseHelpTxt03.png"));
 			break;
 		}
-		
+		case "playerInfoGUI": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/playerInfoGUI.png"));
+			break;
+		}
+		case "hpBarL": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/hpBar_Left.png"));
+			break;
+		}
+		case "hpBarR": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/hpBar_Right.png"));
+			break;
+		}
+		case "ichigoSmall": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/ichigoSmall.png"));
+			break;
+		}
+		case "byakuyaSmall": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/byakuyaSmall.png"));
+			break;
+		}
 		}
 		return chTexture;
 	}

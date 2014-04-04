@@ -118,7 +118,7 @@ public class MenuScreen implements Screen {
 		stage.addActor(btnOptions);
 
 		// Add Cursor
-		Texture cursorTex = TextureFiles.geUtilityTexture("cursor");
+		Texture cursorTex = TextureFiles.getUtilityTexture("cursor");
 		cursorTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		menuSelector = new Image(new TextureRegion(cursorTex));
 		menuSelector.setBounds(530, 140, 60, 30);

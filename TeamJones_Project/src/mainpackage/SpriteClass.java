@@ -37,8 +37,8 @@ public class SpriteClass
 	private Texture ichigoDuckingAttackRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_DuckingAttack_Right.png"));
 	private Texture ichigoDuckingAttackLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_DuckingAttack_Left.png"));
 	//loads the jumping textures for Ichigo
-	private Texture ichigoJumpRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Jumping_Right.png"));
-	private Texture ichigoJumpLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Jumping_Left.png"));
+	private Texture ichigoJumpingRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Jumping_Right.png"));
+	private Texture ichigoJumpingLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Jumping_Left.png"));
 	//loads the jumping attack textures for Ichigo
 	private Texture ichigoJumpingAttackRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_JumpingAttack_Right.png"));
 	private Texture ichigoJumpingAttackLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_JumpingAttack_Left.png"));
@@ -89,20 +89,20 @@ public class SpriteClass
 			{
 			case 0:
 				//f represents the total time for all frames to run through once in a given animation
-				f = 0.4f;
+				f = 0.6f;
 				//loads texture corresponding to current action
 				curAnimationP1 = ichigoIdleRTex;
 				break;
 			case 1:
-				f = 0.4f;
+				f = 1.20f;
 				curAnimationP1 = ichigoIdleLTex;
 				break;
 			case 2:
-				f = 0.4f;
+				f = 1.20f;
 				curAnimationP1 = ichigoRunRTex;
 				break;
 			case 3:
-				f = 0.4f;
+				f = 1.20f;
 				curAnimationP1 = ichigoRunLTex;
 				break;
 			case 4:
@@ -114,27 +114,27 @@ public class SpriteClass
 				curAnimationP1 = ichigoAttackLTex;
 				break;
 			case 6:
-				f = 0.4f;
+				f = 1.20f;
 				curAnimationP1 = ichigoDuckRTex;
 				break;
 			case 7:
-				f = 0.4f;
+				f = 1.20f;
 				curAnimationP1 = ichigoDuckLTex;
 				break;
 			case 8:
-				f = 0.4f;
+				f = 1.20f;
 				curAnimationP1 = ichigoBlockRTex;
 				break;
 			case 9:
-				f = 0.4f;
+				f = 1.20f;
 				curAnimationP1 = ichigoBlockLTex;
 				break;
 			case 10:
-				f = 0.4f;
+				f = 1.20f;
 				curAnimationP1 = ichigoDuckingBlockRTex;
 				break;
 			case 11:
-				f = 0.4f;
+				f = 1.20f;
 				curAnimationP1 = ichigoDuckingBlockLTex;
 				break;
 			case 12:
@@ -144,6 +144,22 @@ public class SpriteClass
 			case 13:
 				f = 0.80f;
 				curAnimationP1 = ichigoDuckingAttackLTex;
+				break;
+			case 14:
+				f = 1.20f;
+				curAnimationP1 = ichigoJumpingRTex;
+				break;
+			case 15:
+				f = 1.20f;
+				curAnimationP1 = ichigoJumpingLTex;
+				break;
+			case 16:
+				f = 0.80f;
+				curAnimationP1 = ichigoJumpingAttackRTex;
+				break;
+			case 17:
+				f = 0.80f;
+				curAnimationP1 = ichigoJumpingAttackLTex;
 				break;
 			}
 			break;
@@ -254,6 +270,22 @@ public class SpriteClass
 			case 13:
 				f = 0.80f;
 				curAnimationP2 = ichigoDuckingAttackLTex;
+				break;
+			case 14:
+				f = 0.80f;
+				curAnimationP2 = ichigoJumpingRTex;
+				break;
+			case 15:
+				f = 0.80f;
+				curAnimationP2 = ichigoJumpingLTex;
+				break;
+			case 16:
+				f = 0.40f;
+				curAnimationP2 = ichigoJumpingAttackRTex;
+				break;
+			case 17:
+				f = 0.40f;
+				curAnimationP2 = ichigoJumpingAttackLTex;
 				break;
 			}
 			break;

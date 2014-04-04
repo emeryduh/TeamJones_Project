@@ -26,20 +26,20 @@ public class Movement {
 		
 		//Creating the rectangle for the attackers fist for collision detection
 		Rectangle fistRectangle = new Rectangle();
-		fistRectangle.x = player.sprite.getX() + 50; //Offset value '50' to be adjusted later on
-		fistRectangle.y = player.sprite.getY() + 50; //Offset value '50' to be adjusted later on
+		//fistRectangle.x = ((Rectangle) player.sprite).getX() + 50; //Offset value '50' to be adjusted later on
+		//fistRectangle.y = ((Rectangle) player.sprite).getY() + 50; //Offset value '50' to be adjusted later on
 		fistRectangle.width = 20; //Will be adjusted later on
 		fistRectangle.height = 20; //Will be adjusted later on
 		
 		//Creating defenders' hit box rectangle for collision detection
 		Rectangle hitBoxRectangle = new Rectangle();
-		hitBoxRectangle.x = player2.sprite.getX(); //X and Y values of player2 sprite
-		hitBoxRectangle.x = player2.sprite.getY();
+		//hitBoxRectangle.x = ((Rectangle) player2.sprite).getX(); //X and Y values of player2 sprite
+		//hitBoxRectangle.x = ((Rectangle) player2.sprite).getY();
 		hitBoxRectangle.width = 50;
 		hitBoxRectangle.height = 50;
 		
 		
-		if(fistRectangle.contains(hitBoxRectangle) && player2.defend == true) //Added a placeholder boolean for opponent defend
+		/*if(fistRectangle.contains(hitBoxRectangle) && player2.defend == true) //Added a placeholder boolean for opponent defend
 		{
 			return battle.player1Health - punchDamage/4;
 		}
@@ -47,7 +47,7 @@ public class Movement {
 		{
 			return battle.player1Health - punchDamage;
 		}
-			
+		*/
 	return battle.player1Health;
 	}
 	
@@ -59,20 +59,20 @@ public class Movement {
 			
 		//Creating the rectangle for the attackers foot for collision detection
 		Rectangle kickRectangle = new Rectangle();
-		kickRectangle.x = player.sprite.getX() + 50; //Offset value '50' to be adjusted later on
-		kickRectangle.y = player.sprite.getY() + 100; //Offset value '100' to be adjusted later on
+		//kickRectangle.x = ((Rectangle) player.sprite).getX() + 50; //Offset value '50' to be adjusted later on
+		//kickRectangle.y = ((Rectangle) player.sprite).getY() + 100; //Offset value '100' to be adjusted later on
 		kickRectangle.width = 20; //Will be adjusted later on
 		kickRectangle.height = 20; //Will be adjusted later on
 			
 		//Creating defenders' hit box rectangle for collision detection
 		Rectangle hitBoxRectangle = new Rectangle();
-		hitBoxRectangle.x = player2.sprite.getX(); //X and Y values of player2 sprite
-		hitBoxRectangle.x = player2.sprite.getY();
+		//hitBoxRectangle.x = ((Rectangle) player2.sprite).getX(); //X and Y values of player2 sprite
+		//hitBoxRectangle.x = ((Rectangle) player2.sprite).getY();
 		hitBoxRectangle.width = 50;
 		hitBoxRectangle.height = 50;
 			
 			
-		if(kickRectangle.contains(hitBoxRectangle) && player2.defend == true) //Added a placeholder boolean for opponent defend
+		/*if(kickRectangle.contains(hitBoxRectangle) && player2.defend == true) //Added a placeholder boolean for opponent defend
 		{
 			return battle.player1Health - kickDamage/4;
 		}
@@ -80,7 +80,7 @@ public class Movement {
 		{
 			return battle.player1Health - kickDamage;
 		}
-				
+		*/		
 	return battle.player1Health;
 	}
 		

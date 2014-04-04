@@ -42,7 +42,7 @@ public class OptionScreen implements Screen {
 		this.game = game;
 		// loads the textures
 		backgroundTex = new Texture(
-				Gdx.files.internal("assets/gui/optionsMenuBG02.png"));
+				Gdx.files.internal("assets/gui/optionsMenuBG.png"));
 		volumeEmptyTex = new Texture(
 				Gdx.files.internal("assets/gui/volumeBar_Empty.png"));
 		volumeFullTex = new Texture(

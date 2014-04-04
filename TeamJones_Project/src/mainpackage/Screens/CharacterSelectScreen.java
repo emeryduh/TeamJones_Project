@@ -243,7 +243,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(imgRenji);
 
 		// player 1 selection texture
-		Texture texP1 = TextureFiles.geUtilityTexture("player1");
+		Texture texP1 = TextureFiles.getUtilityTexture("player1");
 		texP1.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		chP1 = new Image(new TextureRegion(texP1));
 		// adds an actor to the root of the stage.
@@ -251,7 +251,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(chP1);
 
 		// player 2 selection texture
-		Texture texP2 = TextureFiles.geUtilityTexture("player2");
+		Texture texP2 = TextureFiles.getUtilityTexture("player2");
 		texP2.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		chP2 = new Image(new TextureRegion(texP2));
 		// adds an actor to the root of the stage.
@@ -259,7 +259,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(chP2);
 
 		// player 1 ready texture
-		Texture texP1Ready = TextureFiles.geUtilityTexture("ready");
+		Texture texP1Ready = TextureFiles.getUtilityTexture("ready");
 		texP1Ready.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		chP1Ready = new Image(new TextureRegion(texP1Ready));
 		// adds an actor to the root of the stage.
@@ -268,7 +268,7 @@ public class CharacterSelectScreen implements Screen {
 		stage.addActor(chP1Ready);
 
 		// player 2 ready texture
-		Texture texP2Ready = TextureFiles.geUtilityTexture("ready");
+		Texture texP2Ready = TextureFiles.getUtilityTexture("ready");
 		texP2Ready.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		chP2Ready = new Image(new TextureRegion(texP2Ready));
 		// adds an actor to the root of the stage.
