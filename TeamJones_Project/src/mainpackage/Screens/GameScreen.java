@@ -179,6 +179,7 @@ public class GameScreen implements Screen {
 		// show game over screen if timer hits 0
 		if (seconds == 0) {
 			isGameOver = true;
+			pause();
 			// draws the black filter to create dimming effect
 			batch.draw(pauseFilterTex, 0, 0);
 			// draws the pause menu
