@@ -411,11 +411,11 @@ public class SpriteClass
 		//checks if the amount of time passed has gone over the time length of a single frame
 		if(elapsedTime > frameLengthP1)
 		{
-			//if(gameScreen.pausedState() == false)
-			//{
+			if(!Player.getPausedState())
+			{
 				//goes to next frame
 				frameIndexP1++;
-			//}
+			}
 			//resets elapsedTime so that it is once again less than the time length of a single frame
 			elapsedTime = 0;
 			//checks if the frame index has reached last frame
@@ -439,11 +439,11 @@ public class SpriteClass
 		//checks if the amount of time passed has gone over the time length of a single frame
 		if(elapsedTimeP2 > frameLengthP2)
 		{
-			//if(gameScreen.pausedState() == false)
-			//{
+			if(!Player.getPausedState())
+			{
 				//goes to next frame
 				frameIndexP2++;
-			//}
+			}
 			//resets elapsedTime so that it is once again less than the time length of a single frame
 				elapsedTimeP2 = 0;
 			//checks if the frame index has reached last frame

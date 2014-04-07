@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
 			optionIndex = 0, gameOverIndex = 0, player2XPos = 650,
 			player2YPos = 15, player02State = 0, optionIndexPlayer2 = 0,
 			seconds = 90;
-	private boolean isKeyPressed, isFacingRightP1 = true, isPaused = false,
+	private boolean isKeyPressed, isFacingRightP1 = true,
 			grounded = true, timeUp, isGameOver = false, isFacingRightP2;
 	private float velocityX, velocityY, gravity = 6, elapsedTime,
 			jumpStrength = 150;
@@ -109,7 +109,7 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(playerInput);
 
 		// count the timer and convert nanotime to second
-		if (System.nanoTime() - startTime >= 1000000000 && !isPaused
+		if (System.nanoTime() - startTime >= 1000000000 && !Player.getPausedState()
 				& !isGameOver) {
 			seconds--;
 			startTime = System.nanoTime();
@@ -200,7 +200,7 @@ public class GameScreen implements Screen {
 		}
 
 		// draws the pause menu
-		if (isPaused == true && !isGameOver) {
+		if (Player.getPausedState() && !isGameOver) {
 			// draws the black filter to create dimming effect
 			batch.draw(pauseFilterTex, 0, 0);
 			// draws the pause menu
@@ -226,7 +226,7 @@ public class GameScreen implements Screen {
 		batch.end();
 
 		// checks if the game is not paused
-		if (isPaused == false && !isGameOver) {
+		if (!Player.getPausedState() && !isGameOver) {
 			// AI logic initialization
 			player2XPos = AI.runLogic(player1XPos, player2XPos);
 			// checks if an attack has finished
@@ -353,17 +353,20 @@ public class GameScreen implements Screen {
 
 	// called when current screen changes to a different screen
 	public void hide() {
+		Player.setPauseState(false);
 	}
 
 	// called when the game is paused
 	public void pause() {
-		isPaused = true;
+		//isPaused = true;
+		Player.setPauseState(true);
 	}
 
 	// called when the game resumes
 	public void resume() {
 		battleMusic.play();
-		isPaused = false;
+		//isPaused = false;
+		Player.setPauseState(false);
 	}
 
 	// called when this screen should release all resources
@@ -374,18 +377,12 @@ public class GameScreen implements Screen {
 		battleMusic.dispose();
 	}
 
-	// returns whether the game is paused or not (called in SpriteClass to pause
-	// frame Index updating)
-	public boolean pausedState() {
-		return isPaused;
-	}
-
 	// handles keyboard input involving single press key actions
 	public void keyDown(int keycode) {
 		switch (keycode) {
 		// checks whether the attack key was pressed
 		case Keys.M:
-			if (isPaused == false) {
+			if (!Player.getPausedState()) {
 				// checks if the player is jumping and plays the jumping attack
 				// animation
 				if (grounded == false && player01State == 0) {
@@ -447,6 +444,7 @@ public class GameScreen implements Screen {
 				case 1:
 					break;
 				case 2:
+					hide();
 					game.setScreen(new MenuScreen(game));
 					break;
 				}
@@ -454,7 +452,7 @@ public class GameScreen implements Screen {
 			return;
 			// checks whether the P key was pressed
 		case Keys.P:
-			if (isPaused == false) {
+			if (!Player.getPausedState()) {
 				pause();
 			} else {
 				resume();
@@ -462,7 +460,7 @@ public class GameScreen implements Screen {
 			return;
 			// checks whether the up arrow key was pressed
 		case Keys.UP:
-			if (isPaused == false && !isGameOver) {
+			if (!Player.getPausedState() && !isGameOver) {
 				// resets the frameIndex for player 1 to animate the jump
 				// from the first frame
 				spriteClass.resetFrameIndexP1();
@@ -480,7 +478,7 @@ public class GameScreen implements Screen {
 			}
 			// changes the functionality of the up arrow key when the game is
 			// paused
-			else if (isPaused) {
+			else if (Player.getPausedState()) {
 				optionIndex--;
 				if (optionIndex < 0) {
 					optionIndex = 2;
@@ -499,7 +497,7 @@ public class GameScreen implements Screen {
 		case Keys.DOWN:
 			// changes the functionality of the down arrow key when the game is
 			// paused
-			if (isPaused == true) {
+			if (Player.getPausedState()) {
 				optionIndex++;
 				if (optionIndex > 2) {
 					optionIndex = 0;
@@ -515,7 +513,7 @@ public class GameScreen implements Screen {
 			}
 			return;
 
-			// checks whether the enter key was pressed
+		// checks whether the enter key was pressed
 		case Keys.ENTER:
 			if (isGameOver) {
 				if (gameOverIndex == 0) {
