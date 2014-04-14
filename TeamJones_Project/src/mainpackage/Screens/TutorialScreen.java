@@ -103,12 +103,11 @@ public class TutorialScreen implements Screen {
 		Gdx.input.setInputProcessor(playerInput);
 
 		// set the background image to the menu screen
-		splashTexture = new Texture(
-				Gdx.files.internal("assets/gui/TutorialWallpaer.png"));		
-		tuTexture = new Texture(Gdx.files.internal("assets/gui/CharacterTutorial.png"));
-		leftTexture = new Texture(Gdx.files.internal("assets/gui/left.png"));
-		rightTexture = new Texture(Gdx.files.internal("assets/gui/right.png"));
-		exitTexture = new Texture(Gdx.files.internal("assets/gui/exit.png"));
+		splashTexture = TextureFiles.getBackgroundTexture("tutorialScreen");	
+		tuTexture = TextureFiles.getTutorialTexture("characterSelection");
+		leftTexture = TextureFiles.getUtilityTexture("leftArrow");
+		rightTexture = TextureFiles.getUtilityTexture("rightArrow");
+		exitTexture = TextureFiles.getUtilityTexture("exit");
 		batch = new SpriteBatch();
 		atlas = new TextureAtlas("assets/gui/button.pack");
 		skin = new Skin();
@@ -164,8 +163,7 @@ public class TutorialScreen implements Screen {
 			switch (menuCount) {
 			case 0: {
 				// load the new texture
-				tuTexture = new Texture(Gdx.files
-						.internal("assets/gui/CharacterTutorial.png"));		
+				tuTexture = TextureFiles.getTutorialTexture("characterSelection");		
 				// change the text
 				name = "Character Selection";
 				menuCount++;
@@ -173,8 +171,7 @@ public class TutorialScreen implements Screen {
 			}
 			case 1: {
 				// load the new texture
-				tuTexture = new Texture(Gdx.files
-						.internal("assets/gui/HealthTutorial.png"));	
+				tuTexture = TextureFiles.getTutorialTexture("health");
 				// change the text
 				name = "Health Tutorial";
 				menuCount++;
@@ -182,8 +179,7 @@ public class TutorialScreen implements Screen {
 			}
 			case 2: {				
 				// load the new texture
-				tuTexture = new Texture(Gdx.files
-						.internal("assets/gui/MovementTutorial.png"));
+				tuTexture = TextureFiles.getTutorialTexture("movement");
 				// change the text
 				name = "Movement Tutorial";
 				menuCount++;
@@ -191,8 +187,7 @@ public class TutorialScreen implements Screen {
 			}
 			case 3: {				
 				// load the new texture
-				tuTexture = new Texture(Gdx.files
-						.internal("assets/gui/ActionTutorial.png"));
+				tuTexture = TextureFiles.getTutorialTexture("action");
 				// change the text
 				name = "Action Tutorial";
 				break;
@@ -212,16 +207,14 @@ public class TutorialScreen implements Screen {
 			switch (menuCount) {
 			case 0: {
 				// load the new texture
-				tuTexture = new Texture(Gdx.files
-						.internal("assets/gui/CharacterTutorial.png"));		
+				tuTexture = TextureFiles.getTutorialTexture("characterSelection");
 				// change the text
 				name = "Character Selection";
 				break;
 			}
 			case 1: {
 				// load the new texture
-				tuTexture = new Texture(Gdx.files
-						.internal("assets/gui/HealthTutorial.png"));
+				tuTexture = TextureFiles.getTutorialTexture("health");
 				// change the text
 				name = "Health Tutorial";
 				menuCount--;
@@ -229,8 +222,7 @@ public class TutorialScreen implements Screen {
 			}
 			case 2: {
 				// load the new texture
-				tuTexture = new Texture(Gdx.files
-						.internal("assets/gui/MovementTutorial.png"));
+				tuTexture = TextureFiles.getTutorialTexture("movement");
 				// change the text
 				name = "Movement Tutorial";
 				menuCount--;
@@ -238,8 +230,7 @@ public class TutorialScreen implements Screen {
 			}
 			case 3: {
 				// load the new texture
-				tuTexture = new Texture(Gdx.files
-						.internal("assets/gui/ActionTutorial.png"));
+				tuTexture = TextureFiles.getTutorialTexture("action");
 				// change the text
 				name = "Action Tutorial";
 				menuCount--;

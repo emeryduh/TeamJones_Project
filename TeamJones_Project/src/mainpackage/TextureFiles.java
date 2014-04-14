@@ -175,10 +175,49 @@ public class TextureFiles {
 							.internal("assets/sprites/backgrounds/battle_BG_02.png"));
 			break;
 		}
+		case "tutorialScreen": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/TutorialWallpaer.png"));
+			break;
+		}
 		}
 		return chTexture;
 	}
 
+	// get the tutorial texture
+	public static Texture getTutorialTexture(String strTexture)
+	{
+		Texture chTexture = null;
+		switch (strTexture) {
+		case "characterSelection": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/CharacterTutorial.png"));
+			break;
+		}
+		case "health": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/HealthTutorial.png"));
+			break;
+		}
+		case "movement": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/MovementTutorial.png"));
+			break;
+		}
+		case "action": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/ActionTutorial.png"));
+			break;
+		}
+		}
+		return chTexture;
+	}
+	
 	// get the utility texture
 	public static Texture getUtilityTexture(String strTexture) {
 		Texture chTexture = null;
@@ -273,6 +312,24 @@ public class TextureFiles {
 			chTexture = new Texture(
 					Gdx.files
 							.internal("assets/gui/byakuyaSmall.png"));
+			break;
+		}
+		case "leftArrow": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/left.png"));
+			break;
+		}
+		case "rightArrow": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/right.png"));
+			break;
+		}
+		case "exit": {
+			chTexture = new Texture(
+					Gdx.files
+							.internal("assets/gui/exit.png"));
 			break;
 		}
 		}
