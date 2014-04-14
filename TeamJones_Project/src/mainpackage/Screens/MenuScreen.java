@@ -39,6 +39,7 @@ public class MenuScreen implements Screen {
 	private SpriteBatch batch;
 	private TextButton btnStartGame;
 	private TextButton btnOptions;
+	private TextButton btnTutorial;
 	private Texture splashTexture;
 	public Music openingMusic;
 	private SoundFiles soundFiles;
@@ -51,7 +52,8 @@ public class MenuScreen implements Screen {
 		this.game = game;
 		bgmVolume = UserConfig.getBGMVolume(false);
 		sfxVolume = UserConfig.getSFXVolume(false);
-		openingMusic = Gdx.audio.newMusic(Gdx.files.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
+		openingMusic = Gdx.audio.newMusic(Gdx.files
+				.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
 		openingMusic.setVolume(bgmVolume);
 		openingMusic.setLooping(true);
 	}
@@ -100,8 +102,19 @@ public class MenuScreen implements Screen {
 		btnStartGame.setWidth(140f);
 		btnStartGame.setHeight(40f);
 		btnStartGame.setX(600);
-		btnStartGame.setY(130);
-	
+		btnStartGame.setY(200);
+
+		// creates the tutorial button
+		TextButtonStyle txtTutorialStyle = new TextButtonStyle();
+		txtTutorialStyle.up = skin.getDrawable("button");
+		txtTutorialStyle.down = skin.getDrawable("buttonpressed");
+		txtTutorialStyle.font = blackFont;
+		btnTutorial = new TextButton("Tutorial", txtTutorialStyle);
+		btnTutorial.setWidth(140f);
+		btnTutorial.setHeight(40f);
+		btnTutorial.setX(600);
+		btnTutorial.setY(130);
+
 		// creates the option button
 		TextButtonStyle txtOptionStyle = new TextButtonStyle();
 		txtOptionStyle.up = skin.getDrawable("button");
@@ -111,17 +124,19 @@ public class MenuScreen implements Screen {
 		btnOptions.setWidth(140f);
 		btnOptions.setHeight(40f);
 		btnOptions.setX(600);
-		btnOptions.setY(60);		
+		btnOptions.setY(60);
 
-		// adds an start game and option actors to the root of the stage.
+		// adds an start game, option and tutorial actors to the root of the
+		// stage.
 		stage.addActor(btnStartGame);
+		stage.addActor(btnTutorial);
 		stage.addActor(btnOptions);
 
 		// Add Cursor
 		Texture cursorTex = TextureFiles.getUtilityTexture("cursor");
 		cursorTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		menuSelector = new Image(new TextureRegion(cursorTex));
-		menuSelector.setBounds(530, 140, 60, 30);
+		menuSelector.setBounds(530, 210, 60, 30);
 		stage.addActor(menuSelector);
 	}
 
@@ -135,16 +150,15 @@ public class MenuScreen implements Screen {
 				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
 		blackFont = new BitmapFont(
 				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
-		//plays background music for menus
-		if(openingMusic.isPlaying() == false)
-		{
+		// plays background music for menus
+		if (openingMusic.isPlaying() == false) {
 			openingMusic.play();
 		}
 	}
 
 	// called when current screen changes from this to a different screen
 	public void hide() {
-		
+
 	}
 
 	// called when game paused.
@@ -168,25 +182,50 @@ public class MenuScreen implements Screen {
 	// method to return the key selection
 	public void keyDown(int keycode) {
 		soundFiles = new SoundFiles();
+		if (menuIndex < 0)
+			return;
 		if (keycode == Keys.UP) {
-			menuIndex = 0;
-			menuSelector.setPosition(530, 140);
+			if (menuIndex == 1) {
+				menuSelector.setPosition(530, 210);
+				menuIndex--;
+			} else if (menuIndex == 2) {
+				menuSelector.setPosition(530, 140);
+				menuIndex--;
+			}
 			soundFiles.playSound("menuTraverse", sfxVolume);
 			return;
 		}
 		if (keycode == Keys.DOWN) {
+			if (menuIndex > 2)
+				return;
 			soundFiles.playSound("menuTraverse", sfxVolume);
-			menuIndex = 1;
-			menuSelector.setPosition(530, 70);
+			if (menuIndex == 0) {
+				menuSelector.setPosition(530, 140);
+				menuIndex++;
+			} else if (menuIndex == 1) {
+				menuSelector.setPosition(530, 70);
+				menuIndex++;
+			}
+			/*
+			 * menuIndex = 1; menuSelector.setPosition(530, 140);
+			 */
 			return;
 		}
 		if (keycode == Keys.ENTER && menuIndex == 0) {
-			game.setScreen(new CharacterSelectScreen(game));			
+			game.setScreen(new CharacterSelectScreen(game));
 			soundFiles.playSound("menuSelect", sfxVolume);
 			openingMusic.stop();
 			return;
 		}
-		if (keycode == Keys.ENTER && menuIndex == 1) {
+		
+		else if (keycode == Keys.ENTER && menuIndex == 1) {
+			game.setScreen(new TutorialScreen(game));
+			soundFiles.playSound("menuSelect", sfxVolume);
+			openingMusic.stop();
+			return;
+		}
+		
+		if (keycode == Keys.ENTER && menuIndex == 2) {
 			game.setScreen(new OptionScreen(game));
 			soundFiles.playSound("menuSelect", sfxVolume);
 			openingMusic.stop();

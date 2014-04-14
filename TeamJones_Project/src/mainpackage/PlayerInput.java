@@ -4,6 +4,7 @@ import mainpackage.Screens.CharacterSelectScreen;
 import mainpackage.Screens.MenuScreen;
 import mainpackage.Screens.GameScreen;
 import mainpackage.Screens.OptionScreen;
+import mainpackage.Screens.TutorialScreen;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -40,6 +41,11 @@ public class PlayerInput implements InputProcessor {
 		
 		if(screen instanceof OptionScreen){
 			((OptionScreen)screen).keyDown(keycode);
+			return true;
+		}
+		
+		if(screen instanceof TutorialScreen){
+			((TutorialScreen)screen).keyDown(keycode);
 			return true;
 		}
 		return false;
