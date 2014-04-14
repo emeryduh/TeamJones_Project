@@ -7,25 +7,21 @@ import mainpackage.PlayerInput;
 import mainpackage.SoundFiles;
 import mainpackage.TextureFiles;
 import mainpackage.UserConfig;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class TutorialScreen implements Screen {
@@ -41,8 +37,8 @@ public class TutorialScreen implements Screen {
 	private float bgmVolume, sfxVolume;
 	private BitmapFont gameFont;
 	private String name;
-	private int menuCount = 0;	
-	
+	private int menuCount = 0;
+
 	// constructor to keep a reference to the main Game class
 	public TutorialScreen(Game game) {
 		this.game = game;
@@ -57,7 +53,7 @@ public class TutorialScreen implements Screen {
 	// called when the screen should render itself.
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);		
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		// draw objects into the screen
 		batch.begin();
 		// draw background texture
@@ -103,7 +99,7 @@ public class TutorialScreen implements Screen {
 		Gdx.input.setInputProcessor(playerInput);
 
 		// set the background image to the menu screen
-		splashTexture = TextureFiles.getBackgroundTexture("tutorialScreen");	
+		splashTexture = TextureFiles.getBackgroundTexture("tutorialScreen");
 		tuTexture = TextureFiles.getTutorialTexture("characterSelection");
 		leftTexture = TextureFiles.getUtilityTexture("leftArrow");
 		rightTexture = TextureFiles.getUtilityTexture("rightArrow");
@@ -155,18 +151,18 @@ public class TutorialScreen implements Screen {
 		if (keycode == Keys.RIGHT) {
 			if (menuCount < 0 || menuCount > 3)
 				return;
-			// increment for move to next option
-			if(menuCount == 0)
-				menuCount++;
+			
+			if (menuCount < 3)
+				menuCount++;		
 			// dispose the current instance
-			tuTexture.dispose();			
+			tuTexture.dispose();
 			switch (menuCount) {
 			case 0: {
 				// load the new texture
-				tuTexture = TextureFiles.getTutorialTexture("characterSelection");		
+				tuTexture = TextureFiles
+						.getTutorialTexture("characterSelection");
 				// change the text
 				name = "Character Selection";
-				menuCount++;
 				break;
 			}
 			case 1: {
@@ -174,18 +170,16 @@ public class TutorialScreen implements Screen {
 				tuTexture = TextureFiles.getTutorialTexture("health");
 				// change the text
 				name = "Health Tutorial";
-				menuCount++;
 				break;
 			}
-			case 2: {				
+			case 2: {
 				// load the new texture
 				tuTexture = TextureFiles.getTutorialTexture("movement");
 				// change the text
 				name = "Movement Tutorial";
-				menuCount++;
 				break;
 			}
-			case 3: {				
+			case 3: {
 				// load the new texture
 				tuTexture = TextureFiles.getTutorialTexture("action");
 				// change the text
@@ -199,15 +193,16 @@ public class TutorialScreen implements Screen {
 		if (keycode == Keys.LEFT) {
 			if (menuCount < 0 || menuCount > 3)
 				return;
-			// decrement for move to next option
-			if (menuCount == 3)
-				menuCount--;
-			//dispose the current instance
-			tuTexture.dispose();			
+			
+			if (menuCount > 0)
+			menuCount--;			
+			// dispose the current instance
+			tuTexture.dispose();
 			switch (menuCount) {
 			case 0: {
 				// load the new texture
-				tuTexture = TextureFiles.getTutorialTexture("characterSelection");
+				tuTexture = TextureFiles
+						.getTutorialTexture("characterSelection");
 				// change the text
 				name = "Character Selection";
 				break;
@@ -217,7 +212,6 @@ public class TutorialScreen implements Screen {
 				tuTexture = TextureFiles.getTutorialTexture("health");
 				// change the text
 				name = "Health Tutorial";
-				menuCount--;
 				break;
 			}
 			case 2: {
@@ -225,7 +219,6 @@ public class TutorialScreen implements Screen {
 				tuTexture = TextureFiles.getTutorialTexture("movement");
 				// change the text
 				name = "Movement Tutorial";
-				menuCount--;
 				break;
 			}
 			case 3: {
@@ -233,7 +226,6 @@ public class TutorialScreen implements Screen {
 				tuTexture = TextureFiles.getTutorialTexture("action");
 				// change the text
 				name = "Action Tutorial";
-				menuCount--;
 				break;
 			}
 			}
