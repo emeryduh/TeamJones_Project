@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="libs/gdx-natives.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-freetype-natives.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-freetype.jar"/>
+	<classpathentry kind="lib" path="C:/Users/vivek/Downloads/Study/Winter 2014/Computer Programmer Project/Resources/tween-engine-api-6.3.3/tween-engine-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
