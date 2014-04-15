@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.SoundFiles;
+import mainpackage.SpriteClass;
 import mainpackage.TextureFiles;
 import mainpackage.UserConfig;
 
@@ -32,20 +33,16 @@ public class MenuScreen implements Screen {
 
 	// variables
 	private Game game;
-	private Stage stage;
-	private BitmapFont whiteFont, blackFont;
+	private SpriteClass spriteClass = new SpriteClass();
 	private TextureAtlas atlas;
 	private Skin skin;
 	private SpriteBatch batch;
-	private TextButton btnStartGame;
-	private TextButton btnOptions;
-	private TextButton btnTutorial;
-	private Texture splashTexture;
+	private Texture backgroundTex, selectorTex;
 	public Music openingMusic;
 	private SoundFiles soundFiles;
-	private int menuIndex = 0;
-	private Image menuSelector;
-	private float bgmVolume, sfxVolume;
+	private int selectorXPos = 310, selectorYPos, menuIndex = 0;;
+	private float masterVolume, bgmVolume, sfxVolume;
+	private int[] optionPositions = new int[3];
 
 	// constructor to keep a reference to the main Game class
 	public MenuScreen(Game game) {
@@ -56,16 +53,44 @@ public class MenuScreen implements Screen {
 				.internal("assets/audioFiles/menuSounds/mainMenuMusic.mp3"));
 		openingMusic.setVolume(bgmVolume);
 		openingMusic.setLooping(true);
+		
+		backgroundTex = TextureFiles.getBackgroundTexture("menuScreen");
+		
+		// stores the y coordinates in pixels of each option into an array
+		optionPositions[0] = 305;
+		optionPositions[1] = 265;
+		optionPositions[2] = 225;
+		
+		// setup selector texture
+		spriteClass.setSheetValsGUI(0, 0);
+
+		// get user config volumes
+		masterVolume = UserConfig.getMasterVolume();
+		bgmVolume = UserConfig.getBGMVolume(true);
+		sfxVolume = UserConfig.getSFXVolume(true);
 	}
 
 	// called when the screen should render itself.
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		stage.act(delta);
+		
+		// to enable the keyboard events
+		PlayerInput playerInput = new PlayerInput(game);
+		Gdx.input.setInputProcessor(playerInput);
+		
+		// positions the selector on the Y axis according to the option selected
+		selectorYPos = optionPositions[menuIndex];
+		
+		// sets the current gui element to draw as the selector
+		selectorTex = spriteClass.setAnimationGUI();
+
 		// draw objects into the screen
 		batch.begin();
-		stage.draw();
+		// draws the background texture
+		batch.draw(backgroundTex, 0, 0, 800, 600, 0, 0, backgroundTex.getWidth(), backgroundTex.getHeight(), false, false);
+		// draws the animating selector texture
+		batch.draw(new TextureRegion(selectorTex, spriteClass.getFrameIndexGUI() * (selectorTex.getWidth() / spriteClass.getNumOfFramesGUI()), 0, selectorTex.getWidth() / spriteClass.getNumOfFramesGUI(), selectorTex.getHeight()), selectorXPos, selectorYPos);
 		batch.end();
 
 		// this will enable the continuous key press
@@ -74,70 +99,6 @@ public class MenuScreen implements Screen {
 
 	// called when the screen resized
 	public void resize(int width, int height) {
-		if (stage == null) {
-			stage = new Stage(width, height, true);
-		}
-
-		stage.clear();
-		// to enable the keyboard events
-		PlayerInput playerInput = new PlayerInput(game);
-
-		Gdx.input.setInputProcessor(playerInput);
-
-		// set the background image to the menu screen
-		splashTexture = TextureFiles.getBackgroundTexture("menuScreen");
-		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		Image img = new Image(new TextureRegion(splashTexture));
-		// fit the full image to the screen
-		img.setFillParent(true);
-		// adds an actor to the root of the stage.
-		stage.addActor(img);
-
-		// creates start game button
-		TextButtonStyle txtStartgameStyle = new TextButtonStyle();
-		txtStartgameStyle.up = skin.getDrawable("button");
-		txtStartgameStyle.down = skin.getDrawable("buttonpressed");
-		txtStartgameStyle.font = blackFont;
-		btnStartGame = new TextButton("Start Game", txtStartgameStyle);
-		btnStartGame.setWidth(140f);
-		btnStartGame.setHeight(40f);
-		btnStartGame.setX(600);
-		btnStartGame.setY(200);
-
-		// creates the tutorial button
-		TextButtonStyle txtTutorialStyle = new TextButtonStyle();
-		txtTutorialStyle.up = skin.getDrawable("button");
-		txtTutorialStyle.down = skin.getDrawable("buttonpressed");
-		txtTutorialStyle.font = blackFont;
-		btnTutorial = new TextButton("Tutorial", txtTutorialStyle);
-		btnTutorial.setWidth(140f);
-		btnTutorial.setHeight(40f);
-		btnTutorial.setX(600);
-		btnTutorial.setY(130);
-
-		// creates the option button
-		TextButtonStyle txtOptionStyle = new TextButtonStyle();
-		txtOptionStyle.up = skin.getDrawable("button");
-		txtOptionStyle.down = skin.getDrawable("buttonpressed");
-		txtOptionStyle.font = blackFont;
-		btnOptions = new TextButton("Options", txtOptionStyle);
-		btnOptions.setWidth(140f);
-		btnOptions.setHeight(40f);
-		btnOptions.setX(600);
-		btnOptions.setY(60);
-
-		// adds an start game, option and tutorial actors to the root of the
-		// stage.
-		stage.addActor(btnStartGame);
-		stage.addActor(btnTutorial);
-		stage.addActor(btnOptions);
-
-		// Add Cursor
-		Texture cursorTex = TextureFiles.getUtilityTexture("cursor");
-		cursorTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		menuSelector = new Image(new TextureRegion(cursorTex));
-		menuSelector.setBounds(530, 210, 60, 30);
-		stage.addActor(menuSelector);
 	}
 
 	// called when this screen becomes the current screen for a Game.
@@ -146,10 +107,6 @@ public class MenuScreen implements Screen {
 		atlas = new TextureAtlas("assets/gui/button.pack");
 		skin = new Skin();
 		skin.addRegions(atlas);
-		whiteFont = new BitmapFont(
-				Gdx.files.internal("assets/gui/whitefont.fnt"), false);
-		blackFont = new BitmapFont(
-				Gdx.files.internal("assets/gui/blackfont.fnt"), false);
 		// plays background music for menus
 		if (openingMusic.isPlaying() == false) {
 			openingMusic.play();
@@ -176,7 +133,6 @@ public class MenuScreen implements Screen {
 		batch.dispose();
 		skin.dispose();
 		atlas.dispose();
-		stage.dispose();
 	}
 
 	// method to return the key selection
@@ -185,30 +141,21 @@ public class MenuScreen implements Screen {
 		if (menuIndex < 0)
 			return;
 		if (keycode == Keys.UP) {
-			if (menuIndex == 1) {
-				menuSelector.setPosition(530, 210);
-				menuIndex--;
-			} else if (menuIndex == 2) {
-				menuSelector.setPosition(530, 140);
-				menuIndex--;
+			menuIndex--;
+			if(menuIndex < 0)
+			{
+				menuIndex = 2;
 			}
 			soundFiles.playSound("menuTraverse", sfxVolume);
 			return;
 		}
 		if (keycode == Keys.DOWN) {
-			if (menuIndex > 2)
-				return;
-			soundFiles.playSound("menuTraverse", sfxVolume);
-			if (menuIndex == 0) {
-				menuSelector.setPosition(530, 140);
-				menuIndex++;
-			} else if (menuIndex == 1) {
-				menuSelector.setPosition(530, 70);
-				menuIndex++;
+			menuIndex++;
+			if(menuIndex > 2)
+			{
+				menuIndex = 0;
 			}
-			/*
-			 * menuIndex = 1; menuSelector.setPosition(530, 140);
-			 */
+			soundFiles.playSound("menuTraverse", sfxVolume);
 			return;
 		}
 		if (keycode == Keys.ENTER && menuIndex == 0) {
