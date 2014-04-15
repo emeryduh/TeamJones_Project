@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
 			player01State = 0, curActionP1 = 0, curActionP2 = 0,
 			optionIndex = 0, gameOverIndex = 0, player2XPos = 650,
 			player2YPos = 15, player02State = 0, optionIndexPlayer2 = 0,
-			seconds = 90;
+			seconds = 5;
 	private boolean isKeyPressed, isFacingRightP1 = true, grounded = true,
 			timeUp, isGameOver = false, isFacingRightP2;
 	private float velocityX, velocityY, gravity = 6, elapsedTime,
@@ -189,7 +189,7 @@ public class GameScreen implements Screen {
 		// show game over screen if timer hits 0
 		if (seconds == 0) {
 			isGameOver = true;
-			pause();
+			gameOver();
 			// draws the black filter to create dimming effect
 			batch.draw(pauseFilterTex, 0, 0);
 			// draws the pause menu
@@ -197,6 +197,8 @@ public class GameScreen implements Screen {
 			// draws the selector (texture, source x-coordinate, source
 			// y-coordinate, source width, source height, x-coordinate,
 			// y-coordinate)
+			if(Player.getPausedState())
+			{
 			batch.draw(
 					new TextureRegion(selectorTex, spriteClass
 							.getFrameIndexGUI()
@@ -204,8 +206,19 @@ public class GameScreen implements Screen {
 									.getNumOfFramesGUI()), 0, selectorTex
 							.getWidth() / spriteClass.getNumOfFramesGUI(),
 							selectorTex.getHeight()), 300,
-					gameOverOptions[gameOverIndex]);
-
+					pauseOptions[optionIndex]);
+			}
+			else if(isGameOver)
+			{
+				batch.draw(
+						new TextureRegion(selectorTex, spriteClass
+								.getFrameIndexGUI()
+								* (selectorTex.getWidth() / spriteClass
+										.getNumOfFramesGUI()), 0, selectorTex
+								.getWidth() / spriteClass.getNumOfFramesGUI(),
+								selectorTex.getHeight()), 300,
+						gameOverOptions[gameOverIndex]);
+			}
 			// hide the timer when paused
 			timerFont.setColor(Color.CLEAR);
 		}
@@ -378,6 +391,13 @@ public class GameScreen implements Screen {
 		// isPaused = true;
 		Player.setPauseState(true);
 	}
+	
+	//called when the game ends
+	public void gameOver()
+	{
+		// isPaused = true;
+		Player.setPauseState(true);
+	}
 
 	// called when the game resumes
 	public void resume() {
@@ -518,7 +538,7 @@ public class GameScreen implements Screen {
 			else if (isGameOver) {
 				gameOverIndex--;
 				if (gameOverIndex < 0) {
-					gameOverIndex = 0;
+					gameOverIndex = 1;
 				}
 			}
 			return;
@@ -537,7 +557,7 @@ public class GameScreen implements Screen {
 			else if (isGameOver) {
 				gameOverIndex++;
 				if (gameOverIndex > 1) {
-					gameOverIndex = 1;
+					gameOverIndex = 0;
 				}
 			}
 			return;

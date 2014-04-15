@@ -89,7 +89,7 @@ public class SpriteClass
 			{
 			case 0:
 				//f represents the total time for all frames to run through once in a given animation
-				f = 0.6f;
+				f = 1.20f;
 				//loads texture corresponding to current action
 				curAnimationP1 = ichigoIdleRTex;
 				break;
