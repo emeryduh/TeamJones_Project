@@ -3,6 +3,7 @@ package mainpackage.Screens;
 import org.lwjgl.input.Keyboard;
 
 import mainpackage.AI;
+import mainpackage.Collision;
 import mainpackage.Game;
 import mainpackage.Player;
 import mainpackage.PlayerInput;
@@ -52,7 +53,7 @@ public class GameScreen implements Screen {
 	private Texture[] pauseHelpTxts = new Texture[3];
 	private int[] optionPositions = new int[4];
 	long startTime = System.nanoTime();
-	private TextureRegion player1TextureRegion, player2TextureRegion;
+	public static TextureRegion player1TextureRegion, player2TextureRegion;
 	private BitmapFont timerFont;
 
 	public int curActionPlayer2 = 0;
@@ -389,6 +390,10 @@ public class GameScreen implements Screen {
 				if (grounded == false && player01State == 0) {
 					// plays the sound for a basic attack
 					attack01.play();
+					
+					//Punch Collision
+					Collision.punch();
+					
 					spriteClass.resetFrameIndexP1();
 					player01State = 1;
 					if (isFacingRightP1 == true) {
