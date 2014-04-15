@@ -2,11 +2,18 @@ package mainpackage.Screens;
 
 import org.lwjgl.input.Keyboard;
 
+import mainpackage.ActorAccessor;
 import mainpackage.Game;
 import mainpackage.PlayerInput;
 import mainpackage.SoundFiles;
 import mainpackage.TextureFiles;
 import mainpackage.UserConfig;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquation;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.equations.Sine;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
@@ -15,13 +22,12 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.math.Interpolation.Elastic;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class TutorialScreen implements Screen {
@@ -37,7 +43,9 @@ public class TutorialScreen implements Screen {
 	private float bgmVolume, sfxVolume;
 	private BitmapFont gameFont;
 	private String name;
-	private int menuCount = 0;
+	private int menuCount = 0, lastIndex=0, previousIndex=0;
+	private TweenManager tweenManager;
+	private Sprite sprite;
 
 	// constructor to keep a reference to the main Game class
 	public TutorialScreen(Game game) {
@@ -54,6 +62,7 @@ public class TutorialScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
 		// draw objects into the screen
 		batch.begin();
 		// draw background texture
@@ -62,9 +71,11 @@ public class TutorialScreen implements Screen {
 				false);
 
 		// draw tutorial screen texture
-		batch.draw(tuTexture, 50, 50, 700, 510, 0, 0, tuTexture.getWidth(),
-				tuTexture.getHeight(), false, false);
-
+		/*
+		 * batch.draw(tuTexture, 50, 50, 700, 510, 0, 0, tuTexture.getWidth(),
+		 * tuTexture.getHeight(), false, false);
+		 */
+		sprite.draw(batch);
 		// draw left arrow texture
 		batch.draw(leftTexture, 0, 270, 50, 45, 0, 0, leftTexture.getWidth(),
 				leftTexture.getHeight(), false, false);
@@ -83,7 +94,7 @@ public class TutorialScreen implements Screen {
 				- bounds.width / 2, 585);
 
 		batch.end();
-
+		tweenManager.update(delta);
 		// this will enable the continuous key press
 		Keyboard.enableRepeatEvents(false);
 	}
@@ -97,10 +108,13 @@ public class TutorialScreen implements Screen {
 	public void show() {
 		PlayerInput playerInput = new PlayerInput(game);
 		Gdx.input.setInputProcessor(playerInput);
-
+		tweenManager = new TweenManager();
+		Tween.registerAccessor(Sprite.class, new ActorAccessor());
 		// set the background image to the menu screen
 		splashTexture = TextureFiles.getBackgroundTexture("tutorialScreen");
 		tuTexture = TextureFiles.getTutorialTexture("characterSelection");
+		sprite = new Sprite(tuTexture);
+		sprite.setBounds(50, 50, 700, 510);
 		leftTexture = TextureFiles.getUtilityTexture("leftArrow");
 		rightTexture = TextureFiles.getUtilityTexture("rightArrow");
 		exitTexture = TextureFiles.getUtilityTexture("exit");
@@ -108,7 +122,6 @@ public class TutorialScreen implements Screen {
 		atlas = new TextureAtlas("assets/gui/button.pack");
 		skin = new Skin();
 		skin.addRegions(atlas);
-
 		// load the new font
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
 				Gdx.files.internal("assets/gui/gamefonts.ttf"));
@@ -150,86 +163,109 @@ public class TutorialScreen implements Screen {
 		soundFiles = new SoundFiles();
 		if (keycode == Keys.RIGHT) {
 			if (menuCount < 0 || menuCount > 3)
-				return;
-			
+				return;			
 			if (menuCount < 3)
-				menuCount++;		
+				menuCount++;
 			// dispose the current instance
+			sprite = null;
 			tuTexture.dispose();
 			switch (menuCount) {
 			case 0: {
 				// load the new texture
-				tuTexture = TextureFiles
-						.getTutorialTexture("characterSelection");
+				sprite = new Sprite(
+						TextureFiles.getTutorialTexture("characterSelection"));
 				// change the text
 				name = "Character Selection";
 				break;
 			}
 			case 1: {
 				// load the new texture
-				tuTexture = TextureFiles.getTutorialTexture("health");
+				sprite = new Sprite(TextureFiles.getTutorialTexture("health"));
 				// change the text
 				name = "Health Tutorial";
 				break;
 			}
 			case 2: {
 				// load the new texture
-				tuTexture = TextureFiles.getTutorialTexture("movement");
+				sprite = new Sprite(TextureFiles.getTutorialTexture("movement"));
 				// change the text
 				name = "Movement Tutorial";
 				break;
 			}
-			case 3: {
+			case 3: {				
 				// load the new texture
-				tuTexture = TextureFiles.getTutorialTexture("action");
+				sprite = new Sprite(TextureFiles.getTutorialTexture("action"));
 				// change the text
 				name = "Action Tutorial";
 				break;
 			}
+			} 
+			if(lastIndex == menuCount)
+			{
+				sprite.setBounds(50, 50, 700, 510);
+				return;
 			}
+			sprite.setBounds(-800, 50, 700, 510);
+			Tween.to(sprite, ActorAccessor.POS_X, 1).target(50).start(tweenManager);
 			soundFiles.playSound("menuTraverse", sfxVolume);
+			lastIndex = menuCount;
 			return;
 		}
 		if (keycode == Keys.LEFT) {
 			if (menuCount < 0 || menuCount > 3)
-				return;
-			
+				return;			
 			if (menuCount > 0)
-			menuCount--;			
+				menuCount--;
 			// dispose the current instance
+			sprite =null;
 			tuTexture.dispose();
 			switch (menuCount) {
 			case 0: {
 				// load the new texture
-				tuTexture = TextureFiles
-						.getTutorialTexture("characterSelection");
+				sprite = new Sprite(
+						TextureFiles.getTutorialTexture("characterSelection"));
 				// change the text
 				name = "Character Selection";
 				break;
 			}
 			case 1: {
 				// load the new texture
-				tuTexture = TextureFiles.getTutorialTexture("health");
+				sprite = new Sprite(TextureFiles.getTutorialTexture("health"));
 				// change the text
 				name = "Health Tutorial";
 				break;
 			}
 			case 2: {
 				// load the new texture
-				tuTexture = TextureFiles.getTutorialTexture("movement");
+				sprite = new Sprite(TextureFiles.getTutorialTexture("movement"));
 				// change the text
 				name = "Movement Tutorial";
 				break;
 			}
-			case 3: {
+			case 3: {				
 				// load the new texture
-				tuTexture = TextureFiles.getTutorialTexture("action");
+				sprite = new Sprite(TextureFiles.getTutorialTexture("action"));
 				// change the text
 				name = "Action Tutorial";
 				break;
 			}
+			}			
+			// sprite.setBounds(50, 50, 700, 510);
+			/*
+			 * Tween.to(sprite, ActorAccessor.OPACITY, 2).target(0)
+			 * .start(tweenManager); Tween.to(sprite, ActorAccessor.OPACITY,
+			 * 2).target(1).delay(1) .start(tweenManager);
+			 */
+			if(previousIndex == menuCount)
+			{
+				sprite.setBounds(50, 50, 700, 510);
+				return;
 			}
+			sprite.setBounds(800, 50, 700, 510);			
+			Tween.to(sprite, ActorAccessor.POS_X, 1).target(50)
+					.start(tweenManager);
 			soundFiles.playSound("menuTraverse", sfxVolume);
+			previousIndex=menuCount;
 			return;
 		}
 
