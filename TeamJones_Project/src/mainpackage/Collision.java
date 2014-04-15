@@ -5,60 +5,52 @@ import mainpackage.Screens.GameScreen;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-
-
 public class Collision {
-	
-	private static int punchDamage = 10;
-	private static int kickDamage = 20;
-	
-	private static TextureRegion player1TextureRegion = GameScreen.player1TextureRegion;
-	private static TextureRegion player2TextureRegion = GameScreen.player2TextureRegion;
-	
-	private static Rectangle player1CollisionRect;
-	private static Rectangle player2CollisionRect;
-	
-	
-	
-	
-	
-	
-	
-	public static void punch()
-	{
-		
-		player1CollisionRect = new Rectangle(player1TextureRegion.getRegionX(), player1TextureRegion.getRegionY(),
-				player1TextureRegion.getRegionWidth(), player1TextureRegion.getRegionHeight());
-		
-		player2CollisionRect = new Rectangle(player2TextureRegion.getRegionX(), player2TextureRegion.getRegionY(),
-				player2TextureRegion.getRegionWidth(), player2TextureRegion.getRegionHeight());
-		
-		if(player1CollisionRect.contains(player2CollisionRect))
-		{
-			Player.player2HP -= punchDamage;
-		}
-	}
-	
-	public static void kick()
-	{
-		
-		player1CollisionRect = new Rectangle(player1TextureRegion.getRegionX(), player1TextureRegion.getRegionY(),
-				player1TextureRegion.getRegionWidth(), player1TextureRegion.getRegionHeight());
-		
-		player2CollisionRect = new Rectangle(player2TextureRegion.getRegionX(), player2TextureRegion.getRegionY(),
-				player2TextureRegion.getRegionWidth(), player2TextureRegion.getRegionHeight());
-		
-		if(player1CollisionRect.contains(player2CollisionRect))
-		{
-			Player.player2HP -= kickDamage;
-		}
-	}
 
-	
-	
-	
-	
-	
-	
+	/**
+	 * This method is to determine whether the players are close enough to each
+	 * other to inflict damage.
+	 * 
+	 * @param p1TextureRegion
+	 * @param p2TextureRegion
+	 * @param p1XPos
+	 * @param p1YPos
+	 * @param p2XPos
+	 * @param p2YPos
+	 * @param p1State
+	 * @param p2State
+	 */
+	public static void checkCollision(TextureRegion p1TexReg,
+			TextureRegion p2TexReg, int p1XPos, int p1YPos, int p2XPos,
+			int p2YPos, int p1State, int p2State) {
+
+		Rectangle player1Rec = new Rectangle(p1XPos, p1YPos,
+				p1TexReg.getRegionWidth(), p1TexReg.getRegionHeight());
+
+		Rectangle player2Rec = new Rectangle(p2XPos, p2YPos,
+				p2TexReg.getRegionWidth(), p2TexReg.getRegionHeight());
+
+		// If player1 is attacking
+		if (p1State == 1) {
+			// The rectangles overlap each other
+			if (player1Rec.overlaps(player2Rec) && !Player.p1AttackHit) {
+				Player.player2HP -= 5;
+				Player.p1AttackHit = true;
+			}
+		}
+
+		// If Player2 is attacking
+		if (p2State >= 4) {
+			// The rectangles overlap each other
+			if (player2Rec.overlaps(player1Rec) && !Player.p2AttackHit) {
+				if (p1State == 2) {
+					Player.player1HP -= 1;
+				} else {
+					Player.player1HP -= 5;
+				}
+				Player.p2AttackHit = true;
+			}
+		}
+	}
 
 }

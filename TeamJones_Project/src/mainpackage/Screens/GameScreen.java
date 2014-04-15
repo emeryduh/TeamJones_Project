@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class GameScreen implements Screen {
 	// variables
 	private Game game;
-	private Player player = new Player();
 	private SpriteClass spriteClass = new SpriteClass();
 	private SpriteBatch batch;
 	private TextureAtlas atlas;
@@ -41,19 +40,20 @@ public class GameScreen implements Screen {
 			optionIndex = 0, gameOverIndex = 0, player2XPos = 650,
 			player2YPos = 15, player02State = 0, optionIndexPlayer2 = 0,
 			seconds = 90;
-	private boolean isKeyPressed, isFacingRightP1 = true,
-			grounded = true, timeUp, isGameOver = false, isFacingRightP2;
+	private boolean isKeyPressed, isFacingRightP1 = true, grounded = true,
+			timeUp, isGameOver = false, isFacingRightP2;
 	private float velocityX, velocityY, gravity = 6, elapsedTime,
 			jumpStrength = 150;
 	private Texture curAnimationP1, curAnimationP2, selectorTex,
-			pauseFilterTex, pauseMenuTex, gameOverTex, backgroundTex, playerInfoGUI, 
-			hpBarLTex, hpBarRTex, roundsTex, player01SmallTex, player02SmallTex;
+			pauseFilterTex, pauseMenuTex, gameOverTex, backgroundTex,
+			playerInfoGUI, hpBarLTex, hpBarRTex, roundsTex, player01SmallTex,
+			player02SmallTex;
 	private int[] pauseOptions = new int[3];
 	private int[] gameOverOptions = new int[2];
 	private Texture[] pauseHelpTxts = new Texture[3];
 	private int[] optionPositions = new int[4];
 	long startTime = System.nanoTime();
-	public static TextureRegion player1TextureRegion, player2TextureRegion;
+	public TextureRegion player1TextureRegion, player2TextureRegion;
 	private BitmapFont timerFont;
 
 	public int curActionPlayer2 = 0;
@@ -97,27 +97,28 @@ public class GameScreen implements Screen {
 		// stores the Y coordinates of the game over menu options in pixels
 		gameOverOptions[0] = 300;
 		gameOverOptions[1] = 250;
+
+		// enabling keyboard events
+		PlayerInput playerInput = new PlayerInput(game);
+		// set the input processor
+		Gdx.input.setInputProcessor(playerInput);
 	}
 
 	// called when the screen should render itself
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-		// enabling keyboard events
-		PlayerInput playerInput = new PlayerInput(game);
-		// set the input processor
-		Gdx.input.setInputProcessor(playerInput);
-
+		
+		
 		// count the timer and convert nanotime to second
-		if (System.nanoTime() - startTime >= 1000000000 && !Player.getPausedState()
-				& !isGameOver) {
+		if (System.nanoTime() - startTime >= 1000000000
+				&& !Player.getPausedState() & !isGameOver) {
 			seconds--;
 			startTime = System.nanoTime();
 		}
 
 		// checks for when the player is touching the ground
-		if (player1YPos <= 15) {
+		if (player1YPos <= groundHeight) {
 			grounded = true;
 		}
 
@@ -161,13 +162,21 @@ public class GameScreen implements Screen {
 		batch.draw(backgroundTex, 0, 0, 800, 600, 0, 0,
 				backgroundTex.getWidth(), backgroundTex.getHeight(), false,
 				false);
-		//draws the health bars
-		batch.draw(hpBarLTex, 0, 545, (int) (hpBarLTex.getWidth() * (player.getPlayer1HP() / 100)), hpBarLTex.getHeight(), 0, 0, (int) (hpBarLTex.getWidth() * (player.getPlayer1HP() / 100)), hpBarLTex.getHeight(), false, false);
-		batch.draw(hpBarRTex, 400, 545, (int) (hpBarRTex.getWidth() * (player.getPlayer2HP() / 100)), hpBarRTex.getHeight(), 0, 0, (int) (hpBarRTex.getWidth() * (player.getPlayer2HP() / 100)), hpBarRTex.getHeight(), false, false);
-		//draws the small character images
+		// draws the health bars
+		batch.draw(hpBarLTex, 0, 545,
+				(int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100),
+				(int) hpBarLTex.getHeight(), 0, 0, (int) (hpBarLTex.getWidth()
+						* Player.getPlayer1HP() / 100),
+				(int) hpBarLTex.getHeight(), false, false);
+		batch.draw(hpBarRTex, 400, 545,
+				(int) (hpBarRTex.getWidth() * Player.getPlayer2HP() / 100),
+				(int) hpBarRTex.getHeight(), 0, 0, (int) (hpBarRTex.getWidth()
+						* Player.getPlayer2HP() / 100),
+				(int) hpBarRTex.getHeight(), false, false);
+		// draws the small character images
 		batch.draw(player01SmallTex, 5, 545);
 		batch.draw(player02SmallTex, 725, 542);
-		//draws the player info gui
+		// draws the player info gui
 		batch.draw(playerInfoGUI, 0, 530);
 		// draws player 1
 		batch.draw(player1TextureRegion, player1XPos, player1YPos);
@@ -231,6 +240,12 @@ public class GameScreen implements Screen {
 		if (!Player.getPausedState() && !isGameOver) {
 			// AI logic initialization
 			player2XPos = AI.runLogic(player1XPos, player2XPos);
+
+			// Check for unit collision
+			Collision.checkCollision(player1TextureRegion,
+					player2TextureRegion, player1XPos, player1YPos,
+					player2XPos, player2YPos, player01State, AI.curActionP2);
+
 			// checks if an attack has finished
 			if (player01State == 1) {
 				if (grounded == true) {
@@ -360,14 +375,14 @@ public class GameScreen implements Screen {
 
 	// called when the game is paused
 	public void pause() {
-		//isPaused = true;
+		// isPaused = true;
 		Player.setPauseState(true);
 	}
 
 	// called when the game resumes
 	public void resume() {
 		battleMusic.play();
-		//isPaused = false;
+		// isPaused = false;
 		Player.setPauseState(false);
 	}
 
@@ -390,10 +405,10 @@ public class GameScreen implements Screen {
 				if (grounded == false && player01State == 0) {
 					// plays the sound for a basic attack
 					attack01.play();
-					
-					//Punch Collision
-					Collision.punch();
-					
+
+					// State the the attack hasn't hit P2 yet
+					Player.p1AttackHit = false;
+
 					spriteClass.resetFrameIndexP1();
 					player01State = 1;
 					if (isFacingRightP1 == true) {
@@ -410,9 +425,13 @@ public class GameScreen implements Screen {
 					case 0:
 						// plays the sound for a basic attack
 						attack01.play();
+
+						// State the the attack hasn't hit P2 yet
+						Player.p1AttackHit = false;
+
 						// resets the frameIndex for player 1 to animate the
 						// attack
-						// from the first frame
+						// for the first frame
 						spriteClass.resetFrameIndexP1();
 						// sets the player state to attacking
 						player01State = 1;
@@ -425,9 +444,13 @@ public class GameScreen implements Screen {
 					case 3:
 						// plays the sound for a basic attack
 						attack01.play();
+
+						// State the the attack hasn't hit P2 yet
+						Player.p1AttackHit = false;
+
 						// resets the frameIndex for player 1 to animate the
 						// attack
-						// from the first frame
+						// for the first frame
 						spriteClass.resetFrameIndexP1();
 						// sets the player state to attacking
 						player01State = 1;
@@ -519,7 +542,7 @@ public class GameScreen implements Screen {
 			}
 			return;
 
-		// checks whether the enter key was pressed
+			// checks whether the enter key was pressed
 		case Keys.ENTER:
 			if (isGameOver) {
 				if (gameOverIndex == 0) {

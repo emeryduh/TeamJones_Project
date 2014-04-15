@@ -8,6 +8,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 public class DesktopGame {
 	
 	public DesktopGame() {
+		
 	}
 
 	public static void main(String[] args) {
