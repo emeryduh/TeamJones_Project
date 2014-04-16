@@ -36,9 +36,9 @@ public class GameScreen implements Screen {
 	private Music battleMusic;
 	private Sound attack01;
 	private int player1XPos = 50, player1YPos = 15, moveSpeed = 4,
-			player01State = 0, curActionP1 = 0, optionIndex = 0,
+			curActionP1 = 0, optionIndex = 0,
 			gameOverIndex = 0, player2XPos = 650, player2YPos = 15,
-			seconds = 5;
+			seconds = 90;
 	private boolean isKeyPressed, isFacingRightP1 = true, grounded = true,
 			isGameOver = false;
 	private float gravity = 6, jumpStrength = 150;
@@ -52,8 +52,9 @@ public class GameScreen implements Screen {
 	long startTime = System.nanoTime();
 	public TextureRegion player1TextureRegion, player2TextureRegion;
 	private BitmapFont timerFont;
-
-	// public int curActionPlayer2 = 0;
+	
+	// This holds the current state of Player1
+	public static int player01State = 0;
 
 	// Holds where characters are drawn to be placed on the "ground"
 	private final static int groundHeight = 15;
@@ -116,7 +117,7 @@ public class GameScreen implements Screen {
 
 		// count the timer and convert nanotime to second
 		if (System.nanoTime() - startTime >= 1000000000
-				&& !Player.getPausedState() & !isGameOver) {
+				&& !Player.getPausedState() && !isGameOver) {
 			seconds--;
 			startTime = System.nanoTime();
 		}
@@ -283,8 +284,24 @@ public class GameScreen implements Screen {
 					}
 				}
 			}
-			// checks if player 1 is grounded
-			if (grounded == true) {
+			// If Player 1 is taking damage
+			else if (player01State == 4) {
+				if (grounded == true) {
+					if (spriteClass.getFrameIndexP1() >= 5) {
+						player01State = 0;
+					}
+				} else {
+					if (spriteClass.getFrameIndexP1() >= 5) {
+						if (isFacingRightP1 == true) {
+							curActionP1 = 18;
+						} else {
+							curActionP1 = 19;
+						}
+					}
+				}
+			}
+			// checks if player 1 is grounded and is NOT being hurt
+			if (grounded == true && player01State != 4) {
 				// checks if no key is pressed down
 				if (isKeyPressed == Gdx.input.isKeyPressed(Keyboard.KEY_NONE)
 						&& player01State == 0) {
@@ -491,7 +508,7 @@ public class GameScreen implements Screen {
 				}
 			}
 			return;
-		// checks whether the P key was pressed
+			// checks whether the P key was pressed
 		case Keys.P:
 			if (!isGameOver) {
 				if (!Player.getPausedState()) {
@@ -501,7 +518,7 @@ public class GameScreen implements Screen {
 				}
 			}
 			return;
-		// checks whether the up arrow key was pressed
+			// checks whether the up arrow key was pressed
 		case Keys.UP:
 			if (!Player.getPausedState() && !isGameOver) {
 				// resets the frameIndex for player 1 to animate the jump

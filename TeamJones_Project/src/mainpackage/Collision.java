@@ -35,7 +35,12 @@ public class Collision {
 			// The rectangles overlap each other
 			if (player1Rec.overlaps(player2Rec) && !Player.p1AttackHit) {
 				Player.player2HP -= 5;
+				
+				// The attack from p1 has hit
 				Player.p1AttackHit = true;
+				
+				// P2 receives hurting animation
+				AI.curActionP2 = 6;
 			}
 		}
 
@@ -48,7 +53,11 @@ public class Collision {
 				} else {
 					Player.player1HP -= 5;
 				}
+				// The attack from p1 has hit
 				Player.p2AttackHit = true;
+				
+				// P1 receives hurting animation which is 4 by default
+				GameScreen.player01State = 4;
 			}
 		}
 	}

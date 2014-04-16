@@ -7,10 +7,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Player {
 	
 	private static boolean isPaused = false;
+	
+	// Each player's current health
 	public static int player1HP = 100;
 	public static int player2HP = 100;
+	
+	// If player's current attack has done damage yet
 	public static boolean p1AttackHit = false;
 	public static boolean p2AttackHit = false;
+	
 	public boolean defend;
 	public Object sprite;
 	
