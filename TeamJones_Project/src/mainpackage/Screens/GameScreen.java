@@ -185,6 +185,22 @@ public class GameScreen implements Screen {
 
 		// set timer color
 		timerFont.setColor(Color.WHITE);
+		
+		//checks if the game is paused
+		if(Player.getPausedState())
+		{
+		// draws the selector (texture, source x-coordinate, source
+		// y-coordinate, source width, source height, x-coordinate,
+		// y-coordinate)
+		batch.draw(
+				new TextureRegion(selectorTex, spriteClass
+						.getFrameIndexGUI()
+						* (selectorTex.getWidth() / spriteClass
+								.getNumOfFramesGUI()), 0, selectorTex
+						.getWidth() / spriteClass.getNumOfFramesGUI(),
+						selectorTex.getHeight()), 300,
+				pauseOptions[optionIndex]);
+		}
 
 		// show game over screen if timer hits 0
 		if (seconds == 0) {
@@ -194,11 +210,6 @@ public class GameScreen implements Screen {
 			batch.draw(pauseFilterTex, 0, 0);
 			// draws the pause menu
 			batch.draw(gameOverTex, 250, 200);
-			// draws the selector (texture, source x-coordinate, source
-			// y-coordinate, source width, source height, x-coordinate,
-			// y-coordinate)
-			if(Player.getPausedState())
-			{
 			batch.draw(
 					new TextureRegion(selectorTex, spriteClass
 							.getFrameIndexGUI()
@@ -206,19 +217,7 @@ public class GameScreen implements Screen {
 									.getNumOfFramesGUI()), 0, selectorTex
 							.getWidth() / spriteClass.getNumOfFramesGUI(),
 							selectorTex.getHeight()), 300,
-					pauseOptions[optionIndex]);
-			}
-			else if(isGameOver)
-			{
-				batch.draw(
-						new TextureRegion(selectorTex, spriteClass
-								.getFrameIndexGUI()
-								* (selectorTex.getWidth() / spriteClass
-										.getNumOfFramesGUI()), 0, selectorTex
-								.getWidth() / spriteClass.getNumOfFramesGUI(),
-								selectorTex.getHeight()), 300,
-						gameOverOptions[gameOverIndex]);
-			}
+					gameOverOptions[gameOverIndex]);
 			// hide the timer when paused
 			timerFont.setColor(Color.CLEAR);
 		}
@@ -419,7 +418,9 @@ public class GameScreen implements Screen {
 		switch (keycode) {
 		// checks whether the attack key was pressed
 		case Keys.M:
-			if (!Player.getPausedState()) {
+		{
+			if(!Player.getPausedState() && !isGameOver)
+			{
 				// checks if the player is jumping and plays the jumping attack
 				// animation
 				if (grounded == false && player01State == 0) {
@@ -483,21 +484,7 @@ public class GameScreen implements Screen {
 					}
 				}
 			}
-			// changes the functionality of the attack key to select when the
-			// game is paused
-			else {
-				switch (optionIndex) {
-				case 0:
-					resume();
-					break;
-				case 1:
-					break;
-				case 2:
-					hide();
-					game.setScreen(new MenuScreen(game));
-					break;
-				}
-			}
+		}
 			return;
 			// checks whether the P key was pressed
 		case Keys.P:
@@ -566,11 +553,28 @@ public class GameScreen implements Screen {
 		case Keys.ENTER:
 			if (isGameOver) {
 				if (gameOverIndex == 0) {
+					hide();
 					// if index is 0 redirect to character selection screen
 					game.setScreen(new CharacterSelectScreen(game));
 				} else {
+					hide();
 					// if index is 1 redirect to menu screen
 					game.setScreen(new MenuScreen(game));
+				}
+			}
+			else if(Player.getPausedState())
+			{
+				switch(optionIndex)
+				{
+				case 0:
+					resume();
+					break;
+				case 1:
+					break;
+				case 2:
+					hide();
+					game.setScreen(new MenuScreen(game));
+					break;
 				}
 			}
 			return;
