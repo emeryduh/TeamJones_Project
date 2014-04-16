@@ -59,10 +59,16 @@ public class CharacterSelectScreen implements Screen {
 	private Image chP2;
 	private Image chP1Ready;
 	private Image chP2Ready;
-	private int ch1 = 0;
-	private int ch2 = 0;
-	private int ch1Index = 0;
-	private int ch2Index = 0;
+
+	// These are index values that store which character is selected
+	private int p1Index = 0;
+	private int p2Index = 1;
+
+	// distance of each character frame from eachother
+	private int xPosOffset = 85;
+
+	// Number of characters - 1
+	private int maxCharacters = 8;
 
 	// highlight the character
 	private ShapeRenderer sRenderer;
@@ -275,7 +281,7 @@ public class CharacterSelectScreen implements Screen {
 				.internal("assets/audioFiles/menuSounds/charSelectMusic.mp3"));
 		charSelectionMusic.play();
 		charSelectionMusic.setLooping(true);
-		charSelectionMusic.setVolume(UserConfig.getBGMVolume(false));
+		charSelectionMusic.setVolume(bgmVolume);
 	}
 
 	// called when current screen changes from this to a different screen
@@ -308,78 +314,82 @@ public class CharacterSelectScreen implements Screen {
 
 		switch (keycode) {
 		case Keys.A: {
-			// return if prior than character 1
-			if (ch1 <= 0 || chP1Ready.isVisible())
+			// Do nothing, if "Ready" is visible for P1
+			if (chP1Ready.isVisible())
 				break;
 			p1Texture.dispose();
 			// change index based on character selection
-			ch1Index--;
-			// value that change the texture position
-			ch1 -= 85;
+			p1Index--;
+			if (p1Index < 0) {
+				p1Index = maxCharacters;
+			}
 			// set new texture position
-			chP1.setPosition(ch1, 170);
+			chP1.setPosition(xPosOffset * p1Index, 170);
 			// change the image texture
-			p1Texture = changeCharacter(ch1Index);
+			p1Texture = changeCharacter(p1Index);
 			// play menu select sound
 			soundFiles.playSound("menuTraverse", sfxVolume);
 			break;
 		}
 		case Keys.D: {
 			// return if further than last character
-			if (ch1 >= 680 || chP1Ready.isVisible())
+			if (chP1Ready.isVisible())
 				break;
 			p1Texture.dispose();
 			// change index based on character selection
-			ch1Index++;
-			// value that change the texture position
-			ch1 += 85;
+			p1Index++;
+			if (p1Index > maxCharacters) {
+				p1Index = 0;
+			}
 			// set new texture position
-			chP1.setPosition(ch1, 170);
+			chP1.setPosition(xPosOffset * p1Index, 170);
 			// change the image texture
-			p1Texture = changeCharacter(ch1Index);
-			// play menu select sound
-			soundFiles.playSound("menuTraverse", sfxVolume);
-			break;
-		}
-		case Keys.RIGHT: {
-			if (ch2 >= 680 || chP2Ready.isVisible())
-				break;
-			p2Texture.dispose();
-			ch2Index++;
-			// value that change the texture position
-			ch2 += 85;
-			// set new texture position
-			chP2.setPosition(ch2, 0);
-			// change the image texture
-			p2Texture = changeCharacter(ch2Index);
+			p1Texture = changeCharacter(p1Index);
 			// play menu select sound
 			soundFiles.playSound("menuTraverse", sfxVolume);
 			break;
 		}
 		case Keys.LEFT: {
-			if (ch2 <= 0 || chP2Ready.isVisible())
+			if (chP2Ready.isVisible())
 				break;
 			p2Texture.dispose();
 			// change index based on character selection
-			ch2Index--;
-			// value that change the texture position
-			ch2 -= 85;
+			p2Index--;
+			if (p2Index < 0) {
+				p2Index = maxCharacters;
+			}
 			// set new texture position
-			chP2.setPosition(ch2, 0);
+			chP2.setPosition(xPosOffset * p2Index, 0);
 			// change the image texture
-			p2Texture = changeCharacter(ch2Index);
+			p2Texture = changeCharacter(p2Index);
 			// play menu select sound
 			soundFiles.playSound("menuTraverse", sfxVolume);
 			break;
 		}
-
-		case Keys.SPACE: {			
+		case Keys.RIGHT: {
+			if (chP2Ready.isVisible())
+				break;
+			p2Texture.dispose();
+			// change index based on character selection
+			p2Index++;
+			if (p2Index > maxCharacters) {
+				p2Index = 0;
+			}
+			// set new texture position
+			chP2.setPosition(xPosOffset * p2Index, 0);
+			// change the image texture
+			p2Texture = changeCharacter(p2Index);
+			// play menu select sound
+			soundFiles.playSound("menuTraverse", sfxVolume);
+			break;
+		}
+		case Keys.SPACE: {
 			chP1Ready.setVisible(true);
 			soundFiles.playSound("menuSelect", sfxVolume);
 			break;
 		}
 
-		case Keys.NUMPAD_0: {			
+		case Keys.NUMPAD_0: {
 			chP2Ready.setVisible(true);
 			soundFiles.playSound("menuSelect", sfxVolume);
 			break;

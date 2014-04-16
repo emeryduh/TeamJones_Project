@@ -36,14 +36,12 @@ public class GameScreen implements Screen {
 	private Music battleMusic;
 	private Sound attack01;
 	private int player1XPos = 50, player1YPos = 15, moveSpeed = 4,
-			player01State = 0, curActionP1 = 0, curActionP2 = 0,
-			optionIndex = 0, gameOverIndex = 0, player2XPos = 650,
-			player2YPos = 15, player02State = 0, optionIndexPlayer2 = 0,
+			player01State = 0, curActionP1 = 0, optionIndex = 0,
+			gameOverIndex = 0, player2XPos = 650, player2YPos = 15,
 			seconds = 5;
 	private boolean isKeyPressed, isFacingRightP1 = true, grounded = true,
-			timeUp, isGameOver = false, isFacingRightP2;
-	private float velocityX, velocityY, gravity = 6, elapsedTime,
-			jumpStrength = 150;
+			isGameOver = false;
+	private float gravity = 6, jumpStrength = 150;
 	private Texture curAnimationP1, curAnimationP2, selectorTex,
 			pauseFilterTex, pauseMenuTex, gameOverTex, backgroundTex,
 			playerInfoGUI, hpBarLTex, hpBarRTex, roundsTex, player01SmallTex,
@@ -51,12 +49,11 @@ public class GameScreen implements Screen {
 	private int[] pauseOptions = new int[3];
 	private int[] gameOverOptions = new int[2];
 	private Texture[] pauseHelpTxts = new Texture[3];
-	private int[] optionPositions = new int[4];
 	long startTime = System.nanoTime();
 	public TextureRegion player1TextureRegion, player2TextureRegion;
 	private BitmapFont timerFont;
 
-	public int curActionPlayer2 = 0;
+	// public int curActionPlayer2 = 0;
 
 	// Holds where characters are drawn to be placed on the "ground"
 	private final static int groundHeight = 15;
@@ -68,6 +65,11 @@ public class GameScreen implements Screen {
 	public GameScreen(Game game) {
 		super();
 		this.game = game;
+
+		// Reset all values
+		reset();
+
+		// Setup sounds
 		battleMusic = Gdx.audio.newMusic(Gdx.files
 				.internal("assets/audioFiles/battleMusic/battleMusic01.mp3"));
 		battleMusic.setVolume(UserConfig.getBGMVolume(false));
@@ -76,6 +78,7 @@ public class GameScreen implements Screen {
 				.internal("assets/audioFiles/ichigoCombat/ichigoAttack01.wav"));
 		attack01.setVolume(0, UserConfig.getSFXVolume(false));
 
+		// Setup textures
 		backgroundTex = TextureFiles.getBackgroundTexture("gameScreen01");
 		hpBarLTex = TextureFiles.getUtilityTexture("hpBarL");
 		hpBarRTex = TextureFiles.getUtilityTexture("hpBarR");
@@ -89,6 +92,7 @@ public class GameScreen implements Screen {
 		pauseHelpTxts[0] = TextureFiles.getUtilityTexture("pauseHelpTxt01");
 		pauseHelpTxts[1] = TextureFiles.getUtilityTexture("pauseHelpTxt02");
 		pauseHelpTxts[2] = TextureFiles.getUtilityTexture("pauseHelpTxt03");
+
 		// stores the Y coordinates of the pause menu options in pixels
 		pauseOptions[0] = 350;
 		pauseOptions[1] = 300;
@@ -100,6 +104,7 @@ public class GameScreen implements Screen {
 
 		// enabling keyboard events
 		PlayerInput playerInput = new PlayerInput(game);
+
 		// set the input processor
 		Gdx.input.setInputProcessor(playerInput);
 	}
@@ -108,8 +113,7 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		
-		
+
 		// count the timer and convert nanotime to second
 		if (System.nanoTime() - startTime >= 1000000000
 				&& !Player.getPausedState() & !isGameOver) {
@@ -163,12 +167,17 @@ public class GameScreen implements Screen {
 				backgroundTex.getWidth(), backgroundTex.getHeight(), false,
 				false);
 		// draws the health bars
-		//(texture, x-coordinate, y-coordinate,
-		//originX, originY, width, height,
-		//scaleX, scaleY, rotation,
-		//srcX-coordinate, srcY-coordinate, srcWidth, srcHeight,
-		//boolean flipX, boolean flipY)
-		batch.draw(hpBarLTex, 0, 545, (int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100), 0, (int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100), (int) hpBarLTex.getHeight(), 1.0f, 1.0f, 0.0f, 0, 0, (int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100), (int) hpBarLTex.getHeight(), false, false);
+		// (texture, x-coordinate, y-coordinate,
+		// originX, originY, width, height,
+		// scaleX, scaleY, rotation,
+		// srcX-coordinate, srcY-coordinate, srcWidth, srcHeight,
+		// boolean flipX, boolean flipY)
+		batch.draw(hpBarLTex, 0, 545,
+				(int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100), 0,
+				(int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100),
+				(int) hpBarLTex.getHeight(), 1.0f, 1.0f, 0.0f, 0, 0,
+				(int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100),
+				(int) hpBarLTex.getHeight(), false, false);
 		batch.draw(hpBarRTex, 400, 545,
 				(int) (hpBarRTex.getWidth() * Player.getPlayer2HP() / 100),
 				(int) hpBarRTex.getHeight(), 0, 0, (int) (hpBarRTex.getWidth()
@@ -186,21 +195,20 @@ public class GameScreen implements Screen {
 
 		// set timer color
 		timerFont.setColor(Color.WHITE);
-		
-		//checks if the game is paused
-		if(Player.getPausedState())
-		{
-		// draws the selector (texture, source x-coordinate, source
-		// y-coordinate, source width, source height, x-coordinate,
-		// y-coordinate)
-		batch.draw(
-				new TextureRegion(selectorTex, spriteClass
-						.getFrameIndexGUI()
-						* (selectorTex.getWidth() / spriteClass
-								.getNumOfFramesGUI()), 0, selectorTex
-						.getWidth() / spriteClass.getNumOfFramesGUI(),
-						selectorTex.getHeight()), 300,
-				pauseOptions[optionIndex]);
+
+		// checks if the game is paused
+		if (Player.getPausedState()) {
+			// draws the selector (texture, source x-coordinate, source
+			// y-coordinate, source width, source height, x-coordinate,
+			// y-coordinate)
+			batch.draw(
+					new TextureRegion(selectorTex, spriteClass
+							.getFrameIndexGUI()
+							* (selectorTex.getWidth() / spriteClass
+									.getNumOfFramesGUI()), 0, selectorTex
+							.getWidth() / spriteClass.getNumOfFramesGUI(),
+							selectorTex.getHeight()), 300,
+					pauseOptions[optionIndex]);
 		}
 
 		// show game over screen if timer hits 0
@@ -391,10 +399,9 @@ public class GameScreen implements Screen {
 		// isPaused = true;
 		Player.setPauseState(true);
 	}
-	
-	//called when the game ends
-	public void gameOver()
-	{
+
+	// called when the game ends
+	public void gameOver() {
 		// isPaused = true;
 		Player.setPauseState(true);
 	}
@@ -418,10 +425,8 @@ public class GameScreen implements Screen {
 	public void keyDown(int keycode) {
 		switch (keycode) {
 		// checks whether the attack key was pressed
-		case Keys.M:
-		{
-			if(!Player.getPausedState() && !isGameOver)
-			{
+		case Keys.M: {
+			if (!Player.getPausedState() && !isGameOver) {
 				// checks if the player is jumping and plays the jumping attack
 				// animation
 				if (grounded == false && player01State == 0) {
@@ -489,10 +494,12 @@ public class GameScreen implements Screen {
 			return;
 			// checks whether the P key was pressed
 		case Keys.P:
-			if (!Player.getPausedState()) {
-				pause();
-			} else {
-				resume();
+			if (!isGameOver) {
+				if (!Player.getPausedState()) {
+					pause();
+				} else {
+					resume();
+				}
 			}
 			return;
 			// checks whether the up arrow key was pressed
@@ -526,7 +533,7 @@ public class GameScreen implements Screen {
 			else if (isGameOver) {
 				gameOverIndex--;
 				if (gameOverIndex < 0) {
-					gameOverIndex = 0;
+					gameOverIndex = 1;
 				}
 			}
 			return;
@@ -545,7 +552,7 @@ public class GameScreen implements Screen {
 			else if (isGameOver) {
 				gameOverIndex++;
 				if (gameOverIndex > 1) {
-					gameOverIndex = 1;
+					gameOverIndex = 0;
 				}
 			}
 			return;
@@ -562,11 +569,8 @@ public class GameScreen implements Screen {
 					// if index is 1 redirect to menu screen
 					game.setScreen(new MenuScreen(game));
 				}
-			}
-			else if(Player.getPausedState())
-			{
-				switch(optionIndex)
-				{
+			} else if (Player.getPausedState()) {
+				switch (optionIndex) {
 				case 0:
 					resume();
 					break;
@@ -594,5 +598,18 @@ public class GameScreen implements Screen {
 			player01State = 0;
 			return;
 		}
+	}
+
+	/**
+	 * Reset all global values for new match.
+	 */
+	public void reset() {
+		// Reset all Player class values
+		Player.player1HP = 100;
+		Player.player2HP = 100;
+		Player.setPauseState(false);
+
+		// Reset all AI class values
+		AI.curActionP2 = 0;
 	}
 }

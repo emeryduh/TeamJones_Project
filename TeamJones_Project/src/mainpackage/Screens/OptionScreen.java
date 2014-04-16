@@ -196,7 +196,7 @@ public class OptionScreen implements Screen {
 			soundFiles.playSound("menuTraverse", sfxVolume * masterVolume);
 			return;
 		case Keys.LEFT:
-			// soundFiles.playSound("volumeChange", game.sfxVolume);
+			soundFiles.playSound("volumeChange", sfxVolume * masterVolume);
 			switch (optionIndex) {
 			// lowers the current volume level of the current option
 			case 0:
@@ -232,7 +232,7 @@ public class OptionScreen implements Screen {
 			}
 			return;
 		case Keys.RIGHT:
-			// soundFiles.playSound("volumeChange", game.sfxVolume);
+			soundFiles.playSound("volumeChange", sfxVolume * masterVolume);
 			switch (optionIndex) {
 			// raises the current volume level of the current option
 			case 0:
