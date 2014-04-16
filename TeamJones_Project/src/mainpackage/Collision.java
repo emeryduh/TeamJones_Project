@@ -40,7 +40,7 @@ public class Collision {
 				Player.p1AttackHit = true;
 				
 				// P2 receives hurting animation
-				AI.curActionP2 = 6;
+				//AI.curActionP2 = 6;
 			}
 		}
 
