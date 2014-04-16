@@ -287,7 +287,7 @@ public class GameScreen implements Screen {
 				}
 			}
 			// If Player 1 is taking damage
-			else if (player01State == 4) {
+			if (player01State == 4) {
 				if (grounded == true) {
 					if (spriteClass.getFrameIndexP1() >= 5) {
 						player01State = 0;
@@ -295,9 +295,9 @@ public class GameScreen implements Screen {
 				} else {
 					if (spriteClass.getFrameIndexP1() >= 5) {
 						if (isFacingRightP1 == true) {
-							curActionP1 = 18;
+							curActionP1 = 14;
 						} else {
-							curActionP1 = 19;
+							curActionP1 = 15;
 						}
 					}
 				}
