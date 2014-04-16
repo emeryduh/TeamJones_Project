@@ -163,11 +163,12 @@ public class GameScreen implements Screen {
 				backgroundTex.getWidth(), backgroundTex.getHeight(), false,
 				false);
 		// draws the health bars
-		batch.draw(hpBarLTex, 0, 545,
-				(int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100),
-				(int) hpBarLTex.getHeight(), 0, 0, (int) (hpBarLTex.getWidth()
-						* Player.getPlayer1HP() / 100),
-				(int) hpBarLTex.getHeight(), false, false);
+		//(texture, x-coordinate, y-coordinate,
+		//originX, originY, width, height,
+		//scaleX, scaleY, rotation,
+		//srcX-coordinate, srcY-coordinate, srcWidth, srcHeight,
+		//boolean flipX, boolean flipY)
+		batch.draw(hpBarLTex, 0, 545, (int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100), 0, (int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100), (int) hpBarLTex.getHeight(), 1.0f, 1.0f, 0.0f, 0, 0, (int) (hpBarLTex.getWidth() * Player.getPlayer1HP() / 100), (int) hpBarLTex.getHeight(), false, false);
 		batch.draw(hpBarRTex, 400, 545,
 				(int) (hpBarRTex.getWidth() * Player.getPlayer2HP() / 100),
 				(int) hpBarRTex.getHeight(), 0, 0, (int) (hpBarRTex.getWidth()
