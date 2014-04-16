@@ -215,7 +215,7 @@ public class GameScreen implements Screen {
 		}
 
 		// show game over screen if timer hits 0
-		if (seconds == 0) {
+		if (seconds == 0 || Player.getPlayer1HP() <= 0 || Player.getPlayer2HP() <= 0) {
 			isGameOver = true;
 			gameOver();
 			// draws the black filter to create dimming effect
