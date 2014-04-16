@@ -35,8 +35,7 @@ public class GameScreen implements Screen {
 	private Skin skin;
 	private Music battleMusic;
 	private Sound attack01;
-	private int player1XPos = 50, player1YPos = 15, moveSpeed = 4,
-			curActionP1 = 0, optionIndex = 0,
+	private int player1XPos = 50, player1YPos = 15, moveSpeed = 4, optionIndex = 0,
 			gameOverIndex = 0, player2XPos = 650, player2YPos = 15,
 			seconds = 90;
 	private boolean isKeyPressed, isFacingRightP1 = true, grounded = true,
@@ -52,6 +51,9 @@ public class GameScreen implements Screen {
 	long startTime = System.nanoTime();
 	public TextureRegion player1TextureRegion, player2TextureRegion;
 	private BitmapFont timerFont;
+	
+	// This holds the current state of Player1
+	public static int curActionP1 = 0;
 	
 	// This holds the current state of Player1
 	public static int player01State = 0;

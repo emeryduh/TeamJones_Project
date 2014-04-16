@@ -58,6 +58,7 @@ public class Collision {
 				
 				// P1 receives hurting animation which is 4 by default
 				GameScreen.player01State = 4;
+				GameScreen.curActionP1 = 18;
 			}
 		}
 	}
