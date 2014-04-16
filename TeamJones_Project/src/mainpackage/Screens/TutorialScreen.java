@@ -41,7 +41,7 @@ public class TutorialScreen implements Screen {
 			exitTexture;
 	private SoundFiles soundFiles;
 	private float bgmVolume, sfxVolume;
-	private BitmapFont gameFont;
+	private BitmapFont gameFont, helpFont, arrowFont;
 	private String name;
 	private int menuCount = 0, lastIndex=0, previousIndex=0;
 	private TweenManager tweenManager;
@@ -92,6 +92,10 @@ public class TutorialScreen implements Screen {
 		TextBounds bounds = gameFont.getBounds(name);
 		gameFont.draw(batch, String.valueOf(name), Gdx.graphics.getWidth() / 2
 				- bounds.width / 2, 585);
+		
+		helpFont.draw(batch,"(Press ENTER or ESCAPE to exit the screen)", 440, 30);
+		
+		arrowFont.draw(batch,"(Press LEFT or RIGHT arrow to navigate)", 50, 30);
 
 		batch.end();
 		tweenManager.update(delta);
@@ -129,6 +133,10 @@ public class TutorialScreen implements Screen {
 		name = "Character Selection";
 		// set the size of the digital font
 		gameFont = generator.generateFont(30);
+		
+		helpFont = generator.generateFont(20);
+		
+		arrowFont = generator.generateFont(20);
 
 		// plays background music for menus
 		if (openingMusic.isPlaying() == false) {
@@ -269,7 +277,7 @@ public class TutorialScreen implements Screen {
 			return;
 		}
 
-		if (keycode == Keys.ENTER) {
+		if (keycode == Keys.ENTER || keycode == Keys.ESCAPE) {
 			game.setScreen(new MenuScreen(game));
 			soundFiles.playSound("menuSelect", sfxVolume);
 			openingMusic.stop();
