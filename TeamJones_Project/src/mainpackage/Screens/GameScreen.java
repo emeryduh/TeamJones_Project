@@ -425,7 +425,7 @@ public class GameScreen implements Screen {
 	public void keyDown(int keycode) {
 		switch (keycode) {
 		// checks whether the attack key was pressed
-		case Keys.M: {
+		case Keys.M:
 			if (!Player.getPausedState() && !isGameOver) {
 				// checks if the player is jumping and plays the jumping attack
 				// animation
@@ -490,9 +490,8 @@ public class GameScreen implements Screen {
 					}
 				}
 			}
-		}
 			return;
-			// checks whether the P key was pressed
+		// checks whether the P key was pressed
 		case Keys.P:
 			if (!isGameOver) {
 				if (!Player.getPausedState()) {
@@ -502,7 +501,7 @@ public class GameScreen implements Screen {
 				}
 			}
 			return;
-			// checks whether the up arrow key was pressed
+		// checks whether the up arrow key was pressed
 		case Keys.UP:
 			if (!Player.getPausedState() && !isGameOver) {
 				// resets the frameIndex for player 1 to animate the jump
