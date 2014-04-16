@@ -42,6 +42,9 @@ public class SpriteClass
 	//loads the jumping attack textures for Ichigo
 	private Texture ichigoJumpingAttackRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_JumpingAttack_Right.png"));
 	private Texture ichigoJumpingAttackLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_JumpingAttack_Left.png"));
+	//loads the hurting textures for Ichigo
+	private Texture ichigoHurtingRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Hurting_Right.png"));
+	private Texture ichigoHurtingLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Ichigo/Ichigo_Hurting_Left.png"));
 	
 	//loads idle textures for Byakuya
 	private Texture byakuyaIdleRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Byakuya/Byakuya_Standing_Right.png"));
@@ -52,6 +55,9 @@ public class SpriteClass
 	//loads the first attack textures for Byakuya
 	private Texture byakuyaAttackRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Byakuya/Byakuya_Attack_01_Right.png"));
 	private Texture byakuyaAttackLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Byakuya/Byakuya_Attack_01_Left.png"));
+	//loads the hurting textures for Byakuya
+	private Texture byakuyaHurtingRTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Byakuya/Byakuya_Hurting_Right.png"));
+	private Texture byakuyaHurtingLTex = new Texture(Gdx.files.internal("assets/sprites/spritesheets/Byakuya/Byakuya_Hurting_Left.png"));
 	
 	public SpriteClass()
 	{
@@ -161,6 +167,14 @@ public class SpriteClass
 				f = 0.80f;
 				curAnimationP1 = ichigoJumpingAttackLTex;
 				break;
+			case 18:
+				f = 0.80f;
+				curAnimationP1 = ichigoHurtingRTex;
+				break;
+			case 19:
+				f = 0.80f;
+				curAnimationP1 = ichigoHurtingLTex;
+				break;
 			}
 			break;
 		case 1:
@@ -195,6 +209,14 @@ public class SpriteClass
 			case 5:
 				f = 0.80f;
 				curAnimationP1 = byakuyaAttackLTex;
+				break;
+			case 6:
+				f = 0.80f;
+				curAnimationP1 = byakuyaHurtingRTex;
+				break;
+			case 7:
+				f = 0.80f;
+				curAnimationP1 = byakuyaHurtingLTex;
 				break;
 			}
 			break;
@@ -287,6 +309,14 @@ public class SpriteClass
 				f = 0.40f;
 				curAnimationP2 = ichigoJumpingAttackLTex;
 				break;
+			case 18:
+				f = 0.80f;
+				curAnimationP2 = ichigoHurtingRTex;
+				break;
+			case 19:
+				f = 0.80f;
+				curAnimationP2 = ichigoHurtingLTex;
+				break;
 			}
 			break;
 		case 1:
@@ -321,6 +351,14 @@ public class SpriteClass
 			case 5:
 				f = 0.4f;
 				curAnimationP2 = byakuyaAttackLTex;
+				break;
+			case 6:
+				f = 0.80f;
+				curAnimationP2 = byakuyaHurtingRTex;
+				break;
+			case 7:
+				f = 0.80f;
+				curAnimationP2 = byakuyaHurtingLTex;
 				break;
 			}
 			break;
