@@ -515,7 +515,7 @@ public class GameScreen implements Screen {
 			}
 			// changes the functionality of the up arrow key when the game is
 			// paused
-			else if (Player.getPausedState()) {
+			else if (Player.getPausedState() && !isGameOver) {
 				optionIndex--;
 				if (optionIndex < 0) {
 					optionIndex = 2;
@@ -526,7 +526,7 @@ public class GameScreen implements Screen {
 			else if (isGameOver) {
 				gameOverIndex--;
 				if (gameOverIndex < 0) {
-					gameOverIndex = 1;
+					gameOverIndex = 0;
 				}
 			}
 			return;
@@ -534,7 +534,7 @@ public class GameScreen implements Screen {
 		case Keys.DOWN:
 			// changes the functionality of the down arrow key when the game is
 			// paused
-			if (Player.getPausedState()) {
+			if (Player.getPausedState() && !isGameOver) {
 				optionIndex++;
 				if (optionIndex > 2) {
 					optionIndex = 0;
@@ -545,7 +545,7 @@ public class GameScreen implements Screen {
 			else if (isGameOver) {
 				gameOverIndex++;
 				if (gameOverIndex > 1) {
-					gameOverIndex = 0;
+					gameOverIndex = 1;
 				}
 			}
 			return;
