@@ -15,7 +15,7 @@ public class DesktopGame {
 		LwjglApplicationConfiguration windowConfig = new LwjglApplicationConfiguration();
 		windowConfig.width = 800;
 		windowConfig.height = 600;
-		windowConfig.title = "Amazing Street Fighter" + Game.VERSION;
+		windowConfig.title = "Bleach Fighter" + Game.VERSION;
 		windowConfig.resizable = false;
 		windowConfig.addIcon("assets/gui/windowicon.png/",
 				Files.FileType.Internal);
